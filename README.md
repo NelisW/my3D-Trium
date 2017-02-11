@@ -2,15 +2,16 @@
 
 This repo serves to capture the experience of a number of Trium 3D printer builders.
 
+This repo document is not official Trium information and does not endorse the product in any way. You will find that most Trium users are loyal to the product, but do your own research before committing to a purchase.
+
 The reference information for Trium construction is the [E-Mergin Innovation](https://emergin.net/) Trium printer's  [User Manual (Ver 0.15)](https://emergin.net//user-manual/)  and the assortment of  [videos  on YouTube](https://www.youtube.com/watch?v=81HdwWcrpt0&list=PLMmAHPJoXlL8cp_-7R_6Hdb887jVPCUp3).
 
-This document is supplementary to the E-Mergin reference documentation and serves to capture some of the information
--  of general interest on the internet,
+This repo contains information that is supplementary to the E-Mergin reference documentation and serves to capture some of the information
 -  found on the [Trium ProBoard web site](http://trium3d.proboards.com),
--  found on the [Trium Facebook page](https://www.facebook.com/groups/emergin/), and
--  learned by a few builders when contructing their Trium printers.
+-  found on the [Trium Facebook page](https://www.facebook.com/groups/emergin/) (For my own part, I find the Facebook interface confusing and I don't spend much time there), 
+-  learned by a few builders when contructing their Trium printers, and 
+-  found on the internet,
 
-For my own part, I find the Facebook interface confusing and I don't spend much time there.
 
 Invitation: if you have ideas or information to contribute, please submit a pull request or contact me at neliswillers gmail
 

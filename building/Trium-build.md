@@ -3,12 +3,12 @@
 The reference information for Trium construction is the E-Mergin Innovation [User Manual (Ver 0.15)](https://emergin.net//user-manual/)  and the assortment of  [videos  on YouTube](https://www.youtube.com/watch?v=81HdwWcrpt0&list=PLMmAHPJoXlL8cp_-7R_6Hdb887jVPCUp3).
 
 This document is supplementary to the E-Mergin reference documentation and serves to capture some of the information
--  of general interest on the internet,
 -  found on the [Trium ProBoard web site](http://trium3d.proboards.com),
--  found on the [Trium Facebook page](https://www.facebook.com/groups/emergin/), and
--  learned building my Trium.
+-  found on the [Trium Facebook page](https://www.facebook.com/groups/emergin/) (For my own part, I find the Facebook interface confusing and I don't spend much time there), 
+-  learned by a few builders when contructing their Trium printers, and 
+-  found on the internet,
 
-Several Trium users also freely share their findings and proposals for improvement. MiR did a good job of documenting the build process [here](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond).  This document borrows text and pictures freely from MiR's write up. Several others also contribute freely to the forum and the facebook page and also made comments to this document, these users include janlu, Rajaa Kahel, mikeeitel, BillB, digid
+Several Trium users also freely share their findings and proposals for improvement. MiR did a good job of documenting the build process [here](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond).  This document borrows text and pictures freely from MiR's write up. Several others also contribute freely to the forum and the facebook page and also made comments to this document, these users include janlu, Rajaa Kahel, mikeeitel, Bill B, digid, and others.
 
 References to page numbers in the Trium User Manual (Rev 0.15) are given as pNN.
 
