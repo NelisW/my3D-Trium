@@ -51,6 +51,8 @@ The following tools will come in handy:
 - Small regular pliers.
 - Set of flat and Philip screwdrivers.
 - Pencil-style craft knife.
+- A magnifying glass, and/or a ([low magnification](https://www.amazon.co.uk/d/Magnifying-Glasses/Carson-LumiLoupe-Power-Stand-Magnifier/B000CAHCQS/ref=sr_1_5?s=officeproduct&ie=UTF8&qid=1486890963&sr=1-5&keywords=loupe)) 10X [loupe](https://en.wikipedia.org/wiki/Loupe)(jeweller's eyepiece)   to inspect the PCBs and other parts - and your subsequent print quality.
+- A toothbrush to brush loosened away debris when cleaning solder bridges from  PCBs.
 - Hand drill and drill bits - only used a few times.
 - Optional but highly recommended!: a multimeter that can measure AC volts, DC volts, resistance, and possible temperature with a thermocouple.
 - Optional: Cutting board or other work surface (don't work on your Oak or Rhodesian Teak dining table).
@@ -659,6 +661,12 @@ I have not yet installed the Bluetooth module, these are notes picked up from th
 
 When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino's serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
 
+## Wifi
+
+[Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Granted, this project requires some expertise in building and programming ESP8266 boards.  I just have to make some progress on my rent-paying subcontracts then I will get to this....
+
+There is just one issue here: the wifi signal will not penetrate the Top Plate assembly to reach an ESP8266 installed inside. If it does, range will be short.  So perhaps one must look at an external antenna, or otherwise keep the ESP8266 is an outside box with USB connection to the printer.
+
 
 # Extruders mounted in the Top Plate
 ## Extruder assembly
@@ -872,25 +880,33 @@ When working on the sliders work careful with (1) the ball joints and (2) the pl
 
 <img src="images/slider01.jpg" width=400>
 
+Notes before you start building: 
+- There is nothing holding the screw head in place. Once mounted in the tower you cannot get to this screw head.  It might be neccessary to unscrew the nuts later (see later) which means that you cannot properly tighten the nut because you cannot get to the screw head. **[Bill B](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=800) had a slider nut loosening while printing**, so perhaps it is a good idea to glue in the screw heads at the locations shown in red and blue in the pictures above and below. Of course, once glued in place you cannot remove the screw, but that is a small price to pay for the convenience of working on the slider in the tower. It should be possible to replace the slider plastic parts, but if it comes to the worst, you would have to buy a new slider assembly if the plastic parts wear out.  You decide it you want to epoxy or not.
+- The tape in the slider issue: from the video and some postings it is seen that the slider must get a layer of tape on the metal carrier below the outer slider plastic. Perhaps the tape stuck to the slider is to take up some play between the slider and the tower. I added this layer of tape when I assembled the printer the first time, but found that the slide friction was higher than I expected. Later when printing I found that the stepper motor was missing steps (see below). When I disassembled the printer to add the epoxy to the slider screws, I decided to not put tape on again.  The slider resistance was much less without the tape, and there was no appreciable play on the slider. When you build, test the slider first before applying the tape. You decide yourself.
+
+
 Do the following for each slider:
 
-- Assemble the slider (one for each tower) as shown on p24.  There is no instruction on aligning the two parts, I did my best to eyeball the two parts well aligned. In other words the two parts are not obviously misaligned.
+- Assemble the slider (one for each tower) as shown on p24.  There is no instruction on aligning the two parts, I did my best to eyeball the two parts well aligned. In other words the two parts are not obviously misaligned.  [digid](http://trium3d.proboards.com/thread/92/draft-version-building-guide#ixzz4XybuJ2SE)  proposed a method to set the slider alignment later after the slider is in place. It is for this procedure that you might decide to glue the slider screw heads in place.
 - Look carefully at the nuts; there are two types of nuts in the kits: regular hex nuts and nylon insert nuts. Use the hex nuts first to hold the two parts together.  Later use the nylon insert nuts to fix the spring holder.
-- There is nothing holding the screw head in place. Once mounted in the tower you cannot get to this screw head.  It might be neccessary to unscrew the nuts later (see below) which means that you cannot properly tighten the nut because you cannot get to the screw head. I did not do this but perhaps you can consider bonding the screw head to the slider carrier at the locations shown in red blue in the pictures below.  *Just be very careful that the epoxy don't leak through to below the screw head.* Of course, once glued in place you cannot remove the screw, but that is a small price to pay for the convenience of working on the slider once in the tower. **[BillB](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=800) had a slider nut loosening while printing**, so perhaps it is a good idea to glue in the screw heads to easily recover from such failures.
-- Once two slider parts is mounted, carefully study the plastic slider: it consists of two parts.
-- From the video: Unclip and remove the outer/upper part, it comes away and exposes the metal part and the screw tops.  For some reason, you must place a layer of tape (I used magic tape) on the metal part. The tape stuck to the slider is to take up some play between the slider and the tower. The type of tape [is apparently not important](https://www.facebook.com/groups/emergin/permalink/1868255326745560/).   Put back the slider plastic half to its original state.   You can now see the tape covering the screw tops through the holes in the plastic slider.
+- Once two slider parts are mounted, carefully study the plastic slider: it consists of two parts.  The top part clicks off and separates from the carrier. Note that the top part is not symmetrical there is s ridge on the the long side, but only on one side. When you re-assemble just make sure that you put it back the right way, the other way won't fit.
+- It you decide to epoxy the screw head: Mount and thoroughly tighten the both screws.  Unclip and remove the outer/upper plastic part, it comes away and exposes the metal part and the screw tops (see picture below).  Clean the cavity where the screw head is located with surgical spirits to remove all oils, and then placed a liberal drop of epoxy in the cavity, covering the screw head and filling all around the screw inside the cavity.  *Just be very careful that the epoxy don't leak through to below the screw head, or above the surface of the carrier.*  When the epoxy has partially hardened inspect the carrier to see if there is any epoxy on the surface of the carrier. Remove this excess epoxy (red arrows in the picture below) so that it does not interfere with the slider operation. The top surface of the cavity must be perfectly clean and flat.  Replace the plastic slider cover. Note in the picture below that I spilled some epoxy in the centre cavity (which will do no harm here) because the blob on the toothpick was too large and dropped before I reached the intended cavity.
+
+<img src="images/slider04.jpg" width=400>
+
+- It you decide to add the tape:  Unclip and remove the outer/upper plastic part, it comes away and exposes the metal part and the screw tops. The type of tape [is apparently not important](https://www.facebook.com/groups/emergin/permalink/1868255326745560/) (I used 3M magic tape).  Stick the tape down and cut away the ends, to only remain on the flat surface of the carrier. Put back the slider plastic half to its original state.   You can now see the tape covering the screw tops through the holes in the plastic slider.  The picture below shows in blue where the epoxy must be applied (before covering with tape).
 
 <img src="images/slider02.jpg" >
 
-- I thought that the slider should move freely in the extrusion, but the sliding fit was rather stiff.  How stiff is stiff?  
 
-Later during printing it appeared that my printer [might have lost steps](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=799) on the X tower.  The discussion on the forum pointed out a number of possible reasons: 
+**Slider friction**
+When building the printer I used tape in the slider assembly. When printing it appeared that the printer [might have lost steps](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=799) on the X tower during calibration.  The [discussion on the forum](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=799) pointed out a number of possible reasons: 
 - A stiff slider, with friction too high for the stepper motor during fast movement.
-- A stuck slider, where the slider was to large for the guide and had to be sanded to fit.
+- A stuck slider, where the slider was to large for the guide and had to be sanded to fit(!).
 - The motor driver current was set to low.
 - Feeding at too fast a rate (keep it below F3000 in the gcodes).
 
-This experiment might help to quantify the friction.  I used a cheap luggage scale to pull the slider up and observed the apparent weight - this can be translated to a force required to move the slider. The slider was moved for about 200 mm in one second.  Despite the crude and inaccurate nature, it was still an interesting experiment.  The slides were always pulled up (the printer was turned upside down for the downward direction).  After correcting for the 160g mass of the scale itself, the scale indications (in kg) were as follows:
+The following experiment was devised to try to quantify the friction. Despite the crude and inaccurate nature, it was still an interesting experiment because it demonstrated parity between the sliders.  First remove both belt ends from the slider, we want to measure the slider friction not the stepper motor inertia.  I used a cheap luggage scale to pull the slider up and observed the apparent weight - this can be translated to a force required to move the slider. The slider was moved for about 200 mm in one second.   The slides were always pulled up (the printer was turned upside down for the downward direction).  After correcting for the 160g mass of the scale itself, the scale indications (in kg) were as follows:
 
 |-| X | Y | Z |
 |-----|-----|-----|-----|
@@ -902,6 +918,7 @@ It is evident that the sliders are within reasonable range of each other, none h
 
 <img src="images/slider-friction.jpg" width=300>
 
+When I disassembled the printer to epoxy the slider screws I decided to not use tape again: the slider friction was smaller.
 
 ## End-stop PCB p25, p42
 
