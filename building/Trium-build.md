@@ -67,6 +67,7 @@ You may also find it necessary to have some parts printed using a printing servi
 
 # Conventions
 
+## Towers
 E-Mergin refers to the three vertical parts as "beams".  Beams, in construction, refer to a part that experiences lateral forces. Such parts are normally horizontal and carry downward forces such as weight.  In this document I prefer to use the word "tower" or "column", which signifies a vertical structure.
 
 Label cables for future reference.
@@ -89,8 +90,14 @@ There could be confusion with delta printers because the towers are designated b
 		#define Y_MIN_POS -(DELTA_PRINTABLE_RADIUS)
 - issue G1 X-50 Y0, Z0: then X will move up, Y will move down and Z will not move. You can also manually move the end effector with the power off and verify it.
 
+## (x,y,z) coordinate system
 The following picture obtained [here](https://print3d.com.pk/wp-content/uploads/2015/09/Delta-Kossi-Build-Manual.pdf) shows the coordinate system (not the tower naming) convention in graphical form:
 <img src="images/Calibration_Variables_v01.png">
+
+## Reuleaux print area
+
+A delta printer's print area is defined by the reach of all three delta arms and the actual print area is a clipped [Reuleaux triangle](https://en.wikipedia.org/wiki/Reuleaux_triangle) according to [Ryan Carlyle](https://groups.google.com/forum/#!topic/deltabot/xH_FIgClU9k).    The actual Trium print area will be the intersetion of the hot bed circle and the Trium's Reuleaux triangle.
+
 
 # Notes
 
@@ -276,9 +283,9 @@ The Trium stepper motor has a maximum current rating of 1.7 A with a 1.67 Ohm co
 
 The DRV8825 driver schematic diagram shows the trim potentiometer used to set the current limit. The current is limited to 2xVref. The Polulu diagram below shows a 10 kOhm trimpot, but the average resistance measured on the PCBs supplied with the Trium is around 7.67 kOhm. The Trium instruction is to set the resistance between Vref and GND to 2.2 kOhm.  Simple math shows that Imax = 2xVref=2x3.3x2.2/7.67=1.9A, with Vref=0.95V.  It seems then that the Trium stepper motors are driven somewhat (10%) beyond the design rated current.
 
-The end-to-end resistance of the six trimpots for my printer measured 7.5, 7.4, 8.22, 7.61, 7.73, 7.59 kOhm.  This means that the current limits range from 1.77 A to 1.9 A. This 6% spread is probably fine, but if you require more accurate settings, it would be better to adjust the trimpots so that the reference voltage is around 1.7/2=0.85V.
+The end-to-end resistance of the six DRV 8825 trimpots for my printer measured 7.5, 7.4, 8.22, 7.61, 7.73, 7.59 kOhm.  This means that the current limits range from 1.77 A to 1.9 A. This 6% spread is probably fine, but if you require more accurate settings, it would be better to adjust the trimpots to a fixed voltage, rather than to fixed resistance between ground and common.  In my first build I set the reference voltage to 1.7/2=0.85V, which is the 'design point' for the stepper motor.  During printing, the printer appeared to loose steps during repeated checks on z calibration (see the later discussion, towards the end of the document). This could be because of too low current or too high friction. I decided to increase the calibration voltage to 0.96V for the three tower stepper motors, which implies a current of 1.9A (10% above rated current).  The extruder calibration voltage was kept at 0.85V.
 
-See the notes below in the extruder section where it is described why and how the current limit setting should be adjusted to prevent filament grinding.
+See the notes below in the extruder section where it is described why and how the extruder motor current limit setting should be adjusted to prevent filament grinding.
 
 <img src="images/DRV8825-schematic.jpg" width="500">
 
@@ -663,10 +670,22 @@ When flashing new software to the Arduino, [remove the Bluetooth module](http://
 
 ## Wifi
 
-[Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Granted, this project requires some expertise in building and programming ESP8266 boards.  I just have to make some progress on my rent-paying subcontracts then I will get to this....
+[Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Also see the ESP3D [gitter page](https://gitter.im/luc-github/ESP3D) for discussions. BTW, the ESP3D developer states on the gitter page: "even pre alpha state".
+
+
+[In Reptier](https://gitter.im/luc-github/ESP3D) `Printer Settings` select the TCP/IP connection and set up the network parameters for your ESP server.
+
+<img src="images/repetier-15.jpg" width="400">
+
+This project requires some expertise in building and programming ESP8266 boards. There are [statements](http://ba0sh1.com/blog/2016/08/03/is-esp8266-io-really-5v-tolerant/) claiming that the input pins on the EPS8266 is 5V tolerant, but if you want to [play safe](http://bbs.espressif.com/viewtopic.php?t=1145), use a [voltage divider and level shifter](http://iot-playground.com/blog/2-uncategorised/17-esp8266-wifi-module-and-5v-arduino-connection) or one of [these](http://www.ebay.com/itm/5PCS-IIC-I2C-Logic-Level-Converter-Bi-Directional-Module-5V-3-3V-Arduino-/311523844016?hash=item4888449fb0).
+
+
 
 There is just one issue here: the wifi signal will not penetrate the Top Plate assembly to reach an ESP8266 installed inside. If it does, range will be short.  So perhaps one must look at an external antenna, or otherwise keep the ESP8266 is an outside box with USB connection to the printer.
 
+https://github.com/luc-github/ESP3D
+https://github.com/luc-github/ESP3D/wiki/Install-Instructions
+https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md#uploading-files-to-file-system
 
 # Extruders mounted in the Top Plate
 ## Extruder assembly
