@@ -656,37 +656,6 @@ The main case fan must force air into the cavity. I think is is because if the f
 
 In my build, I extended the fan wires to connect directly to the power supply. It is neater and just feels better.
 
-## Bluetooth
-
-I have not yet installed the Bluetooth module, these are notes picked up from the forum.  I have my doubt over the effective operating range if the Bluetooth module is encased in the totally closed metal Top Assembly.
-
-[Bluetooth connection](https://www.facebook.com/photo.php?fbid=1313506788710450&set=p.1313506788710450&type=3&theater) The red wire on the chip is [plugged on the "VCC"](https://www.facebook.com/groups/emergin/permalink/1864425840461842/).
-
-<img src="images/bluetooth02.jpg" width="300">
-
-[In Reptier](https://www.facebook.com/groups/emergin/permalink/1864425840461842/) select the bluetooth, then 115200 baud data rate.  The Bluetooth password is 1234.
-
-When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino's serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
-
-## Wifi
-
-[Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Also see the ESP3D [gitter page](https://gitter.im/luc-github/ESP3D) for discussions. BTW, the ESP3D developer states on the gitter page: "even pre alpha state".
-
-
-[In Reptier](https://gitter.im/luc-github/ESP3D) `Printer Settings` select the TCP/IP connection and set up the network parameters for your ESP server.
-
-<img src="images/repetier-15.jpg" width="400">
-
-This project requires some expertise in building and programming ESP8266 boards. There are [statements](http://ba0sh1.com/blog/2016/08/03/is-esp8266-io-really-5v-tolerant/) claiming that the input pins on the EPS8266 is 5V tolerant, but if you want to [play safe](http://bbs.espressif.com/viewtopic.php?t=1145), use a [voltage divider and level shifter](http://iot-playground.com/blog/2-uncategorised/17-esp8266-wifi-module-and-5v-arduino-connection) or one of [these](http://www.ebay.com/itm/5PCS-IIC-I2C-Logic-Level-Converter-Bi-Directional-Module-5V-3-3V-Arduino-/311523844016?hash=item4888449fb0).
-
-
-
-There is just one issue here: the wifi signal will not penetrate the Top Plate assembly to reach an ESP8266 installed inside. If it does, range will be short.  So perhaps one must look at an external antenna, or otherwise keep the ESP8266 is an outside box with USB connection to the printer.
-
-https://github.com/luc-github/ESP3D
-https://github.com/luc-github/ESP3D/wiki/Install-Instructions
-https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md#uploading-files-to-file-system
-
 # Extruders mounted in the Top Plate
 ## Extruder assembly
 
@@ -1157,7 +1126,10 @@ If you did not correctly assemble the tower belt up/down movement then [you can 
 <img src="images/stepper-cable-wiring.jpg" width="450"><img src="images/tower-conventions04.jpg" width="200">
 
 
-Optional information:  Stepper motor and jerky platform movement.  If you have a board with a [DRV8825](http://www.ti.com/lit/ds/symlink/drv8825.pdf), a motor with lower voltage rating then your supply, and when you move the 3D printer slowly (100 mm/min feed rate) it does not move smoothly. This is described in detail [here](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html).  The jerky movement caused by DRV8825 drivers:  if we had a way to modify the motor so that with a voltage of 1.4V there would be no current flowing, then the driver would be able to generate all the currents because it would always be spitting out more than the minimum voltage. And it turns out that 1.4V is about the voltage drop of two diodes.  In each diode we have about 0.9V and with 1A current that would make 0.9W losses, such diode has a Rthja of 15K/W, so it will heat 15C above ambient temperature, pretty safe.  The solution is to add diodes as shown in the left-hand figure. There are plug-in boards available on [Aliexpress](https://www.aliexpress.com/item//32787567456.html) and [EBay](http://www.ebay.com/itm/3pcs-Pulse-Slicer-TL-Smoother-Addon-Module-for-3D-pinter-Stepper-motor-drivers-/252698187533?hash=item3ad5fc570d:g:XzsAAOSw241YYgpa). There is [an issue](https://groups.google.com/forum/#!topic/deltabot/2HJEQG_wR9Q) with these offerings.  [These are the diodes](http://www.vishay.com/docs/88713/s3a.pdf) used in the Chinese boards - only a single diode is used, not the required two in series (picture on the right).
+Optional information:  Stepper motor and jerky platform movement.  If you have a board with a [DRV8825](http://www.ti.com/lit/ds/symlink/drv8825.pdf), a motor with lower voltage rating then your supply, and when you move the 3D printer slowly (100 mm/min feed rate) it does not move smoothly. This is described in detail [here](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html).  The jerky movement caused by DRV8825 drivers:  "if we had a way to modify the motor so that with a voltage of 1.4V there would be no current flowing, then the driver would be able to generate all the currents because it would always be spitting out more than the minimum voltage. And it turns out that 1.4V is about the voltage drop of two diodes.  In each diode we have about 0.9V and with 1A current that would make 0.9W losses, such diode has a Rthja of 15K/W, so it will heat 15C above ambient temperature, pretty safe."  
+
+The solution is to add diodes as shown in the left-hand figure. There are plug-in boards available on [Aliexpress](https://www.aliexpress.com/item//32787567456.html) and [EBay](http://www.ebay.com/itm/3pcs-Pulse-Slicer-TL-Smoother-Addon-Module-for-3D-pinter-Stepper-motor-drivers-/252698187533?hash=item3ad5fc570d:g:XzsAAOSw241YYgpa). There is [an issue](https://groups.google.com/forum/#!topic/deltabot/2HJEQG_wR9Q) with these offerings.  [These are the diodes](http://www.vishay.com/docs/88713/s3a.pdf) used in the Chinese boards - only a single diode is used, not the required two in series (picture on the right). Note that with a single diode the performance is already somewhat better - but not quite as good as for the double diode set. 
+Finally, note that this proposal address printing at slow speeds, the effect at higher speeds will be smaller.
 
 <img src="images/Cabristor-smoother.png" width="150"><img src="images/chinese-TL-smoothers.jpg" width="500">
 
@@ -1875,3 +1847,45 @@ To be completed later as I continue working on the printer.
 
 ## Hot-end temperature calibration
 
+# Connectivity and Control
+
+## USB from Repetier/Simplify3D.
+
+This is the default mode most users will start with (and probably stay with for some time).  Plug in the USB cable to your PC and the printer, start Repetier (or Simplify3D). Repetier: Go to Printer Setting and select the `Serial connection` in Repetier. Select the COM port for your printer and set the baud rate to 115200.  There is an equivalent procedure for Simplify3D where you set up a profile for the printer.
+
+## Bluetooth
+
+I have not yet installed the Bluetooth module, these are notes picked up from the forum.  I have my doubt over the effective operating range if the Bluetooth module is encased in the totally closed metal Top Assembly.
+
+[Bluetooth connection](https://www.facebook.com/photo.php?fbid=1313506788710450&set=p.1313506788710450&type=3&theater) The red wire on the chip is [plugged on the "VCC"](https://www.facebook.com/groups/emergin/permalink/1864425840461842/).
+
+<img src="images/bluetooth02.jpg" width="300">
+
+[In Reptier](https://www.facebook.com/groups/emergin/permalink/1864425840461842/) select the bluetooth, then 115200 baud data rate.  The Bluetooth password is 1234.
+
+When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino's serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
+
+## Wifi
+
+[Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Also see the ESP3D [gitter page](https://gitter.im/luc-github/ESP3D) for discussions. BTW, the ESP3D developer states on the gitter page: "even pre alpha state".
+
+
+[In Reptier](https://gitter.im/luc-github/ESP3D) `Printer Settings` select the TCP/IP connection and set up the network parameters for your ESP server.
+
+<img src="images/repetier-15.jpg" width="400">
+
+This project requires some expertise in building and programming ESP8266 boards. There are [statements](http://ba0sh1.com/blog/2016/08/03/is-esp8266-io-really-5v-tolerant/) claiming that the input pins on the EPS8266 is 5V tolerant, but if you want to [play safe](http://bbs.espressif.com/viewtopic.php?t=1145), use a [voltage divider and level shifter](http://iot-playground.com/blog/2-uncategorised/17-esp8266-wifi-module-and-5v-arduino-connection) or one of [these](http://www.ebay.com/itm/5PCS-IIC-I2C-Logic-Level-Converter-Bi-Directional-Module-5V-3-3V-Arduino-/311523844016?hash=item4888449fb0).
+
+There is just one issue here: the wifi signal will not penetrate the Top Plate assembly to reach an ESP8266 installed inside. If it does, range will be short.  So perhaps one must look at an external antenna, or otherwise keep the ESP8266 is an outside box with USB connection to the printer.
+
+https://github.com/luc-github/ESP3D
+https://github.com/luc-github/ESP3D/wiki/Install-Instructions
+https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md#uploading-files-to-file-system
+
+## OctoPi running OctoPrint
+
+OctoPi uses a dedicated Raspberry Pi to control the printer, so your computer can be disconnected from the printer.  
+
+[Bill B](http://trium3d.proboards.com/thread/62/octopi-trium-nearly-flawless-combination) is using [OctoPi](https://octopi.octoprint.org/) using [OctoPrint](http://octoprint.org/) to control the printer. The Raspberry Pi is connected to the network via Ethernet and connected to the printer via USB. You have to set OctoPi up for a delta printer with (0,0) in the centre of the bed. Do the slicing on your PC, download to OctoPi and then print from OctoPi.
+
+If you are considering OctoPrint, also look at [adafruit's offering](https://learn.adafruit.com/3-dot-5-pitft-octoprint-rig/overview) with a nice touch screen.
