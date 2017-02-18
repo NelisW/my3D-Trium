@@ -1880,6 +1880,12 @@ I have not yet installed the Bluetooth module, these are notes picked up from th
 
 When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino's serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
 
+https://www.youtube.com/watch?v=-ddUM8Fy3es
+https://www.youtube.com/watch?v=YZNMoMMXmX8
+https://www.youtube.com/watch?v=E-1w7dL3Cps
+https://www.youtube.com/watch?v=u724cJnbwgM
+
+
 ## Wifi
 
 [Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Also see the ESP3D [gitter page](https://gitter.im/luc-github/ESP3D) for discussions. BTW, the ESP3D developer states on the gitter page: "even pre alpha state".
@@ -1904,3 +1910,11 @@ OctoPi uses a dedicated Raspberry Pi to control the printer, so your computer ca
 [Bill B](http://trium3d.proboards.com/thread/62/octopi-trium-nearly-flawless-combination) is using [OctoPi](https://octopi.octoprint.org/) using [OctoPrint](http://octoprint.org/) to control the printer. The Raspberry Pi is connected to the network via Ethernet and connected to the printer via USB. You have to set OctoPi up for a delta printer with (0,0) in the centre of the bed. Do the slicing on your PC, download to OctoPi and then print from OctoPi.
 
 If you are considering OctoPrint, also look at [adafruit's offering](https://learn.adafruit.com/3-dot-5-pitft-octoprint-rig/overview) with a nice touch screen.
+
+See here for a detailed explaination:
+https://www.youtube.com/watch?v=MwsxO3ksxm4
+https://www.youtube.com/watch?v=vKmLAnb4KrA
+https://www.youtube.com/watch?v=jUX_sc5B9hw
+https://www.youtube.com/watch?v=RQ3ufPo95lg
+https://www.youtube.com/watch?v=AjS83guA9NQ
+https://www.youtube.com/watch?v=-hRTGNWI6iI
