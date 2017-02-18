@@ -1598,6 +1598,8 @@ The top and bottom plates must be located on the three towers with no spaces bet
 
 Don't use the proximity bed levelling sensor in this procedure.
 
+- *Ensure that the printer nozzle is clean*, with no plastic below the nozzle level.  We want to calibrate the nozzle, not some gunk hanging below.
+- Try to prepare the bed as you would print (hairspray, glue, PEI, or whatever), the bed preparation adds to the bed height.
 - This procedure assumes that the Marlin firmware installed on the printer has  `MANUAL_Z_HOME_POS` set to 500.  Open the firmware and search in `configuration.h` for the line similar to `#define MANUAL_Z_HOME_POS 500`.  If the value is not exactly 500, change it to be 500.  This will enable the printer to go down by 500 mm from the home position. This means that the head will move beyond the bed, potentially damaging  the nozzle if the movement is too fast.  So, if and when you move down, be very careful.
 - Place a sheet of clean unprinted paper on the bed (75 gms, 100 micron thick).
 - Connect the printer to your computer using the USB port.
@@ -1717,15 +1719,16 @@ Observations:
 - Study the X coordinates: **it jumped by 0.1 to 0.15 mm**: high, low, high, then low again.  This only happened on the X tower side, not on Y and Z.
 - The thermal expansion on the towers should be about 15 micron (0.016mm) per degree celcius. Hence thermal expansion on the towers is not the issue here.
 
-Either the bed is not stable and, it seems, unpredictable in the short term (my X axis here in particular) or, there is some movement in the X-axis that make the bed appear to move up and down.  In other words, instability in the belt or the stepper motor movement. But how can it go up, down, up down like this?
-
-[Feedback](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=783) from MiR and mikeeitel:  **It  looks like lost steps.**
+Either the bed is not stable and, it seems, unpredictable in the short term (my X axis here in particular) or, there is some movement in the X-axis that make the bed appear to move up and down.  In other words, instability in the belt or the stepper motor movement. After a post on the Trium3D Proboard [feedback](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=783) from MiR and mikeeitel:  **It  looks like lost steps:**
 - Such kind of unprecisenes you can mostly be tracked down either to mechanicals: slipping nuts, too much resistance in slides, to much inertia for given stepper current or to electrials in the step driver control chain: too short step pulses, too short wait time between steps when direction change.
-- Keep the feedrate at or below F3000  (I think it's mm/min) and that worked pretty reliable.
+- Keep the feedrate at or below F3000  and that worked pretty reliable.
 - Look at the driver current (the driver calibration voltage). perhaps increase it a bit.
 - Consider friction of the sliders in the tower channel.  An easy test could be to turn off the printer, remove the rods and then move the three sliders by hand. Try to find out if all three need the same force to move up/down or if your X-Slider is somehow harder to move. If yes this could perhaps be an indication why steps get lost specially on this tower. In that case you could think about increasing current to the drivers.
-- Friction in the beam: one beam needed mecanical adjustment as one slider was too large. Had to sandpaper a tiny bit the side of the alluminium part.
+- Friction in the beam: one beam needed mechanical adjustment as one slider was too large. Had to sandpaper a tiny bit the side of the alluminium part.
 
+OK, after increasing the stepper motor current by 10% and removing the tape from the sliders, the problem persisted (perhaps not with such a wide change in X tower).  So the solution is not simply in the frictions and motor current. At this time I am having doubts about the mechanical end-stop switches: the lever action is just not stable and repeatable.  I gave up on about 0.05 mm repeatability and decided to set the nozzle a little higher to take up the non-repeatability.
+
+At least one other person also has repeatability issues: http://forums.reprap.org/read.php?178,727367
 
 ## Carriage trajectory convex/concave: `DELTA_RADIUS` measurement and calibration
 
