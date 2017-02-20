@@ -1970,4 +1970,40 @@ It is evident that the repeatability in Y and Z is 30-40 microns (almost accepta
 So there is more work to be done. My next steps are to 
 - replace the X-tower end-stop PCB.
 - replace the X-tower stepper motor.
+- Thanks to [MiR for this suggestion](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838): As a test you could try if round-robin swapping the motor connectors (X->Y Y->Z Z->X ) also moves the problem. if problem is still on same axes then it is something mechanical connected to that specific tower, if the problem moves it is related to electronics/software/configuration
 
+[MiR also advised](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838) to automate the process, using the probe: "This is what I used to probe the three corners of the bed, the Y-Axis position is a little extreme. What happens here is that i home, then position 1cm above bed and then probe 5 times the bed distance. I have done this with smoothieboard but when I read correctly it should work the same on Marlin."
+
+	G21
+	G90
+	G28
+	G0 X-57 Y-37 Z10 F4000
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28
+	G0 X125 Y-37 Z10 F4000
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28
+	G0 X33 Y100 Z10 F4000
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28
+	G0 X0 Y0 Z10 F4000
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28
+
+[G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) Probe the bed at the current XY position. When the probe is triggered, set the Z coordinate to the probe trigger height. 
