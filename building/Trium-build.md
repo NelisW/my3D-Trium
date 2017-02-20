@@ -22,6 +22,8 @@ This writeup is somewhat overwhelming in detail and volume. Some proposals here 
 
 **Note:** Test and review at every step along the build process. You want to catch issues early and not at the end, forcing you to disassemble the printer.  If something is not clear,  search for information: Google is your friend!
 
+**Note:** Get to know the sounds your printer makes. Listen carefully and try to understand what you are hearing.  These noises are the printer's way of speaking to you: learn the language.
+
 http://reprapandme.blogspot.co.za/2013/12/the-basics.html
 
 # Tools and consumables
@@ -44,15 +46,15 @@ During the course of the build process you would purchase some parts or material
 
 The following tools will come in handy:
 
-- A set of Allen keys.
-- A set of spanners or wrenches, down to 5 mm. A 7 mm spanner is required to fit the nozzle.
-- A set of jeweller's screw drivers with Allen, Philips and flat heads.
-- Tweezers.
-- Two long nose pliers (short and long).
-- Side cutter.
+- Essential: A set of Allen keys.
+- Essential: A set of spanners or wrenches, down to 5 mm. A 7 mm spanner is required to fit the nozzle.
+- Essential: A set of jeweller's screw drivers with Allen, Philips and flat heads.
+- Essential: Two long nose pliers (short and long).
+- Essential: Side cutter.
+- Essential: Pencil-style craft knife.
+- Essential: Set of flat and Philips screwdrivers.
 - Small regular pliers.
-- Set of flat and Philip screwdrivers.
-- Pencil-style craft knife.
+- Tweezers.
 - A magnifying glass, and/or a ([low magnification](https://www.amazon.co.uk/d/Magnifying-Glasses/Carson-LumiLoupe-Power-Stand-Magnifier/B000CAHCQS/ref=sr_1_5?s=officeproduct&ie=UTF8&qid=1486890963&sr=1-5&keywords=loupe)) 10X [loupe](https://en.wikipedia.org/wiki/Loupe)(jeweller's eyepiece)   to inspect the PCBs and other parts - and your subsequent print quality.
 - A toothbrush to brush loosened away debris when cleaning solder bridges from  PCBs.
 - Hand drill and drill bits - only used a few times.
@@ -992,6 +994,8 @@ I did not see my way open to struggle with the stepper motor plus damper in MiR'
 - Test the belt tension and adjust tighter or slacker by sliding back the fixer block and adjusting the length.
 - Repeat until the correct tension is found.
 
+How do we determine the best belt tension?   A Google search raises suggestions that when played like a guitar, the belt must sound like a bass guitar note.  Nobody tells you which note is required.  Initially I set the belt tension too high. Later I reduced the tension and the printer still worked well. So, don't set the tension too high.  I found it useful to press your ear against one of the tweors when playing the belt. You can hear the note clearly ringing through the structure.
+
 After setting up the GT2 belt the motor (mounted on the damper) spindle was tilted by quite an angle under the belt tension. I don't know if this is a problem? Perhaps the belt tension was too high?  A hard-mounted motor  without the damper should not tilt this far.
 
 <img src="images/belt-motor-gear.jpg" width=300>
@@ -1129,15 +1133,15 @@ If you did not correctly assemble the tower belt up/down movement then [you can 
 
 <img src="images/stepper-cable-wiring.jpg" width="450"><img src="images/tower-conventions04.jpg" width="200">
 
-
-Optional information:  Stepper motor and jerky platform movement.  If you have a board with a [DRV8825](http://www.ti.com/lit/ds/symlink/drv8825.pdf), a motor with lower voltage rating then your supply, and when you move the 3D printer slowly (100 mm/min feed rate) it does not move smoothly. This is described in detail [here](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html).  The jerky movement caused by DRV8825 drivers:  "if we had a way to modify the motor so that with a voltage of 1.4V there would be no current flowing, then the driver would be able to generate all the currents because it would always be spitting out more than the minimum voltage. And it turns out that 1.4V is about the voltage drop of two diodes.  In each diode we have about 0.9V and with 1A current that would make 0.9W losses, such diode has a Rthja of 15K/W, so it will heat 15C above ambient temperature, pretty safe."  
-
-The solution is to add diodes as shown in the left-hand figure. There are plug-in boards available on [Aliexpress](https://www.aliexpress.com/item//32787567456.html) and [EBay](http://www.ebay.com/itm/3pcs-Pulse-Slicer-TL-Smoother-Addon-Module-for-3D-pinter-Stepper-motor-drivers-/252698187533?hash=item3ad5fc570d:g:XzsAAOSw241YYgpa). There is [an issue](https://groups.google.com/forum/#!topic/deltabot/2HJEQG_wR9Q) with these offerings.  [These are the diodes](http://www.vishay.com/docs/88713/s3a.pdf) used in the Chinese boards - only a single diode is used, not the required two in series (picture on the right). Note that with a single diode the performance is already somewhat better - but not quite as good as for the double diode set. 
-Finally, note that this proposal address printing at slow speeds, the effect at higher speeds will be smaller.
+### Stepper motors and jerky platform movement
+**Optional information:**  This work was not done for a Trium, but applies to the Trium, because a low voltage motor and DRV8825 is used.  The following is an extract from [cabristor's blog](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html). If you have a board with a [DRV8825](http://www.ti.com/lit/ds/symlink/drv8825.pdf), a motor with lower voltage rating then your supply, and when you move the 3D printer slowly (100 mm/min feed rate) it does not move smoothly.  The jerky movement caused by DRV8825 drivers.  The driver current sense has a 4 microsecond blanking period where the control is effectively 'blind'. This means that small signals are not driven accurately. cabristor found a solution where he used two diodes in series to overcome the effect of the dead band caused by the blanking period (left-hand figure). There are plug-in boards available on [Aliexpress](https://www.aliexpress.com/item//32787567456.html) and [EBay](http://www.ebay.com/itm/3pcs-Pulse-Slicer-TL-Smoother-Addon-Module-for-3D-pinter-Stepper-motor-drivers-/252698187533?hash=item3ad5fc570d:g:XzsAAOSw241YYgpa). There is [an issue](https://groups.google.com/forum/#!topic/deltabot/2HJEQG_wR9Q) with these offerings.  [These are the diodes](http://www.vishay.com/docs/88713/s3a.pdf) used in the Chinese boards - only a single diode is used, not the required two in series (picture on the right). Note that with a single diode the performance is already somewhat better - but not quite as good as for the double diode set. 
+Finally, note that this proposal address *printing at slow speeds and with low voltage motors.* The effect at higher speeds will be smaller.
 
 <img src="images/Cabristor-smoother.png" width="150"><img src="images/chinese-TL-smoothers.jpg" width="500">
 
+I constructed and installed a makeshift version of cabristor's diode solution. It's performance is not properly tested yet.  The high current diodes are quite large and the three modules clutter the RAMPS board quite badly.  At some  point I might move them elsewhere.
 
+<img src="images/cabristor-smoother-built.jpg" width="450">
 
 ## Molex Connector
 
@@ -1380,6 +1384,10 @@ When building the platform I found myself frequently assembling and disassemblin
 
 <img src="images/regular-head-13.jpg" width=400>
 
+- Take care to zip tie the cable below and above the plugs. On my printer the black wire going to the permanent fan pulled out of the small plug. I saw the fan was not working, which is not a good thing! I had to remove the connector and solder the wires.
+
+<img src="images/hot-end-fan-wire.jpg" width=400>
+
 ### Mounting on the rods p33, p34
 
 - [digid](http://trium3d.proboards.com/thread/92/draft-version-building-guide#ixzz4XybuJ2SE) advised the following:  **Recommend checking the glue joints for the magnetic couplers.** I had one glue joint break when it was running in the printer, all of a sudden parts were slightly wonky. I removed all rods and used two as jigs with the broken one in between but staggered back and re-glued using the two good ones as a guide to set the correct distance. After that experience digid **added epoxy fillets to the back of every magnet and rod connection.** No more risk of moving.
@@ -1598,7 +1606,10 @@ The top and bottom plates must be located on the three towers with no spaces bet
 
 Don't use the proximity bed levelling sensor in this procedure.
 
-- *Ensure that the printer nozzle is clean*, with no plastic below the nozzle level.  We want to calibrate the nozzle, not some gunk hanging below.
+- *Ensure that the printer nozzle is clean*, with no plastic below the nozzle level.  We want to calibrate the nozzle, not some gunk hanging below.  The picture below shows a small amount of filament protruding from the nozzle - this small amount is significant when it comes to z calibration (appologies for the poor quality picture, this is the best I could do with what I had).
+
+<img src="images/nozzle-keep-clean.jpg" width=300>
+
 - Try to prepare the bed as you would print (hairspray, glue, PEI, or whatever), the bed preparation adds to the bed height.
 - This procedure assumes that the Marlin firmware installed on the printer has  `MANUAL_Z_HOME_POS` set to 500.  Open the firmware and search in `configuration.h` for the line similar to `#define MANUAL_Z_HOME_POS 500`.  If the value is not exactly 500, change it to be 500.  This will enable the printer to go down by 500 mm from the home position. This means that the head will move beyond the bed, potentially damaging  the nozzle if the movement is too fast.  So, if and when you move down, be very careful.
 - Place a sheet of clean unprinted paper on the bed (75 gms, 100 micron thick).
@@ -1690,45 +1701,6 @@ In the previous section we set the value for Z_MIN in the centre of the bed.  At
 The bed is now level (edges at the same height), but it is clear that the centre measures a displacement of 0.55 mm lower than the edges.
 
 Note that the print area is not a 200 mm diameter circle, but a [Reuleau triangle](https://en.m.wikipedia.org/wiki/Reuleaux_triangle).
-
-## Side-note on consistency of nozzle-to-bed distance.
-
-After a few prints I found the nozzle dragged on the bed. I wanted to check the concave/convex status.  I spent some time on measuring the bed height manually using the the above procedure. The table below describe my findings. Columns are: Nozzle temperature, Bed temperature, Shim thickness (single paper), `DELTA_RADIUS`, nozzle height at centre of bed, nozzle X  tower height, nozzle Y tower height, nozzle Z tower height, average of X, Y and Z and difference between centre and edge average.  During this test the printer was physically stable, with no setting changes (other than bed temperature).  The test was completed in about 60-90 minutes.   The X, Y, and Z values here were measured with the nozzle at 95 mm from the centre towards the X, Y and Z towers respectively.
-
-
-|	TNoz	|	TBed	|	S	|	R	|	C	|	X	|	Y	|	Z	|	(X+Y+Z)/3	|	(X+Y+Z)/3-C	|
-|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|
-|	25.9	|	25.7	|	0.1	|	147.50	|	0.18	|	0.19	|	0.19	|	0.19	|	0.19	|	0.01	|
-|	28	|	70	|	0.1	|	147.50	|	0.18	|	0.09	|	0.19	|	0.18	|	0.15	|	-0.03	|
-|	30	|	70	|	0.1	|	147.50	|	0.18	|	0.05	|	0.21	|	0.17	|	0.14	|	-0.04	|
-|	25.9	|	27.8	|	0.1	|	147.50	|	0.12	|	0.04	|	0.15	|	0.15	|	0.11	|	-0.01	|
-|	25.9	|	26.9	|	0.1	|	147.50	|	0.12	|	0.05	|	0.17	|	0.16	|	0.13	|	0.01	|
-|	29	|	70	|	0.1	|	147.50	|	0.16	|	0.06	|	0.18	|	0.16	|	0.13	|	-0.03	|
-|	31	|	70	|	0.1	|	147.50	|	0.17	|	0.08	|	0.19	|	0.16	|	0.14	|	-0.03	|
-|	30.2	|	71	|	0.1	|	147.50	|	0.19	|	0.15	|	0.18	|	0.15	|	0.16	|	-0.03	|
-|	32	|	71	|	0.1	|	147.50	|	0.17	|	0.15	|	0.19	|	0.14	|	0.16	|	-0.01	|
-|	27.6	|	51.9	|	0.1	|	147.50	|	-	|	0.19	|	-	|	-	|	-	|	-	|
-|	26.4	|	34	|	0.1	|	-	|	0.09	|	0.03	|	0.15	|	0.11	|	-	|	-	|
-|	-	|	-	|	0.1	|	-	|	0.08	|	0.03	|	0.15	|	0.11	|	-	|	-	|
-
-
-Observations:
-- The  `DELTA_RADIUS` setting is probably as good as you will get (print nozzle trajectory is not concave/convex).
-- The relative movement between the bed and the rest of the printer was effectively 'moved up the bed' by about 0.15 mm, since my last z-height calibration.
-- The position of the table is relatively insensitive to the bed temperature - at least no major shifts.
-- Study the X coordinates: **it jumped by 0.1 to 0.15 mm**: high, low, high, then low again.  This only happened on the X tower side, not on Y and Z.
-- The thermal expansion on the towers should be about 15 micron (0.016mm) per degree celcius. Hence thermal expansion on the towers is not the issue here.
-
-Either the bed is not stable and, it seems, unpredictable in the short term (my X axis here in particular) or, there is some movement in the X-axis that make the bed appear to move up and down.  In other words, instability in the belt or the stepper motor movement. After a post on the Trium3D Proboard [feedback](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=783) from MiR and mikeeitel:  **It  looks like lost steps:**
-- Such kind of unprecisenes you can mostly be tracked down either to mechanicals: slipping nuts, too much resistance in slides, to much inertia for given stepper current or to electrials in the step driver control chain: too short step pulses, too short wait time between steps when direction change.
-- Keep the feedrate at or below F3000  and that worked pretty reliable.
-- Look at the driver current (the driver calibration voltage). perhaps increase it a bit.
-- Consider friction of the sliders in the tower channel.  An easy test could be to turn off the printer, remove the rods and then move the three sliders by hand. Try to find out if all three need the same force to move up/down or if your X-Slider is somehow harder to move. If yes this could perhaps be an indication why steps get lost specially on this tower. In that case you could think about increasing current to the drivers.
-- Friction in the beam: one beam needed mechanical adjustment as one slider was too large. Had to sandpaper a tiny bit the side of the alluminium part.
-
-OK, after increasing the stepper motor current by 10% and removing the tape from the sliders, the problem persisted (perhaps not with such a wide change in X tower).  So the solution is not simply in the frictions and motor current. At this time I am having doubts about the mechanical end-stop switches: the lever action is just not stable and repeatable.  I gave up on about 0.05 mm repeatability and decided to set the nozzle a little higher to take up the non-repeatability.
-
-At least one other person also has repeatability issues: http://forums.reprap.org/read.php?178,727367
 
 ## Carriage trajectory convex/concave: `DELTA_RADIUS` measurement and calibration
 
@@ -1921,3 +1893,81 @@ https://www.youtube.com/watch?v=jUX_sc5B9hw
 https://www.youtube.com/watch?v=RQ3ufPo95lg
 https://www.youtube.com/watch?v=AjS83guA9NQ
 https://www.youtube.com/watch?v=-hRTGNWI6iI
+
+
+
+# Side-note on consistency of nozzle-to-bed distance.
+
+After a few prints I found the nozzle dragged on the bed. I wanted to check the concave/convex status.  I spent some time on measuring the bed height manually using the the bed level measurement procedure. 
+What started out as an attempt to measure the z height and convex/concave status ended up in a review of repeatability of accurate z-height measurement.  The procedure used is as follows:
+
+- Do a printer home (g28).
+- Move to a position near the X tower (95 mm from the centre) to a z height of 5 mm above the bed. Use the Repetier jogger to move down in units of 1mm to a height of z=1 mm. Then move the nozzle down in steps of 0.1 mm to around 0.1-0.2mm.  The move the nozzle down in steps of 0.01mm until the 0.1mm-thick paper experiences a slight friction between the nozzle and the bed. This is the height of the bed plus the thickness of the paper. Read of the z value in Repetier. Note the value in a table.
+- Repeat for the Y tower, the Z tower and the centre of the bed.
+- After X, Y, Z and C home again and repeat a few times.
+- The idea is to study the repeatability of z-height values in repeated sessions.  The objective here is to see that the values are always within 0.02mm or so from each other (the actual value is not relevant here, but the spread is).
+
+
+The table below describe my first-round findings. Columns are: Nozzle temperature, Bed temperature, Shim thickness (single paper), `DELTA_RADIUS`, nozzle height at centre of bed, nozzle X  tower height, nozzle Y tower height, nozzle Z tower height, average of X, Y and Z and difference between centre and edge average.  During this test the printer was physically stable, with no setting changes (other than bed temperature).  The test was completed in about 60-90 minutes.   The X, Y, and Z values here were measured with the nozzle at 95 mm from the centre towards the X, Y and Z towers respectively.
+
+
+|	TNoz	|	TBed	|	S	|	R	|	C	|	X	|	Y	|	Z	|	(X+Y+Z)/3	|	(X+Y+Z)/3-C	|
+|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|	--------	|
+|	25.9	|	25.7	|	0.1	|	147.50	|	0.18	|	0.19	|	0.19	|	0.19	|	0.19	|	0.01	|
+|	28	|	70	|	0.1	|	147.50	|	0.18	|	0.09	|	0.19	|	0.18	|	0.15	|	-0.03	|
+|	30	|	70	|	0.1	|	147.50	|	0.18	|	0.05	|	0.21	|	0.17	|	0.14	|	-0.04	|
+|	25.9	|	27.8	|	0.1	|	147.50	|	0.12	|	0.04	|	0.15	|	0.15	|	0.11	|	-0.01	|
+|	25.9	|	26.9	|	0.1	|	147.50	|	0.12	|	0.05	|	0.17	|	0.16	|	0.13	|	0.01	|
+|	29	|	70	|	0.1	|	147.50	|	0.16	|	0.06	|	0.18	|	0.16	|	0.13	|	-0.03	|
+|	31	|	70	|	0.1	|	147.50	|	0.17	|	0.08	|	0.19	|	0.16	|	0.14	|	-0.03	|
+|	30.2	|	71	|	0.1	|	147.50	|	0.19	|	0.15	|	0.18	|	0.15	|	0.16	|	-0.03	|
+|	32	|	71	|	0.1	|	147.50	|	0.17	|	0.15	|	0.19	|	0.14	|	0.16	|	-0.01	|
+|	27.6	|	51.9	|	0.1	|	147.50	|	-	|	0.19	|	-	|	-	|	-	|	-	|
+|	26.4	|	34	|	0.1	|	-	|	0.09	|	0.03	|	0.15	|	0.11	|	-	|	-	|
+|	-	|	-	|	0.1	|	-	|	0.08	|	0.03	|	0.15	|	0.11	|	-	|	-	|
+
+
+Observations:
+- The  `DELTA_RADIUS` setting is probably as good as you will get (print nozzle trajectory is not concave/convex).
+- The relative movement between the bed and the rest of the printer was effectively 'moved up the bed' by about 0.15 mm, since my last z-height calibration.
+- The position of the table is relatively insensitive to the bed temperature - at least no major shifts.
+- Study the X coordinates: **it jumped by 0.1 to 0.15 mm**: high, low, high, then low again.  This only happened on the X tower side, not on Y and Z. Later measurements showed similar but smaller jumps on the Y tower, but none on the Z tower.
+- The thermal expansion on the towers should be about 15 micron (0.016mm) per degree celcius. Hence thermal expansion on the towers is not the issue here.
+
+Either the bed is not stable and, it seems, unpredictable in the short term (my X axis here in particular) or, there is some movement in the X-axis that make the bed appear to move up and down.  In other words, instability in the belt or the stepper motor movement. After a post on the Trium3D Proboard [feedback](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=783) from MiR and mikeeitel:  **It  looks like lost stepper motor steps.**  Here are some of the comments and remarks they posted on Proboard:
+- Such kind of unprecisenes you can mostly be tracked down either to mechanicals: slipping nuts, too much resistance in slides, to much inertia for given stepper current or to electrials in the step driver control chain: too short step pulses, too short wait time between steps when direction change.
+- Keep the feedrate at or below F3000  and that worked pretty reliable.
+- Look at the driver current (the driver calibration voltage). perhaps increase it a bit.
+- Consider friction of the sliders in the tower channel.  An easy test could be to turn off the printer, remove the rods and then move the three sliders by hand. Try to find out if all three need the same force to move up/down or if your X-Slider is somehow harder to move. If yes this could perhaps be an indication why steps get lost specially on this tower. In that case you could think about increasing current to the drivers.
+- Friction in the beam: one beam needed mechanical adjustment as one slider was too large. Had to sandpaper a tiny bit the side of the alluminium part.
+- I suspected foul play by the mechanical end-stop switches: the lever action seems just not stable and repeatable.  A quick Google search indicated that the switches most probably are not to blame, work by others indicated good repeatability in this role.
+
+At least one other person also has repeatability issues: http://forums.reprap.org/read.php?178,727367 but was unable to resolve his problem.
+
+Attempting to get to the bottom of this issue, I did the following:
+
+- Increased the stepper motor current by 13%.  The Vref value is now 0.965 V, which means that the current is 1.9A. Note that the motor design current is 1.7 A.  This change had no effect on the positioning repeatability.
+- Removed the tape from inside the sliders.  The sliders now have much lower friction, but still don't slide down under gravity.  This change had no effect on the positioning repeatability.
+- Reduced the GT2 belt tension in the X and Y towers. The Z-tower belt had less tension than X and Y,  and worked well.  After reducing the X-tower belt tension by one notch and the Y-tower belt tension by two notches, they worked as well as before.   This change had no effect on the positioning repeatability.
+- Added [cabristor's four-diode circuit](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html) between the RAMPS board and the stepper motor.  It made no difference to the large shifts on the X tower.
+
+The results after the above experiments are as follows. I did a Home (g28) between each of the lines, so there is no cumulative buildup, every run is fresh from home.
+
+|	Set 1	|	C	|	X	|	Y	|	Z	|
+|:------:|	------	|	------	|	------	|	------	|
+|	1	|	0.15	|	0.27	|	0.12	|	0.09	|
+|	2	|	0.08	|	0.13	|	0.11	|	0.09	|
+|	3	|	0.06	|	0.10	|	0.11	|	0.11	|
+|	4	|	0.06	|	0.09	|	0.11	|	0.11	|
+|	5	|	0.06	|	0.07	|	0.11	|	0.11	|
+|	6	|	0.07	|	0.16	|	0.11	|	0.11	|
+|	7	|	0.03	|	0.07	|	0.09	|	0.07	|
+|	Mean	|	0.07	|	0.13	|	0.11	|	0.10	|
+|	Max-Min	|	0.12	|	0.20	|	0.03	|	0.04	|
+
+It is evident that the repeatability in Y and Z is 30-40 microns (almost acceptable) but the repeatability on X is 200 microns (absolutely not acceptable).
+
+So there is more work to be done. My next steps are to 
+- replace the X-tower end-stop PCB.
+- replace the X-tower stepper motor.
+
