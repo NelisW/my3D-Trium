@@ -1660,6 +1660,7 @@ https://www.youtube.com/watch?v=-hRTGNWI6iI
 
 # Calibration
 
-The calibration writeup hs been moved to another document. Please see XXXX
+The calibration writeup hs been moved to another document. Please see [here](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md)
+
 
 
