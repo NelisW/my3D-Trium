@@ -297,7 +297,9 @@ The results after the above experiments are as follows. I did a Home (g28) betwe
 It is evident that the repeatability in Y and Z is 30-40 microns (almost acceptable) but the repeatability on X is 200 microns (absolutely not acceptable).
 
 So there is more work to be done. My next steps are to 
-- Thanks to [MiR for this suggestion](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838): As a test you could try if round-robin swapping the motor connectors (X->Y Y->Z Z->X ) also moves the problem. if problem is still on same axes then it is something mechanical connected to that specific tower, if the problem moves it is related to electronics/software/configuration
+- Thanks to [MiR for this suggestion](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838): As a test you could try if round-robin swapping the motor connectors (X->Y Y->Z Z->X ) also moves the problem. 
+**When you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**
+  If problem is still on same axes then it is something mechanical connected to that specific tower, if the problem moves it is related to electronics/software/configuration
 - check the motor pulley screws - must be tight.
 - replace the X-tower end-stop PCB.
 - replace the DRV8825 driver board.

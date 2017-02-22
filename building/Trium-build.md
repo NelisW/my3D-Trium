@@ -1122,6 +1122,8 @@ ToDo: I  don't like the way that the wires come out next to the stepper gear.  P
 
 Wiring up the end-stop cables is simple, just be careful where you plug into the RAMPS board, and also be careful of the connector orientation. When powered up, you can confirm the end-stop working bt pressing the switch and noting that the LED on the board lights up.
 
+**If ever you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**
+
 <img src="images/end-stop-connection.jpg" width="250">
 
 
@@ -1130,6 +1132,10 @@ Wiring up the end-stop cables is simple, just be careful where you plug into the
 When plugging in the stepper motor cables match the colour in the cable with the pin number as shown below.  First match the tower ID (X, Y, or Z) to the correct connector and then match the colours 2B->blue, and 1B->black.  You can use either one of the two Z rows, they are connected.
 
 If you did not correctly assemble the tower belt up/down movement then [you can switch motor rotation this](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond#ixzz4WNQFpLaK) by turning the motor connector on the RAMPS board, for that tower, by 180 degrees. It is however better to stick with the convention and change the belt direction mechanics.
+
+
+**If ever you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**
+
 
 <img src="images/stepper-cable-wiring.jpg" width="450"><img src="images/tower-conventions04.jpg" width="200">
 
