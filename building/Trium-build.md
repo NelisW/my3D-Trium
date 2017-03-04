@@ -391,7 +391,17 @@ To determine if the sensor is open collector, wire it up and measure the output 
 
 The [MEGA 2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560) digital pins have internal pull-up resistors of 20-50 kOhm that are by default *disconnected* from the pin. A pin can be connected to the internal pull-up resistor by a firmware command (not sure what Marlin does).  Any external resistor network connected to the pin will be affected by the internal pull-up resistor, if connected by firmware. So be careful when devising voltage divider circuits.
 
-Most logic conventions assume a high value to mean a triggered value and a low value to mean the absence of the trigger (this is known as positive logic).  Depending on the normally open (NO) or normally closed (NC) option and the NPN/PNP configuration, the sensor logic can be positive or negative.  Hence,  you must set up the firmware to match the logic of the sensor. The Trium the sensor is connected to the ZMIN endstop pin (ZMAX is connected to the switch).   In Marlin the ZMIN logic convention is defined in the line `#define Z_MIN_PROBE_ENDSTOP_INVERTING xxxx  // set to true to invert the logic of the endstop` in the file `configuration.h`.
+Most logic conventions assume a high value to mean a triggered value and a low value to mean the absence of the trigger (this is known as positive logic).  Depending on the normally open (NO) or normally closed (NC) option and the NPN/PNP configuration, the sensor logic can be positive or negative.  Hence,  you must set up the firmware to match the logic of the sensor. The Trium the sensor is connected to the ZMIN endstop pin (ZMAX is connected to the switch).   In Trium we are using ZMIN to serve as the probe (not as a limit switch), so the standard ZMIN flag for the limit switch must be set.  In Marlin the ZMIN logic convention is defined in the line `#define Z_MIN_ENDSTOP_INVERTING xxxx` in the file `configuration.h`.   Set the value to `false`  if you are using positive hardware logic.  The  `Z_MIN_PROBE_ENDSTOP_INVERTING` has no effect, because it is not tested given the rest of the flags in the configuration.h file. So for my positive probe hardware logic the settings must be
+
+	// Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
+	#define X_MIN_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+	#define Y_MIN_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+	#define Z_MIN_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
+	#define X_MAX_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+	#define Y_MAX_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+	#define Z_MAX_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+	#define Z_MIN_PROBE_ENDSTOP_INVERTING irrelevant  // set to true to invert the logic of the endstop.
+
 
 |xxxx |NO|NC|
 |----|----|----|
@@ -407,7 +417,7 @@ Don't connect the 12V and 5V grounds together, keep them separate at the optocou
 <img src="images/LJ12A3-optocoupler.png">
 
 Test the probes operation [as follows](https://www.repetier.com/documentation/repetier-firmware/z-probing/): 
-First check is always if signals are correct. So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_PROBE_ENDSTOP_INVERTING` (`Z_PROBE_ON_HIGH` for Repetier firmare). If nothing changes you have either the wrong pin used or configured, or pull-up must be different. Fix it and continue.
+First check is always if signals are correct. So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_ENDSTOP_INVERTING` (`Z_PROBE_ON_HIGH` for Repetier firmare). If nothing changes you have either the wrong pin used or configured, or pull-up must be different. Fix it and continue.
 
 
 For more information see
@@ -1113,6 +1123,12 @@ The thermistor wires are the thin red en black wires coming up one of the towers
 
 ToDo: I  don't like the way that the wires come out next to the stepper gear.  Print a block to be glued to the Top Plate to prevent the wires from touching the  stepper motor gear.
 
+If the bed thermistor is broken or not connected, the printer will halt with the LCD  message: 
+
+	Err: MINTEMP BED
+	PRINTER HALTED
+	Please reset
+
 <img src="images/top-thermistor-01.jpg" >
 <img src="images/thermistor-RAMPS.jpg" width="300"> <img src="images/top-thermistor-02.jpg" width=390>
 
@@ -1662,7 +1678,8 @@ https://www.youtube.com/watch?v=RQ3ufPo95lg
 https://www.youtube.com/watch?v=AjS83guA9NQ
 https://www.youtube.com/watch?v=-hRTGNWI6iI
 
-
+Some issues with OctoPrint: does not resume at same location after pause.  
+https://plus.google.com/+AlexWiebe/posts/42ZR7c6hx69
 
 # Calibration
 

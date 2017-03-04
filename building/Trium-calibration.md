@@ -77,7 +77,7 @@ If you have not yet installed the bed, measure the pitch on the bed screws. Coun
 In the previous section we set the value for Z_MIN in the centre of the bed.  At present the bed may still be in a  tilted orientation.  This procedure attempts to adjust the bed heights at the bed mounting screws (aligned with the towers).  The idea is to measure the height of the bed near each of the screws and then adjust the height of that screw. The procedure is as follows:
 
 - After installation level the bed manually with a measuring block or a vernier caliper so that the bed is level, relative to the fame, to within 0.5 mm. Measure by hand and adjust till the bed is at the same height at all three screw positions. This step is really important, because it makes the next steps easier and faster.
-- [MiR advises](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1#ixzz4YBplrXpU) to  take an allen wrench that is exactly 10mm high and adjust the screws of the bed so that the wrench barely slides through the gap between the bed and the chasis. This is an easy way to make sure that the bed is properly levelled.
+- [MiR advises](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1#ixzz4YBplrXpU) to  take an Allen wrench that is exactly 10mm high and adjust the screws of the bed so that the wrench barely slides through the gap between the bed and the chasis. This is an easy way to make sure that the bed is properly levelled.
 - Using the procedure described above for z-calibration, measure the height of the bed at all four positions. This is most easily done using Repetier and the four button scripts. If any of the four positions is at a height of 0 mm it means that the bed could be lower, the firmware just stopped at 0 mm.  In this case change the Z calibration calculated in the previous section. Set the value of xxx to be 0.5 mm smaller, so that the nozzle can move further down (just remember that this could be lower than the bed, so the nozzle or bed can be damaged if you move to z=0).  Repeat the procedure until none of the four readings is zero, every time increasing the value by 0.5 mm.
 - Move the nozzle to the X-tower screw (Button 2 `g0 z2 x-82.2724  y-47.5 f3000`), with the nozzle say 2 mm above the expected build plate. 
 - Carefully lower the nozzle initially at 0.1 mm and later at 0.01 mm at a time until the nozzle distance is a paper thickness from the plate. When you move a single sheet of paper between the bed and the nozzle it should experience some friction, but not too much (because you are then compressing the paper).
@@ -190,7 +190,128 @@ More information is available here:
 - http://wp.boim.com/?p=114
 - http://boim.com/DeltaUtil/
 
-Here it says that  [changing delta radius](http://forums.reprap.org/read.php?178,615064) won't alter the nozzle position at 0,0,zmax. It changes the nozzle height out at the towers. You need to get your ZMax set up in firmware so that the nozzle is at the print surface when at 0,0,zmax(in the middle of the bed). Only then can you adjust your delta radius, to bring the tower points into the same plane as the center point. 
+[Changing delta radius](http://forums.reprap.org/read.php?178,615064) won't alter the nozzle position at 0,0,zmax. It changes the nozzle height out at the towers. You need to get your ZMax set up in firmware so that the nozzle is at the print surface when at 0,0,zmax(in the middle of the bed). Only then can you adjust your delta radius, to bring the tower points into the same plane as the center point. 
+
+# Z probing
+
+## Firmware 
+
+The firmware is set up to use three max end-stops (the three switches) and one min end-stop (the z-probe)
+
+	//#define USE_XMIN_PLUG
+	//#define USE_YMIN_PLUG
+	#define USE_ZMIN_PLUG // a Z probe
+	#define USE_XMAX_PLUG
+	#define USE_YMAX_PLUG
+	#define USE_ZMAX_PLUG
+	#define Z_MIN_PROBE_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
+
+Depending on the logic of your end-stop the value of `Z_MIN_PROBE_ENDSTOP_INVERTING` must be set true or false.
+
+For inductive sensors with an offset relative to the nozzle, for Trium design use:
+
+	#define FIX_MOUNTED_PROBE
+	// Z Probe to nozzle (X,Y) offset, relative to (0, 0).
+	// X and Y offsets must be integers.
+	//
+	// In the following example the X and Y offsets are both positive:
+	// #define X_PROBE_OFFSET_FROM_EXTRUDER 10
+	// #define Y_PROBE_OFFSET_FROM_EXTRUDER 10
+	//
+	//    +-- BACK ---+
+	//    |           |
+	//  L |    (+) P  | R <-- probe (20,20)
+	//  E |           | I
+	//  F | (-) N (+) | G <-- nozzle (10,10)
+	//  T |           | H
+	//    |    (-)    | T
+	//    |           |
+	//    O-- FRONT --+
+	//  (0,0)
+	#define X_PROBE_OFFSET_FROM_EXTRUDER -33.5     // X offset: -left  +right  [of the nozzle]
+	#define Y_PROBE_OFFSET_FROM_EXTRUDER -5   // Y offset: -front +behind [the nozzle]
+	#define Z_PROBE_OFFSET_FROM_EXTRUDER 0  // Z offset: -below +above  [the nozzle]
+
+
+The z probe is connected to the zmin end-stop inputs on RAMPS:
+
+	#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+
+The changes in z height used when deploying, stowing, and using the z probe are set here:
+
+	#define Z_PROBE_DEPLOY_HEIGHT 15 // Raise to make room for the probe to deploy / stow
+	#define Z_PROBE_TRAVEL_HEIGHT 5  // Raise between probing points.
+	
+The user can enter an offset between the nozzle height and probe height by using the M851 command.  After setting the limits with M851, store the value permanently with M500. The allowable limits for this entry is defined here:
+
+	#define Z_PROBE_OFFSET_RANGE_MIN -20
+	#define Z_PROBE_OFFSET_RANGE_MAX 20
+
+The g30 work is done in the function `run_z_probe()` in `Marlin_main.cpp`. The essential contents are:
+- At the current (x,y) position move fast to `home_bump_mm(Z_AXIS)`, which appears to be z=5. Speed is `Z_PROBE_SPEED_FAST` is (50*60)=3000.
+- Move slowly from the current position by twice `home_bump_mm(Z_AXIS)`, i.e., to z=-5. Speed is `Z_PROBE_SPEED_SLOW` which is `Z_PROBE_SPEED_FAST`/2 is (50*60/2)=1500.
+- Clear the z end-stop bits to suppress a report.
+- When the end-stop is hit, get the current axis position, process and then return the value as z height.
+
+
+It appears that `run_z_probe()` resets the bed levelling parameters (at least temporarily when doing g30).
+
+## Calibrating the z probe 
+
+ 
+The (x,y) offsets should be known from the design: how far is the probe displaced from the nozzle in x and y. However, initially, the z probe z offset is not known. The sensor is mounted with some tolerance in the z direction, hence the z-height is not normally fixed by design.
+
+First check that the probe works. Send it an [M119 gcode](reprap.org/wiki/G-code#M119:_Get_Endstop_Status): Returns the current state of the configured X, Y, Z endstops. Takes into account any 'inverted endstop' settings, so one can confirm that the machine is interpreting the endstops correctly.  So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_PROBE_ENDSTOP_INVERTING`. If nothing changes you need to fix the hardware problem (wiring, power supply, etc.).
+
+
+https://www.repetier.com/documentation/repetier-firmware/z-probing/ (this is for Repetier, not Marlin).
+http://reprap.org/wiki/G-code#G30:_Single_Z-Probe
+http://forums.reprap.org/read.php?178,601436
+
+
+
+#  Auto bed levelling sensor Z offset
+
+Trium's Marlin firmware is set up to do bed levelling using the grid sampling mode (deltas can only use grid mode).
+
+The following is set in my software:
+
+	#define AUTO_BED_LEVELING_FEATURE
+	#define AUTO_BED_LEVELING_GRID
+
+    // Set the rectangle in which to probe
+    #define DELTA_PRINTABLE_RADIUS 110.0
+    #define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 40)
+    #define LEFT_PROBE_BED_POSITION -(DELTA_PROBEABLE_RADIUS)
+    #define RIGHT_PROBE_BED_POSITION DELTA_PROBEABLE_RADIUS
+    #define FRONT_PROBE_BED_POSITION -(DELTA_PROBEABLE_RADIUS)
+    #define BACK_PROBE_BED_POSITION DELTA_PROBEABLE_RADIUS
+
+    #define MIN_PROBE_EDGE 40 // The Z probe minimum square sides can be no smaller than this.
+
+    #define AUTO_BED_LEVELING_GRID_POINTS 10
+
+The above values mean that ten points will be sampled in a 140x140 mm rectangle around the centre of the bed [140 = 2 x (110-40)].
+
+When printing put the following code in the start-gcode section in your slicer:
+
+	G28 ; home all axis
+	G29 ; Auto Level
+	G92 Z.9 ; Lower = Z Pos, Lift = Z Neg 
+
+The first line G28 in the code homes the printer and sets the coodinate system relative to the end-stops. 
+The second line G29 executes the auto levelling procedure
+The last line G92 may be required to inform the printer of the difference between the level sensor z-height and the nozzle z-height.  If the nozzle is too high when printing, raise the Znumber. If it's too close, lower it.
+
+
+https://github.com/MarlinFirmware/Marlin/wiki/Mesh-Bed-Leveling
+
+http://www.instructables.com/id/Enable-Auto-Leveling-for-your-3D-Printer-Marlin-Fi/?ALLSTEPS
+
+There is some critisism against the current Trium auto bed levelling design.  The probe is offset too far from the nozzle and as shown in the build document, the hardware does not always work.
+
+[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a microswitch mounted below the nozzle (must be removed before printing). See also the switch-under-the-nozzle deisgn given [here](http://www.thingiverse.com/thing:1729523)
+
 
 
 <hr>
@@ -204,11 +325,8 @@ To be completed later as I continue working on the printer.
 </font>
 
 
-#  Auto bed levelling sensor Z offset
 
-There is some critisism against the current Trium auto bed levelling design.  The probe is offset too far from the nozzle and as shown in the build document, the hardware does not always work.
 
-[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a microswitch mounted below the nozzle (must be removed before printing).
 
 # Extruder calibration
 
