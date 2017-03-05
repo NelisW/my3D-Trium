@@ -1,3 +1,40 @@
+# Initial work
+
+## Calibrating the bed levelling screws
+If you have not yet installed the bed, measure the pitch on the bed screws. Count the number of thread ridges per measured distance. This gives you the pitch of the tread. If the pitch is known you can calculate the depth of travel for one turn. I counted 34 threads over a distance of 17.2 mm, which means 0.5059 mm pitch.  A quick search on the internet revealed that the ISO standard coarse M3 thread pitch is 0.5 mm. At a pitch of 0.5 mm, this means as you turn the screw by a certain angle the bed moves 0.5 mm per revolution. The table below shows how much the screw will move during turning. 
+
+| M3 screw turns | Bed displacement|
+|------|------|
+|1 turn | 0.5 mm |
+|1/2 turn | 0.25 mm |
+|1/4 turn | 0.125 mm |
+|1/8 turn | 0.0625 mm |
+|1/16 turn | 0.0313 mm |
+|7.2 deg | 0.01 mm |
+
+The movement in the table above would apply equally to the bed movement at the screw location. Suppose you are measuring the bed height radially at some fraction between the screw and the centre, and this measurement shows that the bed is 0.1 mm too high. The question now is: how much should the screw be turned to effect  required bed height change?
+
+The screw is approximately 4.3 mm (3/8 inch) from the edge of the bed, so the screw radial distance to the centre will be  
+
+A = 110-4.3 = 105.7 mm.  
+
+If you turn the screw at the X tower, the bed movement is around the line drawn between the Y and Z towers. The distance from the screw to this line is  
+
+L = A (1 + sin(30)) = 105.7 x 1.5 = 158.6
+
+If the required vertical movement at the measuring point is M, the screw vertical movement S will now be 
+
+S = M * L / F
+
+where F is the smallest distance between the measurement point and the YZ line. Using the (x,y) coordinates of the measurement point the screw movement becomes
+
+S = M * 158.6 / (sqrt(x^2+y^2) +  52.85)
+
+ 
+
+
+
+
 # Z-axis calibration p65
 
 The top and bottom plates must be located on the three towers with no spaces between the towers ends and the top/bottom plates.  This is important because the frame integrity determines the coordinate system integrity.
@@ -63,16 +100,7 @@ Buttons 2 to 3 move the nozzle towards the X, Y, and Z towers at a radius of  95
 <img src="images/calibration-XYZ-positions.jpg">
 
 
-If you have not yet installed the bed, measure the pitch on the bed screws. Count the number of thread ridges per measured distance. This gives you the pitch of the tread. If the pitch is known you can calculate the depth of travel for one turn. I counted 34 threads over a distance of 17.2 mm, which means 0.5059 mm pitch.  A quick search on the internet revealed that the M3 thread pitch is 0.5 mm. At a pitch of 0.5 mm, this means as you turn the screw by a certain angle the bed moves 0.5 mm per revolution. Keep this table handy as you level the bed:
 
-| M3 screw turns | Bed displacement|
-|------|------|
-|1 turn | 0.5 mm |
-|1/2 turn | 0.25 mm |
-|1/4 turn | 0.125 mm |
-|1/8 turn | 0.0625 mm |
-|1/16 turn | 0.0313 mm |
-|7.2 deg | 0.01 mm |
 
 In the previous section we set the value for Z_MIN in the centre of the bed.  At present the bed may still be in a  tilted orientation.  This procedure attempts to adjust the bed heights at the bed mounting screws (aligned with the towers).  The idea is to measure the height of the bed near each of the screws and then adjust the height of that screw. The procedure is as follows:
 
@@ -242,7 +270,11 @@ The changes in z height used when deploying, stowing, and using the z probe are 
 	#define Z_PROBE_DEPLOY_HEIGHT 15 // Raise to make room for the probe to deploy / stow
 	#define Z_PROBE_TRAVEL_HEIGHT 5  // Raise between probing points.
 	
-The user can enter an offset between the nozzle height and probe height by using the M851 command.  After setting the limits with M851, store the value permanently with M500. The allowable limits for this entry is defined here:
+The user can enter an offset between the nozzle height and probe height by using the M851 command:
+
+	M851 Z-0.6
+
+ After setting the limits with M851, store the value permanently with M500. The allowable limits for this entry is defined here:
 
 	#define Z_PROBE_OFFSET_RANGE_MIN -20
 	#define Z_PROBE_OFFSET_RANGE_MAX 20
@@ -299,8 +331,8 @@ When printing put the following code in the start-gcode section in your slicer:
 	G29 ; Auto Level
 	G92 Z.9 ; Lower = Z Pos, Lift = Z Neg 
 
-The first line G28 in the code homes the printer and sets the coodinate system relative to the end-stops. 
-The second line G29 executes the auto levelling procedure
+The first line [G28](http://reprap.org/wiki/G-code#G28:_Move_to_Origin_.28Home.29) in the code homes the printer and sets the coodinate system relative to the end-stops. 
+The second line [G29](http://reprap.org/wiki/G-code#G29:_Detailed_Z-Probe) executes the auto levelling procedure
 The last line G92 may be required to inform the printer of the difference between the level sensor z-height and the nozzle z-height.  If the nozzle is too high when printing, raise the Znumber. If it's too close, lower it.
 
 
@@ -310,7 +342,7 @@ http://www.instructables.com/id/Enable-Auto-Leveling-for-your-3D-Printer-Marlin-
 
 There is some critisism against the current Trium auto bed levelling design.  The probe is offset too far from the nozzle and as shown in the build document, the hardware does not always work.
 
-[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a microswitch mounted below the nozzle (must be removed before printing). See also the switch-under-the-nozzle deisgn given [here](http://www.thingiverse.com/thing:1729523)
+[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a microswitch mounted below the nozzle (must be removed before printing). See also the switch-under-the-nozzle design given [here](http://www.thingiverse.com/thing:1729523)
 
 
 
@@ -423,38 +455,174 @@ So there is more work to be done. My next steps are to
 - replace the DRV8825 driver board.
 - replace the X-tower stepper motor.
 
-[MiR also advised](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838) to automate the process, using the probe: "This is what I used to probe the three corners of the bed, the Y-Axis position is a little extreme. What happens here is that i home, then position 1cm above bed and then probe 5 times the bed distance. I have done this with smoothieboard but when I read correctly it should work the same on Marlin."
+#  Automated probing for bed levelling
 
-	G21
-	G90
-	G28
-	G0 X-57 Y-37 Z10 F4000
-	G30
-	G30
-	G30
-	G30
-	G30
-	G28
-	G0 X125 Y-37 Z10 F4000
-	G30
-	G30
-	G30
-	G30
-	G30
-	G28
-	G0 X33 Y100 Z10 F4000
-	G30
-	G30
-	G30
-	G30
-	G30
-	G28
-	G0 X0 Y0 Z10 F4000
-	G30
-	G30
-	G30
-	G30
-	G30
-	G28
+There is general agreement that good good manual bed levelling is a prerequisite for a good print, even when using outo bed levelling.  You cannot properly correct a poorly levelled bed.
 
-[G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) Probe the bed at the current XY position. When the probe is triggered, set the Z coordinate to the probe trigger height. 
+[MiR  advised](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838) to automate the process, using the probe. He provided a script to probe the bed near each of the corners and in the centre.  The probe is moved to 10 mm above the bed at the required locations. The bed is then probed five times. I modified the script slightly to change the (x,y) coordinates to be radially in line to the tower.  The X and Z tower positions are quite close, but the Y tower position is somewhat far from the edge because of the fan protrusion.   The [G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) gcode probes the bed at the current XY position. When the probe is triggered, set the Z coordinate to the probe trigger height and then lifts up again. The script on my PC does ten `G30` probes, not five as shown below - you decide how many you want to do. Load the script to one of the buttons on the Repetier Manual Control tab.
+
+	M119 ; print a clearly visible separator in the log file
+	G21  ; set units to mm
+	G90  ; absolute positioning
+	G28  ; home: reset coord sys by reading MAX endstops
+	G0 X-52 Y-42 Z10 F3000 ; move to X tower 10 mm above bed
+	G30  ; do a single z probe at current (x,y)
+	G30
+	G30
+	G30
+	G30
+	G28 ; home: reset coord sys by reading MAX endstops
+	G0 X106 Y-39 Z10 F3000 ; move to Y tower 10 mm above bed
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28 ; home: reset coord sys by reading MAX endstops
+	G0 X33.4 Y100 Z10 F3000
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28 ; home: reset coord sys by reading MAX endstops
+	G0 X33.5 Y5 Z10 F3000 ; move to centre 10 mm above bed
+	G30
+	G30
+	G30
+	G30
+	G30
+	G28 ; home: reset coord sys by reading MAX endstops
+
+I wanted to log the temperature during the measurement: M105 should give the bed and nozzle temperature. However this does not show results in the Repetier log screen, unless you click on the `ACK` button.  The reason for this is that the M105 response is not handled in the normal manner.  M105 is actually sent every few seconds but the return value is not displayed other than as an acknowledgement of the M105 request. So, to get the temperature values, click on `ACK` in Repetier to activate, then run the script and finally again click on `ACK` in Repetier to de-activate the temperature display.
+
+When this script is run in Repetier host the (x,y,z) positions are reported in the log screen.  I copy the relevant section from the log screen to a text file and process with a Python script. The script gives the mean value and standard deviation around the mean for each of the probe points plus some other information. This is the current version of the script:
+	
+	
+	################################################################################
+	# label the towers
+	def label_tower (row):
+	   if row['x'] < -80. :
+	      return 'X'
+	   if row['y'] > 80. :
+	      return 'Z'
+	   if row['x'] > 60. :
+	      return 'Y'
+	   return 'C'
+	
+	################################################################################
+	# process one sample set
+	def processOneFile(filename, zProbeTrigger,shimThickness,locmarg=0.05):
+	    print(79*'-' + '\n' + filename)
+	    validlines = []
+	    tdone = False
+	    with open(filename,'r') as fin:
+	        lines = fin.readlines()
+	        for line in lines:
+	            line = line.strip()
+	            lstl = line.split(' ')
+	            # only use lines with Bed X: in them for dataframe
+	            if 'Bed X:' in line:
+	                # remove unwanted clutter, keep only x,y,z
+	                validlines.append([float(lstl[i]) for i in [4,6,8]])
+	            # if temperature lines, get values
+	            if not tdone and 'ok' in line and 'T:' in line and 'B:' in line:
+	                print('Time {} '.format(lstl[0]))
+	                print('Bed temperature is {} deg C'.format(lstl[5].split(':')[1]))
+	                print('Nozzle temperature is {} deg C'.format(lstl[3].split(':')[1]))
+	                tdone = True
+	
+	    # make pandas dataframe
+	    df = pd.DataFrame(validlines,columns=['x','y','z'])
+	    # correct for probe offset and friction shim to get to metal
+	    df['z'] = df['z'] - (zProbeTrigger - shimThickness)
+	    # get height at screw
+	    df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
+	    # df['S min'] = np.min(df['S'])
+	    # df['S max'] = np.max(df['S'])
+	    #name the towers
+	    df['Tower'] = df.apply(label_tower,axis=1)
+	    # get required turn magnitude
+	    df['Trns(deg)'] = 360. * df['S'] / 0.5
+	    df['Trns/0.25'] = (df['S'] / 0.5) / 0.25
+	
+	    # from now on work with aggregates
+	    dfg = df.groupby(['Tower'])
+	    dfr = dfg.aggregate(np.mean)
+	    dfr['Std dev'] = dfg.aggregate(np.std)['S']
+	    dfr['Spread'] = dfg.aggregate(np.max)['S'] - dfg.aggregate(np.min)['S']
+	     # centre does not require slant correction
+	    dfr['S'].ix['C'] = dfr['z'].ix['C']
+	
+	    print(dfr)
+	    print('')
+	
+	    # get mean, min and max of the tower averages
+	    bedMean = np.mean((dfr['S']).T[['X','Y','Z']])
+	    bedMin = np.min((dfr['S']).T[['X','Y','Z']])
+	    bedMax = np.max((dfr['S']).T[['X','Y','Z']])
+	    print('Mean bed height is {:.3f} mm'.format(bedMean))
+	    print('Bed min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(bedMin,bedMax,bedMax-bedMin))
+	    # if level to within margin calc the convex/concave
+	    if bedMax-bedMin < locmarg:
+	        convex = bedMean - dfr.ix['C']['S']
+	        print('Bed level to within {} mm: print locus convexity {:.3f} mm'.format(
+	            locmarg,convex))
+	    print('\n')
+	
+	processOneFile(infile, zProbeTrigger=0.7,shimThickness=0.1)
+
+where   
+
+- `zProbeTrigger` the the z value when the probe triggers. The probe trigger height was determined by moving the hot end slowly down and noting the z value where the probe triggers 90.7 mm in the above example). 
+- `shimThickness` is the thickness of the paper/shim when doing the nozzle friction test. 
+- This means that the distance from the nozzle tip to the probe trigger height is `zProbeTrigger - shimThickness`.
+
+
+
+Following this procedure, my first result set is as follows:
+
+	          x     y      z      S  Turns (deg)  Turns/0.25  Std dev  Spread
+	Tower
+	C      -0.1   0.0  0.060  0.060      129.396       1.438    0.000   0.000
+	X     -85.5 -47.0 -0.186 -0.196     -141.206      -1.569    0.005   0.011
+	Y      72.5 -44.0  0.172  0.198      142.681       1.585    0.009   0.035
+	Z       0.0  95.0  0.192  0.206      148.291       1.648    0.005   0.011
+	
+	Mean bed height is 0.069 mm
+	Bed min=-0.196, max=0.206, spread=0.402 mm
+
+where   
+`x` and  `y` are the measurement coordinates,  
+`z` is the mean distance between the nozzle and the bed at (`x`,`y`),  
+`S` is the mean distance between the nozzle and the bed at the tower screw,  
+`Trns(deg)` is the number of degrees that the M3 screw must be turned to bring `S` to zero (positive means clockwise and negative anticlockwise),  
+`Trns/0.25` is the number of quarter turns to turn the screw. So `1.585` is just a tad more than one   3/8 of a clockwise turn, 
+`Std dev` is the standard deviation around the mean value at the specified tower, and
+`Spread` is the spread within the measured points at the specified tower,
+`Mean bed height` is the mean value of the three screws near the towers,
+`Bed min` is the minimum bed height observed (lowest of all measured values),
+`Bed max` is the maximum bed height (highest of all measured values), and 
+`Bed spread` is the max minus the minimum, i.e., from highest mountain to lowest valley.
+
+Note the ratios between `z` and `S`: the ratio for the Y tower is larger, because the Y tower measurement is closer to the centre than those of the X and Z towers.
+
+After several hours of further adjustments (including an adjustment of the `DELTA_RADIUS`), the procedure provided the following results (with ten points sampled at each of the four locations):
+
+	          x     y      z      S  Trns(deg)  Trns/0.25  Std dev  Spread
+	Tower
+	C       0.0   0.0  0.028  0.028     60.499      0.672    0.013   0.030
+	X     -85.5 -47.0  0.008  0.008      6.073      0.067    0.004   0.011
+	Y      72.5 -44.0 -0.004 -0.005     -3.318     -0.037    0.008   0.023
+	Z      -0.1  95.0  0.007  0.008      5.406      0.060    0.005   0.011
+	
+	Mean bed height is 0.004 mm
+	Bed min=-0.005, max=0.008, spread=0.013 mm
+	Bed level to within 0.05 mm: print locus convexity -0.024 mm
+
+If the bed is level within a spread of some margin (0.05 mm here), the print locus convexity is also calculated.  The convexity is simply the difference between the mean bed height at the towers minus the bed heigth in the centre.  The above table shows that at ZMIN the metal to metal bed-nozzle distance is 0.004 mm with the printing locus 0.024 mm below the  mean level (at the towers).  This is probably as good as it gets.
+
+Unfortunately, this good does not last very long.  Overnight, after the printer has cooled down, the values are very different - without a clear pattern.  I found that the printer geometry is relatively stable after running (with hot-end movement) for about two hours.  So if you want to do a critical print, give plenty of heat up time.
+
+The procedure outlined here makes it possible to do an automated bed measurement and then do a manual bed levelling in a relatively short time. The measurement and data analysis give a clear indication of how much each of the screws must be turned.  I found that two measurement iterations, taking a couple of minutes, can provide levelling to better than 0.05 mm. Thanks to MiR for sharing the concept and his gcode script.
+

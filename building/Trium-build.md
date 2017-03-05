@@ -1686,4 +1686,30 @@ https://plus.google.com/+AlexWiebe/posts/42ZR7c6hx69
 The calibration writeup hs been moved to another document. Please see [here](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md)
 
 
+# EEPROM
+
+Once EEPROM is written it takes precedence as a data source.  If EEPROM is enabled, when Marlin boots up, it loads information from EEPROM, rather than the downloaded firmware. So even if you download new firmware, the older EEPROM data always wins.  To update the EEPROM with new downloaded firmware values do
+
+	M502  ; firmware settings to current working settings
+	M500  ; current working settings to firmware
+
+https://github.com/MarlinFirmware/Marlin/wiki/EEPROM says as follows:
+
+Marlin uses the EEPROM to store the printer settings and loads them up the next time the machine powers up. Changing the source code and re-flashing the firmware does not change the contents of EEPROM (unless there is a new EEPROM version identifier indicating that the overall organization of the EEPROM has changed).
+
+==== EEPROM can be enabled or disabled =====
+Note that there is a line in Configuration.h which controls whether or not EEPROM is enabled. At the moment, by default, the developers of the Repository version Disable EEPROM. This is to avoid the "unintended consequence" of local developers making changes to the values in Source Code and then having the printer boot up using the EEPROM values instead. But note that if you have EEPROM enabled, you can load it with "factory defaults" (coming from the Source Code) using M502 followed by M500.
+
+==== EEPROM GCodes ====
+
+    M500 Store current settings in EEPROM for the next startup or M501.
+    M501 Read all parameters from EEPROM. (Or, undo changes.)
+    M502 Reset current settings to defaults, as set in Configurations.h. (Follow with M500 to reset the EEPROM too.)
+    M503 Print the current settings – ''Not the settings stored in EEPROM.''
+
+So, once settings have been written to EEPROM it will override the downloaded firmware. To update the EEPROM with new downloaded firmware values do
+
+	M502
+	M500 
+
 
