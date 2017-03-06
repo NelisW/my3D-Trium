@@ -9,7 +9,7 @@ import pandas as pd
 
 pd.set_option('precision', 3)
 
-docoptstring = """Usage: zprobestats.py [<filename>] 
+docoptstring = """Usage: zprobestats.py [<filename>]  [--ref=<tower>]
        zprobestats.py  (-h | --help)
 
 The zprobestats.py reads the Repetier host log file output and processes
@@ -23,6 +23,7 @@ Arguments:
 Options:
 
   -h, --help  [optional] help information.
+  --ref=<tower>  [optional] selects the reference tower, others to match this one.
 
 """
 
@@ -108,10 +109,11 @@ def label_tower (row):
       return 'Y'
    return 'C'
 
+
 ################################################################################
 # process one sample set
-def processOneFile(filename, zProbeTrigger,shimThickness,locmarg=0.05):
-    print(79*'-' + '\n' + filename)
+def processOneFile(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0.05):
+    print('{}\n{}\n\n'.format(79*'-',filename))
     validlines = []
     tdone = False
     with open(filename,'r') as fin:
@@ -136,13 +138,12 @@ def processOneFile(filename, zProbeTrigger,shimThickness,locmarg=0.05):
     df['z'] = df['z'] - (zProbeTrigger - shimThickness)
     # get height at screw
     df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
-    # df['S min'] = np.min(df['S'])
-    # df['S max'] = np.max(df['S'])
     #name the towers
     df['Tower'] = df.apply(label_tower,axis=1)
     # get required turn magnitude
     df['Trns(deg)'] = 360. * df['S'] / 0.5
     df['Trns/0.25'] = (df['S'] / 0.5) / 0.25
+
 
     # from now on work with aggregates
     dfg = df.groupby(['Tower'])
@@ -151,6 +152,23 @@ def processOneFile(filename, zProbeTrigger,shimThickness,locmarg=0.05):
     dfr['Spread'] = dfg.aggregate(np.max)['S'] - dfg.aggregate(np.min)['S']
      # centre does not require slant correction
     dfr['S'].ix['C'] = dfr['z'].ix['C']
+
+    # if a reference tower is given, calc turn offset for other towers
+    if reftower:
+        reftower = reftower.upper()
+        print("All turns to set other towers' S equal to {} tower S".format(reftower))
+        # for t in ['X','Y','Z']:
+        dfr['Trns(deg)R'] = dfr['Trns(deg)'] - dfr.ix[reftower]['Trns(deg)']
+        dfr['Trns/0.25R'] = dfr['Trns/0.25'] - dfr.ix[reftower]['Trns/0.25']
+        dfr['Trns(deg)'] = dfr['Trns(deg)R'] 
+        dfr['Trns/0.25'] = dfr['Trns/0.25R']
+        dfr.drop(['Trns(deg)R','Trns/0.25R'],axis=1,inplace=True)
+    else:
+        print("All turns to set towers' S equal to zero")
+
+    # remove value for C turns
+    dfr.ix['C']['Trns(deg)'] = np.nan
+    dfr.ix['C']['Trns/0.25'] =  np.nan
 
     print(dfr)
     print('')
@@ -164,8 +182,9 @@ def processOneFile(filename, zProbeTrigger,shimThickness,locmarg=0.05):
     # if level to within margin calc the convex/concave
     if bedMax-bedMin < locmarg:
         convex = bedMean - dfr.ix['C']['S']
-        print('Bed level to within {} mm: print locus convexity {:.3f} mm'.format(
-            locmarg,convex))
+        direc = 'mountian' if convex < 0 else 'valley'
+        print('Bed level to within {} mm: print locus convexity {:.3f} mm ({})'.format(
+            locmarg,convex,direc))
     print('\n')
 
 
@@ -184,6 +203,7 @@ args = docopt.docopt(docoptstring)
 # print(args)
 
 infile = args['<filename>']
+reftower = args['--ref']
 
 
 # see if only one input file, or perhaps many
@@ -191,7 +211,7 @@ infiles = getInfileNames(infile)
 
 #process the list of files found in spec
 for infile in infiles:
-    processOneFile(infile, zProbeTrigger=0.7,shimThickness=0.1)
+    processOneFile(infile, reftower=reftower, zProbeTrigger=0.7,shimThickness=0.1)
 
 print('\nfini!')
 
