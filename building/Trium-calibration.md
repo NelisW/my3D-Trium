@@ -51,18 +51,52 @@ GCodes used to adjust the z offset:
 -  [M851](http://reprap.org/wiki/G-code#M851:_Set_Z-Probe_Offset) reads and displays the current z probe offset.
 - [M212](http://reprap.org/wiki/G-code#M212:_Set_Bed_Level_Sensor_Offset) 
 
+https://forum.lulzbot.com/viewtopic.php?t=3151
 
+https://build3dparts.com/wp/?page_id=551
+
+https://printrbot.zendesk.com/hc/en-us/articles/203333360-Troubleshooting-Your-Auto-Levelling-Probe
+
+https://printrbot.com/wp-content/uploads/2015/06/4.-Using-Cura-to-Set-Up-the-Auto-Levelling-Probe.pdf
+
+http://forums.reprap.org/read.php?178,282375
+
+https://github.com/MarlinFirmware/Marlin/issues/3647
+
+https://forum.repetier.com/discussion/1290/auto-level-and-z-homing
+
+http://forum.seemecnc.com/viewtopic.php?t=4328
 
 https://www.repetier.com/documentation/repetier-firmware/z-probing/ (this is for Repetier, not Marlin).  
+
 http://reprap.org/wiki/G-code#G30:_Single_Z-Probe  
+
 http://forums.reprap.org/read.php?178,601436  
+
+fix / remove this calibration and redeem:
+
+http://boim.com/DeltaUtil/CalDoc/Calibration.html
+
+http://wiki.thing-printer.com/index.php?title=Redeem   Using G33 for auto-calibration
+
+When you have a working G29 probing setup in place, you can improve several parameters of your delta printer with the G33 command. The parameters to improve is end stop offsets, delta radius, tower angular position correction and diagonal rod length.
+
+G33 will use the probe offset in the [Probe] section to adjust the end stops offsets, so be sure to set this to 0 initially to avoid offset errors.
+
+The G33 in Redeem is an implementation of the calculations found in this web site: http://escher3d.com/pages/wizards/wizarddelta.php 
+
+http://wiki.thing-printer.com/index.php?title=Redeem#M665:_Set_delta_arm_calibration_values
+
+L sets the length of the arm. If the objects printed are too small, try increasing(?) the length of the armR sets the radius of the towers. If the measured points are too convex, try increasing the radius 
+
+
 
 
 # Z-axis calibration p65
 
 The top and bottom plates must be located on the three towers with no spaces between the towers ends and the top/bottom plates.  This is important because the frame integrity determines the coordinate system integrity.
 
-Don't use the proximity bed leveling sensor in this procedure.
+Don't use the proximity bed levelling sensor in this procedure.
 
 - *Ensure that the printer nozzle is clean*, with no plastic below the nozzle level.  We want to calibrate the nozzle, not some gunk hanging below.  The picture below shows a small amount of filament protruding from the nozzle - this small amount is significant when it comes to z calibration (apologies for the poor quality picture, this is the best I could do with what I had).
 
@@ -93,7 +127,7 @@ Don't use the proximity bed leveling sensor in this procedure.
 
 [It seems then on the LCD control ](http://trium3d.proboards.com/thread/72/new-build-fired-today#ixzz4VuxgNRhq) you can move in 10 mm increments in X and Y but not in Z (no 10 mm movement in Z).  The LCD does provide 1mm and 0.1mm movement along the z-axis. Turning the LCD knob one position causes the head to move by 4 increments.  Rather do the 0.1 mm movements with  Repetier  instead.
 
-The distance between the print bed and the nozzle is very important for print quality during the first layers. It seems that with the printer at Z_MIN the distance between the nozzle and bed must be around 0.1 mm.  See [here](https://ultimaker.com/en/community/16792-whats-the-best-distance-between-nozzle-and-bed-when-leveling), [here](https://ultimaker.com/en/community/5941-optimum-nozzle-bed-distance), and  [here](http://forums.reprap.org/read.php?1,582425).  I found it quite hard work to get the bed level and flat to within 0.1 mm.
+The distance between the print bed and the nozzle is very important for print quality during the first layers. It seems that with the printer at Z_MIN the distance between the nozzle and bed must be around 0.1 mm.  See [here](https://ultimaker.com/en/community/16792-whats-the-best-distance-between-nozzle-and-bed-when-levelling), [here](https://ultimaker.com/en/community/5941-optimum-nozzle-bed-distance), and  [here](http://forums.reprap.org/read.php?1,582425).  I found it quite hard work to get the bed level and flat to within 0.1 mm.
 
 See [here](https://www.facebook.com/groups/emergin/permalink/1861782507392842/?comment_id=1861803234057436&comment_tracking=%7B%22tn%22%3A%22R9%22%7D) for a long discussion on z calibration.
 
@@ -139,7 +173,7 @@ In the previous section we set the value for Z_MIN in the centre of the bed.  At
 	- If the centre is lower than the lowest edge, aim to set the bed edges higher than the centre. In other words use the Z_MIN value at the centre as reference and adjust the edges to be higher. 
 	- If the centre is higher than the highest edge, set all the edge heights to be equal but lower than the centre.
 -  Repeat the process, iteratively measuring the values at C, X, Y and Z.   Adjust the bed level at each of the towers to get the same value at all three towers. 
-- Move the nozzle to home (to calibrate the top end-stops)  and repeat the measurements, until the values at the bed edges settle to the same value.
+- Move the nozzle to home (to calibrate the top endstops)  and repeat the measurements, until the values at the bed edges settle to the same value.
 -  After about three or four iterations around the circle, my bed printer's bed levels settled down on
 
 |C |X |Y|Z|
@@ -441,7 +475,7 @@ The following procedure is a mixture of the Trium instruction and the procedure 
 
 After completion of this process, my printer bed's three edges were within 0.05 mm of each other and the centre was about 0.1 mm lower. I decided to stop here and print first before spending more time on `DELTA_RADIUS`. It turned out that the prints worked well, so the task is completed.
 
-I made a few prints experimenting with glue stick and hairspray and cleaning several times in between. I checked the bed leveling manually and found that the plate that the X-tower position was at 0.1, which meant that the plate was not level any more.  So the bed is not as stable as E-Mergin would have us believe.  After levelling, I found that the relative heights of the three towers compared to the centre was the same as before. In other words the bed's concave/convex shape was the same as before, meaning that the rest of the printer remained stable.
+I made a few prints experimenting with glue stick and hairspray and cleaning several times in between. I checked the bed levelling manually and found that the plate that the X-tower position was at 0.1, which meant that the plate was not level any more.  So the bed is not as stable as E-Mergin would have us believe.  After levelling, I found that the relative heights of the three towers compared to the centre was the same as before. In other words the bed's concave/convex shape was the same as before, meaning that the rest of the printer remained stable.
 
 More information is available here:
 -	https://github.com/MarlinFirmware/Marlin/wiki/Delta-kinematics
@@ -478,7 +512,7 @@ More information is available here:
 
 ## Firmware 
 
-The firmware is set up to use three max end-stops (the three switches) and one min end-stop (the z-probe)
+The firmware is set up to use three max endstops (the three switches) and one min endstop (the z-probe)
 
 	//#define USE_XMIN_PLUG
 	//#define USE_YMIN_PLUG
@@ -488,7 +522,7 @@ The firmware is set up to use three max end-stops (the three switches) and one m
 	#define USE_ZMAX_PLUG
 	#define Z_MIN_PROBE_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
 
-Depending on the logic of your end-stop the value of `Z_MIN_PROBE_ENDSTOP_INVERTING` must be set true or false.
+Depending on the logic of your endstop the value of `Z_MIN_PROBE_ENDSTOP_INVERTING` must be set true or false.
 
 For inductive sensors with an offset relative to the nozzle, for Trium design use:
 
@@ -515,7 +549,7 @@ For inductive sensors with an offset relative to the nozzle, for Trium design us
 	#define Z_PROBE_OFFSET_FROM_EXTRUDER 0  // Z offset: -below +above  [the nozzle]
 
 
-The z probe is connected to the zmin end-stop inputs on RAMPS:
+The z probe is connected to the zmin endstop inputs on RAMPS:
 
 	#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
@@ -536,8 +570,8 @@ The user can enter an offset between the nozzle height and probe height by using
 The g30 work is done in the function `run_z_probe()` in `Marlin_main.cpp`. The essential contents are:
 - At the current (x,y) position move fast to `home_bump_mm(Z_AXIS)`, which appears to be z=5. Speed is `Z_PROBE_SPEED_FAST` is (50*60)=3000.
 - Move slowly from the current position by twice `home_bump_mm(Z_AXIS)`, i.e., to z=-5. Speed is `Z_PROBE_SPEED_SLOW` which is `Z_PROBE_SPEED_FAST`/2 is (50*60/2)=1500.
-- Clear the z end-stop bits to suppress a report.
-- When the end-stop is hit, get the current axis position, process and then return the value as z height.
+- Clear the z endstop bits to suppress a report.
+- When the endstop is hit, get the current axis position, process and then return the value as z height.
 
 
 It appears that `run_z_probe()` resets the bed levelling parameters (at least temporarily when doing g30).
@@ -572,18 +606,18 @@ When printing put the following code in the start-gcode section in your slicer:
 	G29 ; Auto Level
 	G92 Z.9 ; Lower = Z Pos, Lift = Z Neg 
 
-The first line [G28](http://reprap.org/wiki/G-code#G28:_Move_to_Origin_.28Home.29) in the code homes the printer and sets the coordinate system relative to the end-stops. 
-The second line [G29](http://reprap.org/wiki/G-code#G29:_Detailed_Z-Probe) executes the auto leveling procedure
+The first line [G28](http://reprap.org/wiki/G-code#G28:_Move_to_Origin_.28Home.29) in the code homes the printer and sets the coordinate system relative to the endstops. 
+The second line [G29](http://reprap.org/wiki/G-code#G29:_Detailed_Z-Probe) executes the auto levelling procedure
 The last line G92 may be required to inform the printer of the difference between the level sensor z-height and the nozzle z-height.  If the nozzle is too high when printing, raise the Znumber. If it's too close, lower it.
 
 
-https://github.com/MarlinFirmware/Marlin/wiki/Mesh-Bed-Leveling
+https://github.com/MarlinFirmware/Marlin/wiki/Mesh-Bed-Levelling
 
-http://www.instructables.com/id/Enable-Auto-Leveling-for-your-3D-Printer-Marlin-Fi/?ALLSTEPS
+http://www.instructables.com/id/Enable-Auto-Levelling-for-your-3D-Printer-Marlin-Fi/?ALLSTEPS
 
-There is some critisism against the current Trium auto bed levelling design.  The probe is offset too far from the nozzle and as shown in the build document, the hardware does not always work.
+There is some criticism against the current Trium auto bed levelling design.  The probe is offset too far from the nozzle and as shown in the build document, the hardware does not always work.
 
-[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a microswitch mounted below the nozzle (must be removed before printing). See also the switch-under-the-nozzle design given [here](http://www.thingiverse.com/thing:1729523)
+[MiR proposed](http://trium3d.proboards.com/post/815/thread) a new z-probe design that uses a micro switch mounted below the nozzle (must be removed before printing). See also the switch-under-the-nozzle design given [here](http://www.thingiverse.com/thing:1729523)
 
 
 
@@ -655,12 +689,12 @@ Observations:
 - The thermal expansion on the towers should be about -15 micron (-0.015mm) per degree Celsius. Hence thermal expansion on the towers is not the issue here.
 
 Either the bed is not stable and, it seems, unpredictable in the short term (my X axis here in particular) or, there is some movement in the X-axis that make the bed appear to move up and down.  In other words, instability in the belt or the stepper motor movement. After a post on the Trium3D Proboard [feedback](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=783) from MiR and mikeeitel:  **It  looks like lost stepper motor steps.**  Here are some of the comments and remarks they posted on Proboard:
-- Such kind of inprecisenesses you can mostly be tracked down either to mechanicals: slipping nuts, too much resistance in slides, to much inertia for given stepper current or to electrical issues in the step driver control chain: too short step pulses, too short wait time between steps when direction change.
+- Such kind of imprecisenesses you can mostly be tracked down either to mechanicals: slipping nuts, too much resistance in slides, to much inertia for given stepper current or to electrical issues in the step driver control chain: too short step pulses, too short wait time between steps when direction change.
 - Keep the feedrate at or below F3000  and that worked pretty reliable.
 - Look at the driver current (the driver calibration voltage). perhaps increase it a bit.
 - Consider friction of the sliders in the tower channel.  An easy test could be to turn off the printer, remove the rods and then move the three sliders by hand. Try to find out if all three need the same force to move up/down or if your X-Slider is somehow harder to move. If yes this could perhaps be an indication why steps get lost specially on this tower. In that case you could think about increasing current to the drivers.
 - Friction in the beam: one beam needed mechanical adjustment as one slider was too large. Had to sandpaper a tiny bit the side of the aluminum part.
-- I suspected foul play by the mechanical end-stop switches: the lever action seems just not stable and repeatable.  A quick Google search indicated that the switches most probably are not to blame, work by others indicated good repeatability in this role.
+- I suspected foul play by the mechanical endstop switches: the lever action seems just not stable and repeatable.  A quick Google search indicated that the switches most probably are not to blame, work by others indicated good repeatability in this role.
 
 At least one other person also has repeatability issues: http://forums.reprap.org/read.php?178,727367 but was unable to resolve his problem.
 
@@ -671,7 +705,7 @@ Attempting to get to the bottom of this issue, I did the following:
 - Reduced the GT2 belt tension in the X and Y towers. The Z-tower belt had less tension than X and Y,  and worked well.  After reducing the X-tower belt tension by one notch and the Y-tower belt tension by two notches, they worked as well as before.   This change had no effect on the positioning repeatability.
 - Added [cabristor's four-diode circuit](http://cabristor.blogspot.co.za/2015/02/drv8825-missing-steps.html) between the RAMPS board and the stepper motor.  It made no difference to the large shifts on the X tower.
 
-The results after the above experiments are as follows. I did a Home (g28) between each of the lines, so there is no cumulative buildup, every run is fresh from home.
+The results after the above experiments are as follows. I did a Home (g28) between each of the lines, so there is no cumulative build up, every run is fresh from home.
 
 |	Set 1	|	C	|	X	|	Y	|	Z	|
 |:------:|	------	|	------	|	------	|	------	|
@@ -689,17 +723,17 @@ It is evident that the repeatability in Y and Z is 30-40 microns (almost accepta
 
 
 [MiR advised](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838): As a test you could try if round-robin swapping the motor connectors (X->Y Y->Z Z->X ) also moves the problem. 
-**When you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**   If problem is still on same axes then it is something mechanical connected to that specific tower, if the problem moves it is related to electronics/software/configuration.  The swapping did not show conclusive results: but it did show that the bed, even while 'levelled' is not perpendicular to the towers.  Major re-adjustment was required to re-level the bed and available time cut the experiment short.
+**When you swap motor wires (between X, Y, and Z towers), also swap the endstop switches to go with the motors.  If a stepper motor connects to the X driver, the endstop on the same tower must connect to the X endstop pins on the RAMPS board.**   If problem is still on same axes then it is something mechanical connected to that specific tower, if the problem moves it is related to electronics/software/configuration.  The swapping did not show conclusive results: but it did show that the bed, even while 'levelled' is not perpendicular to the towers.  Major re-adjustment was required to re-level the bed and available time cut the experiment short.
 
 Motor pulley screws are confirmed to be very tight.
 
-I checked and retightened the screws holding the towers to the top and bottom plates.  
+I checked and re-tightened the screws holding the towers to the top and bottom plates.  
 
 And still the x-axis stability is no better than 100 to 150 microns, in random jumps.
 
 So there is more work to be done. My next steps are to 
 
 - check the X-tower stepper motor noise damper.
-- replace the X-tower end-stop PCB.
+- replace the X-tower endstop PCB.
 - replace the DRV8825 driver board.
 - replace the X-tower stepper motor.

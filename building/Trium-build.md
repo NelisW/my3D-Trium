@@ -5,18 +5,18 @@ The reference information for Trium construction is the E-Mergin Innovation [Use
 This document is supplementary to the E-Mergin reference documentation and serves to capture some of the information
 -  found on the [Trium ProBoard web site](http://trium3d.proboards.com),
 -  found on the [Trium Facebook page](https://www.facebook.com/groups/emergin/) (For my own part, I find the Facebook interface confusing and I don't spend much time there), 
--  learned by a few builders when contructing their Trium printers, and 
+-  learned by a few builders when constructing their Trium printers, and 
 -  found on the internet,
 
 Several Trium users also freely share their findings and proposals for improvement. MiR did a good job of documenting the build process [here](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond).  This document borrows text and pictures freely from MiR's write up. Several others also contribute freely to the forum and the facebook page and also made comments to this document, these users include janlu, Rajaa Kahel, mikeeitel, Bill B, digid, and others.
 
 References to page numbers in the Trium User Manual (Rev 0.15) are given as pNN.
 
-I am not yet finished building my Trium, neiter am I in too much of a hurry to do this quickly. The document will be updated every day or two with the latest information as I proceed. Visit here often to make sure you get the latest version.
+I am not yet finished building my Trium, neither am I in too much of a hurry to do this quickly. The document will be updated every day or two with the latest information as I proceed. Visit here often to make sure you get the latest version.
 
 This is my first printer and, despite my prior reading, the opened box posed quite a daunting picture. I enjoy writing and sharing  ([here](http://spie.org/Publications/Book/2021423) and [here](https://github.com/NelisW/ComputationalRadiometry)), so I decided to write up my experiences and learning  building up the printer. This document is offered in an effort to help others - especially novice 3d printer builders. My own status as a novice means that I can address some of your questions. I do not provide any guarantee, nor do I assume any liability for the content herein.  If it helps you I am happy, some other day perhaps you can help someone else. This is what open source is all about.
 
-This writeup is somewhat overwhelming in detail and volume. Some proposals here are in the 'nice-to-have' category, e.g., EMI filter, optocoupler bed level sensor interface, etc. Read through the doc, review these proposals and  implement what makes sense to you.  Building the printer should be based on common sense and your intuition. It is however important to read a lot and read widely to ensure that you make an informed decision.  
+This write-up is somewhat overwhelming in detail and volume. Some proposals here are in the 'nice-to-have' category, e.g., EMI filter, optocoupler bed level sensor interface, etc. Read through the doc, review these proposals and  implement what makes sense to you.  Building the printer should be based on common sense and your intuition. It is however important to read a lot and read widely to ensure that you make an informed decision.  
 
 **Note:** Most of the work we do on the Top Plate electronics and extruder is in the upside-down orientation, which means that left and right are switched.  I frequently found myself forgetting this - always think about the Top Plate assembly orientation when considering left/right or the tower naming convention.
 
@@ -100,7 +100,7 @@ The following picture obtained [here](https://print3d.com.pk/wp-content/uploads/
 
 ## Reuleaux print area
 
-A delta printer's print area is defined by the reach of all three delta arms and the actual print area is a clipped [Reuleaux triangle](https://en.wikipedia.org/wiki/Reuleaux_triangle) according to [Ryan Carlyle](https://groups.google.com/forum/#!topic/deltabot/xH_FIgClU9k).    The actual Trium print area will be the intersetion of the hot bed circle and the Trium's Reuleaux triangle.
+A delta printer's print area is defined by the reach of all three delta arms and the actual print area is a clipped [Reuleaux triangle](https://en.wikipedia.org/wiki/Reuleaux_triangle) according to [Ryan Carlyle](https://groups.google.com/forum/#!topic/deltabot/xH_FIgClU9k).    The actual Trium print area will be the intersection of the hot bed circle and the Trium's Reuleaux triangle.
 
 
 # Notes
@@ -134,7 +134,7 @@ If wired correctly, the electricity supply convention in most parts of the world
 - The brown wire is 'live' and is at 115 or 230 V relative to neutral. This is the dangerous wire. Under normal circumstances the electricity flows between live and neutral. No current from live/brown ever flows to the green/earth wire (if it does, this is called a fault condition). If your feet are touching wet soil and you touch the live (brown) wire the electricity will flow from live, through your body and feet into the earth/ground, potentially killing you in a most unpleasant manner.
 - Most electricity safety codes require a device (residual current device or earth leakage relay) which measures the difference in current flow between live and neutral. If this current exceeds some small value (20 mA) it means that some current from live is flowing to earth: an undesired fault condition.  The device then breaks the electricity supply - not because of over-current but because of current earth leakage.
 
-All of the above apply when a three-pin connection is made to the electricity supply. If your country only have a two-pin supply or if your cable only has two pins and no earth conductor, the situation is very different. The wall plug can be plugged in in any orientation: there is no disctinction between Live and Neutral any more. And even worse, there is no Earth connection.  Also, despite electricity safety codes' requirements, it may be that in some cases the Live and Neutral wires are exchanged, so that the terminal labelled with 'Neutral' may in fact be live.  This can happen is someone wired a plug the wrong way around - which happens frequently.  
+All of the above apply when a three-pin connection is made to the electricity supply. If your country only have a two-pin supply or if your cable only has two pins and no earth conductor, the situation is very different. The wall plug can be plugged in in any orientation: there is no distinction between Live and Neutral any more. And even worse, there is no Earth connection.  Also, despite electricity safety codes' requirements, it may be that in some cases the Live and Neutral wires are exchanged, so that the terminal labelled with 'Neutral' may in fact be live.  This can happen is someone wired a plug the wrong way around - which happens frequently.  
 
 According to [this video](https://www.youtube.com/watch?v=Bqar4cuVF_A), the colour code (or is it color code?) in the US is as follows. So please translate the colours to your local custom.  Please take the time and watch this video.
 
@@ -151,7 +151,7 @@ At this point the issue of case earthing or grounding should be considered. The 
 
 - Your 115/230V earth/ground, the green (green/yellow) wire from the house network (if Earth is available).
 -  The Trium metal case.
--  The power supply zero voltage terminal (by convention zero voltage is normally the negative (black or -) terminal in the bipolar power supply, whereas the positive (red or +) is at some nonzero voltage (12V in this case).
+-  The power supply zero voltage terminal (by convention zero voltage is normally the negative (black or -) terminal in the bipolar power supply, whereas the positive (red or +) is at some non-zero voltage (12V in this case).
 
 The User Manual does not prescribe any connection: all three a disconnected from each other (if there are no connections inside the power supply, which is normally the case).  All three therefore 'float' with respect to each other: there can be some voltage between any of these.
 
@@ -169,7 +169,7 @@ If you have a two-pin electricity supply, there is no Earth to connect to the ca
 
 It the printer electronics PSU module zero (black wire) is not connected to the frame, it means that the electronics reference floats with respect to the frame.  Any part of the electronics can touch the frame with no ill effect.  The disadvantage of this approach is the EMI is harder to control because the frame/case is floating with respect to the electronics.
 
-If the power supply 0V negative/black is securely connected to the chassis, the case is not floating with respect of the electronics and EMI is easier to contain. However, because the frame is now at the 0V reference, if the +12V or some electronics output now touch the frame it will result in a short circuit fault, possibly destroying electronics components. For this reason some people prefer to fit a low resistance 100-1000 Ohm between the case and negative/black which will somewhat limit the current flow under fault conditions, but prevent electrostatic voltage buildup damage to the electronics.
+If the power supply 0V negative/black is securely connected to the chassis, the case is not floating with respect of the electronics and EMI is easier to contain. However, because the frame is now at the 0V reference, if the +12V or some electronics output now touch the frame it will result in a short circuit fault, possibly destroying electronics components. For this reason some people prefer to fit a low resistance 100-1000 Ohm between the case and negative/black which will somewhat limit the current flow under fault conditions, but prevent electrostatic voltage build-up damage to the electronics.
 
 #### Where to connect to the frame/case
 
@@ -187,7 +187,7 @@ My preference would be to take two wires (one from green/earth and one from nega
 
 **Please do this test!**  
 *In the entire procedure below the printer should not be plugged into the electricity supply in the wall.*  We want to measure the wires that normally carry lethal voltages when plugged into the wall. So please pull the plug and keep it pulled.  In this procedure we assume that your house wiring is done correctly and we now want to verify that the printer and cable used with the printer is set up correctly.
-- Unplug the black printer supply cable from your mains connector in the wall.  In other words, pull the mains plug well free from the electricity suppply.  And keep it free for the entire test.
+- Unplug the black printer supply cable from your mains connector in the wall.  In other words, pull the mains plug well free from the electricity supply.  And keep it free for the entire test.
 - Plug the kettle cord side into the C14 connector on your printer (the C14 is the thing in the pictures below).
 - Switch off the C14 switch on the printer (0 position).
 - Use the table below and measure the continuity between the pins on the plug that normally goes into the wall (but don't plug it into the wall!!!) and the wires on terminal on the printer's power supply (picture above).
@@ -262,7 +262,7 @@ The two TRIUM firmware versions (standard/DH and E3D) differ in the following fi
 For more information see:
 - [Configuring Marlin](http://marlinfw.org/docs/configuration/configuration.html)
 - [How to flash](http://marlinfw.org/docs/basics/install.html)
-- [Automatic Bed Leveling](http://marlinfw.org/docs/features/auto_bed_leveling.html)
+- [Automatic Bed Levelling](http://marlinfw.org/docs/features/auto_bed_levelling.html)
 - [Linear Advance extrusion algorithm](http://marlinfw.org/docs/features/lin_advance.html)
 - [Marlin development](http://marlinfw.org/meta/development/)
 - [List of GCodes understood by Marlin RC8](http://marlinfw.org/meta/gcode/)
@@ -357,14 +357,17 @@ The thermistor resistance values given above are open circuit values, but in the
 It would not normally be necessary to calibrate your thermistors, but if you need to, see [here](http://reprap.org/wiki/Thermistor), [here](http://www.thingiverse.com/thing:103668), [here](https://github.com/reprap/firmware/blob/master/createTemperatureLookup.py), and [here](http://hydraraptor.blogspot.co.za/2007/10/measuring-temperature-easy-way.html).
 
 
-## Rod replacement
+## Rod and ball replacement
 
 Steffen Bleich had a mishap where some rods broke.  He ordered this rods [here](https://www.ultibots.com/magball-arms-288mm-delrin/) in the hope that it will work also fine or maybe even better.  The rods obtainable [here](https://www.ultibots.com/magball-ends-set-of-12/) already include the required 12 balls and nuts. The balls have a M3-thread and should fit fine into the Trium hardware. The maker of the rods is [this company](https://groups.google.com/forum/#!msg/deltabot/mPw1SJ2f9Vw/55vmV3sPDQAJ)
+
+MiR found [this company](http://www.kugel-rollen.de/product_info.php/info/p51_8-000-mm---M3-Sacklochgewinde---V4A-polierte-Ausfuehrung.html) that might  be able to provide the  balls that should work for the Trium printer:
+
 
 
 ## Bed levelling sensor
 
-The inductive sensor reacts to metal only (not to glass). The 4 mm detection range apply when used with iron, [for aluminium the distance](https://3dprint.wiki/reprap/anet/a8/improvement/autobedleveling) is around 1.2-1.5 mm (so don't use a glass bed on top of the aluminium).
+The inductive sensor reacts to metal only (not to glass). The 4 mm detection range apply when used with iron, [for aluminium the distance](https://3dprint.wiki/reprap/anet/a8/improvement/autobedlevelling) is around 1.2-1.5 mm (so don't use a glass bed on top of the aluminium).
 
 The sensor needs a power supply from 6 to 36 V (12 V for the Trium). The output signal can then potentially swing between near zero to the sensor supply voltage - and this could exceed the allowable voltage on the Arduino input pin. In this case some voltage conditioning is required. Sometimes the sensors are working at 5V (the voltage delivered by the RAMPS board), however, most of the sensors need a higher voltage to work.
 
@@ -382,9 +385,9 @@ You can see which sensor was delivered with your kit by looking at the small lab
 
 <a href="https://opencircuit.nl/ProductInfo/1000064/LJ12A3.pdf"><img src="images/LJ12A3-4-Z.JPG" ></a>
 
-Designing an interface between the sensor and the Arduino is [further complicated](https://3dprint.wiki/reprap/anet/a8/improvement/autobedleveling) by the fact that the open collector status of the sensor is not known (Chinese versions apparently mostly/often have pull-up resistors internally to the sensor: there could be a voltage on the black wire).  Depending on your sensor:
+Designing an interface between the sensor and the Arduino is [further complicated](https://3dprint.wiki/reprap/anet/a8/improvement/autobedlevelling) by the fact that the open collector status of the sensor is not known (Chinese versions apparently mostly/often have pull-up resistors internally to the sensor: there could be a voltage on the black wire).  Depending on your sensor:
 - NPN with no internal pull-up resistor to +V (open collector): safe to use with 5V Arduino.  Just connect to the board, but switch on the Arduino internal  pull-up resistor or add one externally.
-- NPN with an (unknown value) sensor-internal pull-up resistor to +V: the voltage on the sensor  output may exceed 5V when not triggered. Some form of voltage conditioning is required; internet posts propose opto-couplers, voltage dividers or diodes in various configurations.
+- NPN with an (unknown value) sensor-internal pull-up resistor to +V: the voltage on the sensor  output may exceed 5V when not triggered. Some form of voltage conditioning is required; internet posts propose optocouplers, voltage dividers or diodes in various configurations.
 - PNP output voltage will always swing between near zero and the sensor supply voltage. Some form of voltage conditioning is always required; internet posts often propose voltage dividers.
 
 To determine if the sensor is open collector, wire it up and measure the output voltage (black) with respect to ground (blue). When triggered, if the output voltage does not change significantly it is open collector.  If there is an internal pull-up resistor the measured signal voltage will change.
@@ -408,21 +411,21 @@ Most logic conventions assume a high value to mean a triggered value and a low v
 |PNP|false |true |
 |NPN|true |false |
 
-So in my case with both NO and NC sensors, it seems that I would have to reflash the firmware for changing logic  when changing printing heads.  A better solution would be some electronics on the printing head that will always give a consistent polarity output.
+So in my case with both NO and NC sensors, it seems that I would have to re-flash the firmware for changing logic  when changing printing heads.  A better solution would be some electronics on the printing head that will always give a consistent polarity output.
 
-After some consideration I decided on the following solution (the Z/AY circuit was built and it works very well). The idea is to employ an opto-coupler circuit to take care of the voltage incompatibilities and also to configure the output logic to be positive (1 for proximity and 0 for not proximity), irrespective of the sensor on my print head.  The wiring for each sensor configuration is slightly different but the output logic to the Arduino firmware is consistent between the variants.  The component values are selected for a 10 mA LED current and assuming a 1:1 ratio between LED current and transistor current.  Depending on the value of the Arduino internal pull-up resistor the NO `low` voltage will be between 0.3 and 0.7 V.  The sensor positive supply voltage will be 12 V, taken from the red heat sink cooling fan wire, and the ground will be taken from the black heat sink cooling fan wire. Cut the three sensor wires (BR=brown, BU=blue, BL=black) and insert the opto-coupler components as shown below.  
+After some consideration I decided on the following solution (the Z/AY circuit was built and it works very well). The idea is to employ an optocoupler circuit to take care of the voltage incompatibilities and also to configure the output logic to be positive (1 for proximity and 0 for not proximity), irrespective of the sensor on my print head.  The wiring for each sensor configuration is slightly different but the output logic to the Arduino firmware is consistent between the variants.  The component values are selected for a 10 mA LED current and assuming a 1:1 ratio between LED current and transistor current.  Depending on the value of the Arduino internal pull-up resistor the NO `low` voltage will be between 0.3 and 0.7 V.  The sensor positive supply voltage will be 12 V, taken from the red heat sink cooling fan wire, and the ground will be taken from the black heat sink cooling fan wire. Cut the three sensor wires (BR=brown, BU=blue, BL=black) and insert the optocoupler components as shown below.  
 
 Don't connect the 12V and 5V grounds together, keep them separate at the optocoupler - there is no need to connect. If fact, if you connect them you create an earth loop which is potentially bad for EMI.
 
 <img src="images/LJ12A3-optocoupler.png">
 
 Test the probes operation [as follows](https://www.repetier.com/documentation/repetier-firmware/z-probing/): 
-First check is always if signals are correct. So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_ENDSTOP_INVERTING` (`Z_PROBE_ON_HIGH` for Repetier firmare). If nothing changes you have either the wrong pin used or configured, or pull-up must be different. Fix it and continue.
+First check is always if signals are correct. So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_ENDSTOP_INVERTING` (`Z_PROBE_ON_HIGH` for Repetier firmware). If nothing changes you have either the wrong pin used or configured, or pull-up must be different. Fix it and continue.
 
 
 For more information see
 [Repetier firmware z-probe details](https://www.repetier.com/documentation/repetier-firmware/z-probing/), 
-[description of how the sensors work](http://www.ab.com/en/epub/catalogs/12772/6543185/12041221/12041227/print.html), [description and circuit diagram](http://www.electroschematics.com/12295/inductive-proximity-switch-w-sensor/), [opto-coupler connection](http://electronics.stackexchange.com/questions/101624/how-to-connect-a-inductive-proximity-sensor-switch-npn-dc6-36v-to-pic18f4550-5v), [here](http://forums.reprap.org/read.php?219,533688,539308), [here](http://electronics.stackexchange.com/questions/101624/how-to-connect-a-inductive-proximity-sensor-switch-npn-dc6-36v-to-pic18f4550-5v), [here](http://www.thingiverse.com/thing:539692), [here](http://forums.reprap.org/read.php?219,533688,539308), [here](http://www.printrbottalk.com/forum/viewtopic.php?f=21&t=7372), [here](https://3dprint.wiki/reprap/anet/a8/improvement/autobedleveling), [here](http://www.fabric8r.com/forums/archive/index.php/t-1745.html), [here](https://www.theautomationstore.com/npn-pnp-devices-and-connections/), [here](http://www.instructables.com/id/Enable-Auto-Leveling-for-your-3D-Printer-Marlin-Fi/?ALLSTEPS), and [here](https://sensortech.wordpress.com/2011/01/18/industrial-sensing-fundamentals-%E2%80%93-back-to-the-basics-npn-vs-pnp/).
+[description of how the sensors work](http://www.ab.com/en/epub/catalogs/12772/6543185/12041221/12041227/print.html), [description and circuit diagram](http://www.electroschematics.com/12295/inductive-proximity-switch-w-sensor/), [optocoupler connection](http://electronics.stackexchange.com/questions/101624/how-to-connect-a-inductive-proximity-sensor-switch-npn-dc6-36v-to-pic18f4550-5v), [here](http://forums.reprap.org/read.php?219,533688,539308), [here](http://electronics.stackexchange.com/questions/101624/how-to-connect-a-inductive-proximity-sensor-switch-npn-dc6-36v-to-pic18f4550-5v), [here](http://www.thingiverse.com/thing:539692), [here](http://forums.reprap.org/read.php?219,533688,539308), [here](http://www.printrbottalk.com/forum/viewtopic.php?f=21&t=7372), [here](https://3dprint.wiki/reprap/anet/a8/improvement/autobedlevelling), [here](http://www.fabric8r.com/forums/archive/index.php/t-1745.html), [here](https://www.theautomationstore.com/npn-pnp-devices-and-connections/), [here](http://www.instructables.com/id/Enable-Auto-Levelling-for-your-3D-Printer-Marlin-Fi/?ALLSTEPS), and [here](https://sensortech.wordpress.com/2011/01/18/industrial-sensing-fundamentals-%E2%80%93-back-to-the-basics-npn-vs-pnp/).
 
 
 
@@ -437,10 +440,10 @@ For more information see
 Carefully inspect the electronics boards for the following:
 
 
-- Bent pins (all pins must be perfectly straight and perpendicular to the PCB). Use a long-nose plier to carefully bend them back.
+- Bent pins (all pins must be perfectly straight and perpendicular to the PCB). Use a long-nose pliers to carefully bend them back.
 
 <img src="images/defect02.jpg" width="500">
-- Check for short circuits between pins. In the picture below solder bridges appear to short tracks and pins; note however that the solder bridge is on top of the conformal coating, so it will not result in a short.  If you do have shorts carefully remove and if necessary reflow the solder.
+- Check for short circuits between pins. In the picture below solder bridges appear to short tracks and pins; note however that the solder bridge is on top of the conformal coating, so it will not result in a short.  If you do have shorts carefully remove and if necessary re-flow the solder.
 
 <img src="images/defect03.jpg" width="500">
 - Check for broken tracks. Hairline cracks are very hard to spot, obviously broken tracks such as caused by scratches are easier to spot
@@ -461,14 +464,14 @@ Inspect the mechanics and other hardware:
 
 - Presumably the aluminium parts are accurately cut to size - this is the main reason to buy the Trium: the excellent metal frame.
 - Check the length of the GT2 belts, some users reported they barely fit.
-- Check the length of the Bowden/ptfe tube, it could be [too short](http://trium3d.proboards.com/thread/13/anybody-successfull-print-new-trium?page=6): on one printer the ptfe tube  is too short and at x=-90 y0 z0 it pulls up the head.  The solution is to use longer (1 m) tubes.
+- Check the length of the Bowden/PTFE tube, it could be [too short](http://trium3d.proboards.com/thread/13/anybody-successfull-print-new-trium?page=6): on one printer the PTFE tube  is too short and at x=-90 y0 z0 it pulls up the head.  The solution is to use longer (1 m) tubes.
 
 # Arduino and RAMPS boards
 
 
 ## Arduino
 
-The Arduino board can be powered in one of three ways: (1) 5 V via the USB, (2) 7-14 V via the Vin pin, or (3)  7-14 V via the round power connector on the board.  In this case the Arduino board gets 12 V power on its Vin pin  from RAMPS board (see the lower left corner of the RAMPS circuit diagram).  The power flows from the RAMPS 12 V input, through the MRF500 fuse and a diode to the Vin pin.  If the Arduino board only works on USB but not from the RAMPS board it may be a bent pin, blown fuze or some other disconnect.  You should be able to power up the Arduino using 12 V from the power supply into the round power connector.
+The Arduino board can be powered in one of three ways: (1) 5 V via the USB, (2) 7-14 V via the Vin pin, or (3)  7-14 V via the round power connector on the board.  In this case the Arduino board gets 12 V power on its Vin pin  from RAMPS board (see the lower left corner of the RAMPS circuit diagram).  The power flows from the RAMPS 12 V input, through the MRF500 fuse and a diode to the Vin pin.  If the Arduino board only works on USB but not from the RAMPS board it may be a bent pin, blown fuse or some other disconnect.  You should be able to power up the Arduino using 12 V from the power supply into the round power connector.
 
 ## Firmware
 
@@ -478,11 +481,11 @@ Install the firmware as shown [here](https://www.youtube.com/watch?v=Rwoz79IAFwI
 
 When flashing the firmware you will get a [time-out message if](https://www.kickstarter.com/projects/873464596/trium-delta-3d-printer/posts/1772659) (1) if you have a bluetooth chip connected, (2) if the slicer is currently accessing the board, or (3) [the USB cable may not seat properly](https://www.facebook.com/groups/emergin/permalink/1865886796982413/).
 
-If the Arduino IDE is installed, the necessary serial drivers should be installed as well.  On the forum and facebook page, the Trium users often refer to the `FTDI` driver to be installed.  The serial chip used in many (if not all) Chinese Arduino boards are in fact the CH340, see [here](http://www.microcontrols.org/arduino-uno-clone-ch340-ch341-chipset-usb-drivers/) and [here](https://www.youtube.com/watch?v=Ix4t-_RZ7NI).  It seems that the drivers are availabe [here](http://www.wch.cn/download/CH341SER_ZIP.html), but download at your own risk. On the [Trium forum](http://trium3d.proboards.com/thread/24/problems-recognizing-trium-usb-port) E-Mergin advises that the FTDI drivers be downloaded from [here](http://www.ftdichip.com/Drivers/D2XX.htm).
+If the Arduino IDE is installed, the necessary serial drivers should be installed as well.  On the forum and facebook page, the Trium users often refer to the `FTDI` driver to be installed.  The serial chip used in many (if not all) Chinese Arduino boards are in fact the CH340, see [here](http://www.microcontrols.org/arduino-uno-clone-ch340-ch341-chipset-usb-drivers/) and [here](https://www.youtube.com/watch?v=Ix4t-_RZ7NI).  It seems that the drivers are available [here](http://www.wch.cn/download/CH341SER_ZIP.html), but download at your own risk. On the [Trium forum](http://trium3d.proboards.com/thread/24/problems-recognizing-trium-usb-port) E-Mergin advises that the FTDI drivers be downloaded from [here](http://www.ftdichip.com/Drivers/D2XX.htm).
 
 ## Setting up the RAMPS board
 
-(p38) The Trium uses the RAMPS 1.4. The following picture shows how the wires are connected.  The cable orientation are shown in the short colour bars for the inductive sensor, the end-stops and the stepper drivers. For example, the black wire on the stepper cables should be on 1B. The complete wiring diagram is also shown below, showing the cable colour next to each connector.
+(p38) The Trium uses the RAMPS 1.4. The following picture shows how the wires are connected.  The cable orientation are shown in the short colour bars for the inductive sensor, the endstops and the stepper drivers. For example, the black wire on the stepper cables should be on 1B. The complete wiring diagram is also shown below, showing the cable colour next to each connector.
 
 <img src="images/RAMPS-connections.jpg">
 <img src="images/Trium-wiring.jpg">
@@ -632,7 +635,7 @@ If the SD card is [not detected](https://www.facebook.com/groups/emergin/permali
 
 [mikeeitel proposed](http://trium3d.proboards.com/thread/51/emv-protection) some measures to lower interference. I added a few additional recommendations. These are:
 
-- Route the LCD cables below the Arduino (between the Arduino and the aluminium case), to prevent interference from the stepper drivers into the LCD cables (the ribbon cable does not have screening).  Do the same for the stepper driver extender card.  The stepper driver chips feed high frequency noise into the heat sinks, which then radiates EMI signals (perhaps one can ground the heat sinks?). Keeping the LCD and other wires away from the stepper drivers helps lower EMI pickup. This picture shows the ribbon cables passing underneath the Arduino and stepper driver extender board.  It keeps the ribbon cables out the way and reduces the risk of EMI.  The added benefit is that the layout is cleaner with less cable clutter. Some users complained that the LCD screen shows gibberish - this is caused by EMI: the LCD should reset every 10 seconds, alternatively press the rotating button.
+- Route the LCD cables below the Arduino (between the Arduino and the aluminium case), to prevent interference from the stepper drivers into the LCD cables (the ribbon cable does not have screening).  Do the same for the stepper driver extender card.  The stepper driver chips feed high frequency noise into the heat sinks, which then radiates EMI signals (perhaps one can ground the heat sinks?). Keeping the LCD and other wires away from the stepper drivers helps lower EMI interference. This picture shows the ribbon cables passing underneath the Arduino and stepper driver extender board.  It keeps the ribbon cables out the way and reduces the risk of EMI.  The added benefit is that the layout is cleaner with less cable clutter. Some users complained that the LCD screen shows gibberish - this is caused by EMI: the LCD should reset every 10 seconds, alternatively press the rotating button.
 
 <img src="images/wiring02.jpg" width="500">
 
@@ -640,7 +643,7 @@ If the SD card is [not detected](https://www.facebook.com/groups/emergin/permali
 
 - Route the stepper cables over the power supply and from there as straight as possible, and away from other cables, in right angles to the drivers.
 
-- Try to keep the tower end-stop switch wiring away from the stepper motor wiring.
+- Try to keep the tower endstop switch wiring away from the stepper motor wiring.
 
 - Mount a large (>10 microF, >20V) electrolytic capacitor and a 100-470 nF capacitor in parallel directly to the output switched power supply. Be careful with the electrolytic capacitor polarity, connect the + side to the + PSU terminal. Note that all three + output screws on the PSU are connected to each other, and all three - output screws are connected to each other, so one set of capacitors will serve for all three connections,
 
@@ -763,13 +766,13 @@ Grinding is a considerable risk for softer filaments, but can also occur on PLA.
 
 ### Changing filament
 
-In your favorite printing software (or the LCD) you go into manual mode and heat up your hot end to about 190°C. When this temperature is reached, you release pressure from your extruder by pushing its arm down. Then pull the filament out with your other hand. Then you can fiddle new filament into the extruder and push it down until it reaches the hot end. In manual mode of your printer software, now extrude until the colour is clearly this of your new filament without bits of your previous one. To be on the safe side, you should also print a bigger brim for your next model to see if there was any old filament left in the nozzle. See [here](https://www.facebook.com/groups/emergin/permalink/1866813056889787/) and [here](https://www.facebook.com/groups/emergin/permalink/1863754567195636/).
+In your favourite printing software (or the LCD) you go into manual mode and heat up your hot end to about 190°C. When this temperature is reached, you release pressure from your extruder by pushing its arm down. Then pull the filament out with your other hand. Then you can fiddle new filament into the extruder and push it down until it reaches the hot end. In manual mode of your printer software, now extrude until the colour is clearly this of your new filament without bits of your previous one. To be on the safe side, you should also print a bigger brim for your next model to see if there was any old filament left in the nozzle. See [here](https://www.facebook.com/groups/emergin/permalink/1866813056889787/) and [here](https://www.facebook.com/groups/emergin/permalink/1863754567195636/).
 
 You can also use the LCD control. To preheat: `Prepare-> Preheat PLA (or Preheat ABS)`.  This method heats both the nozzle and the bed. You can also heat just the nozzle by `Control->Temperature->Nozzle`.
 
 
 ### Bowden tube maintenance
-[Maintaining the Bowden tube](https://fbrc8.zendesk.com/hc/en-us/articles/205658894-Maintenance-How-Do-I-Maintain-My-Printer-): Over time, the Bowden tube can experience wear and tear, especially if you’re using more abrasive filaments. When you start to experience trouble feeding, it’s worth taking a look at your Bowden tube to check for any sign of damage. The feeder end of the Bowden tube should be slightly widened out to help facilitate feeding material. The printhead end should be flat, and should be fully seated in the white PTFE coupler in the printhead.
+[Maintaining the Bowden tube](https://fbrc8.zendesk.com/hc/en-us/articles/205658894-Maintenance-How-Do-I-Maintain-My-Printer-): Over time, the Bowden tube can experience wear and tear, especially if you’re using more abrasive filaments. When you start to experience trouble feeding, it’s worth taking a look at your Bowden tube to check for any sign of damage. The feeder end of the Bowden tube should be slightly widened out to help facilitate feeding material. The print head end should be flat, and should be fully seated in the white PTFE coupler in the print head.
 
 
 ### Removing the Bowden tube
@@ -837,7 +840,7 @@ I am not sure what difference it will make to the noise levels, but at least I t
 
 ## Idler pulley p26
 
-The idler pulley is meant to hold the one end of the belt in place.  The pully should run free on the screw bolted to the tower. Lock the nuts on both sides of the extrusion. [Rajaa Kahel recommends](https://www.facebook.com/photo.php?fbid=701887786652707&set=p.701887786652707&type=3&theater) adding an additional M5 nut on the bolt that holds the idler pulley with less play, as shown in the third picture. The choice is up to you.
+The idler pulley is meant to hold the one end of the belt in place.  The pulley should run free on the screw bolted to the tower. Lock the nuts on both sides of the extrusion. [Rajaa Kahel recommends](https://www.facebook.com/photo.php?fbid=701887786652707&set=p.701887786652707&type=3&theater) adding an additional M5 nut on the bolt that holds the idler pulley with less play, as shown in the third picture. The choice is up to you.
 
 Assemble the pulley, but don't mount it in the tower just yet. It will be screwed in place just before fitting the belt.
 
@@ -864,7 +867,7 @@ So there are two options in mounting the stepper motor:
 
 2.  Mounting with the damper. In this mounting the motor spindle does not extend so far beyond the extrusion, but there seems sufficient exposed spindle length to mount the gear.  Follow this procedure to mount the motor:
   -  You may have to drill out some of the holes on the damper to full 3 mm bore, some seem to have M3 thread cut into the flange.
-  -  Stick two M3 nuts to the damper with glue or double sided tape. Cut out the hole in the tape with a craft knife to allow the screw the pass through.  This serves to hold the nut in place for construction when screwing the motor to the tower extrustion. Sticking the nut to the damper is *not for permament mounting*. It will become evident that it is almost impossible to mount the damper without this step: it holds the nut in place to screw into.
+  -  Stick two M3 nuts to the damper with glue or double sided tape. Cut out the hole in the tape with a craft knife to allow the screw the pass through.  This serves to hold the nut in place for construction when screwing the motor to the tower extrusion. Sticking the nut to the damper is *not for permanent mounting*. It will become evident that it is almost impossible to mount the damper without this step: it holds the nut in place to screw into.
   -  Turn the damper upside down so that the two stuck screws are pointing towards the motor and place it on the motor.
   -  Using the other two holes (not those with the nuts), screw the damper firmly to the motor with two M3x4 screws (not in the kit, purchase this yourself).
   -  Position the motor (with damper) under the mounting holes in the extrusion, drop screws down into the nuts held by glue or double sided tape and tighten the screws. Do this carefully, otherwise you may loosen the nut.
@@ -885,7 +888,7 @@ When working on the sliders work careful with (1) the ball joints and (2) the pl
 <img src="images/slider01.jpg" width=400>
 
 Notes before you start building: 
-- There is nothing holding the screw head in place. Once mounted in the tower you cannot get to this screw head.  It might be neccessary to unscrew the nuts later (see later) which means that you cannot properly tighten the nut because you cannot get to the screw head. Of course, once glued in place you cannot remove the screw, but that is a small price to pay for the convenience of working on the slider in the tower. It should be possible to replace the slider plastic parts, but if it comes to the worst, you would have to buy a new slider assembly if the plastic parts wear out.  You decide it you want to epoxy or not.
+- There is nothing holding the screw head in place. Once mounted in the tower you cannot get to this screw head.  It might be necessary to unscrew the nuts later (see later) which means that you cannot properly tighten the nut because you cannot get to the screw head. Of course, once glued in place you cannot remove the screw, but that is a small price to pay for the convenience of working on the slider in the tower. It should be possible to replace the slider plastic parts, but if it comes to the worst, you would have to buy a new slider assembly if the plastic parts wear out.  You decide it you want to epoxy or not.
 - The tape in the slider issue: from the video and some postings it is seen that the slider must get a layer of tape on the metal carrier below the outer slider plastic. Perhaps the tape stuck to the slider is to take up some play between the slider and the tower. I added this layer of tape when I assembled the printer the first time, but found that the slide friction was higher than I expected. Later when printing I found that the stepper motor was missing steps (see below). When I disassembled the printer to add the epoxy to the slider screws, I decided to not put tape on again.  The slider resistance was much less without the tape, and there was no appreciable play on the slider. When you build, test the slider first before applying the tape. You decide yourself.
 
 
@@ -924,34 +927,34 @@ It is evident that the sliders are within reasonable range of each other, none h
 
 When I disassembled the printer to epoxy the slider screws I decided to not use tape again: the slider friction was smaller.
 
-## End-stop PCB p25, p42
+## endstop PCB p25, p42
 
-**The preciseness of the  printer calibration and long-term calibration stability depend on these three end-stop PCBs as much as it depends on the nice sturdy frame.**  Keep in mind that we want 0.01 mm stability and repeatability on these flimsy switches.  It does not help that the frame is stable if there is some free play on the end-stops. So at the risk of repeating, make sure that your end-stop PCBs are mechanically sound. [digid recommends](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=800) that you  can interchange end-stop switches as a means to determine faulty devices (just be careful not to damage the plastic pins or the PCBs).  Given the nice frame, we should perhaps consider alternative end-stop mechanisms that better match the quality of the frame? 
+**The preciseness of the  printer calibration and long-term calibration stability depend on these three endstop PCBs as much as it depends on the nice sturdy frame.**  Keep in mind that we want 0.01 mm stability and repeatability on these flimsy switches.  It does not help that the frame is stable if there is some free play on the endstops. So at the risk of repeating, make sure that your endstop PCBs are mechanically sound. [digid recommends](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=800) that you  can interchange endstop switches as a means to determine faulty devices (just be careful not to damage the plastic pins or the PCBs).  Given the nice frame, we should perhaps consider alternative endstop mechanisms that better match the quality of the frame? 
 
-- Carefully inspect the end-stop PCB to ensure that the switch is properly and firmly mounted on the PCB.
-- Ensure that the plastic pillar mounts are properly fixed into the tower extrusion. The mechanical stability of the end-stop depends on these two pillars. If they can move, the calibration is lost.
+- Carefully inspect the endstop PCB to ensure that the switch is properly and firmly mounted on the PCB.
+- Ensure that the plastic pillar mounts are properly fixed into the tower extrusion. The mechanical stability of the endstop depends on these two pillars. If they can move, the calibration is lost.
 - Once mounted, there must be no freedom of movement on the PCB in any direction or rotation. It must be hard-fixed super stably.
 - The switch lever must be working properly with not too much freedom of movement (obviously it must move to switch).  Exactly how much freedom and play is allowed is not clear, because the switches on my printer are very loose.
 - The slider arm must provide good mechanical contact with the switch level.  On my printer the slider arm and switch are laterally displaced, with the lever only touching only on one half of the slider.
-- Carefully route the end-stop cable such that there is enough free play (cable not pulling the switch sideways).  I found that the X tower cable runs near the main case fan - vibration on the fan might transmit via a tight cable to the end-stop switch. The cable is mounted on the long side of the PCB, so any sideways pull will lever the PCB to rotate with maximum effect.
+- Carefully route the endstop cable such that there is enough free play (cable not pulling the switch sideways).  I found that the X tower cable runs near the main case fan - vibration on the fan might transmit via a tight cable to the endstop switch. The cable is mounted on the long side of the PCB, so any sideways pull will lever the PCB to rotate with maximum effect.
 
-Only mount the end-stop after the stepper motor is installed to prevent accidental damage to the end-stop.  Follow the procedure outlined on p25 and p42 to insert the plastic clips into the tower and then mount the end-stop PCBs on the clips.  
+Only mount the endstop after the stepper motor is installed to prevent accidental damage to the endstop.  Follow the procedure outlined on p25 and p42 to insert the plastic clips into the tower and then mount the endstop PCBs on the clips.  
 
 <img src="images/towers08.jpg">
 
-The end-stop must be mounted such that the micro-switch is pointing towards the bottom plate. 
+The endstop must be mounted such that the micro-switch is pointing towards the bottom plate. 
 
-Insert the slider into the tower with the long straight edge to the top / motor side. Verify that the slider can activate the end-stop switch.  Press down the end-stop PCB until you can hear the microswitch click when activated by the slider (perhaps turn down the music for this).
+Insert the slider into the tower with the long straight edge to the top / motor side. Verify that the slider can activate the endstop switch.  Press down the endstop PCB until you can hear the micro-switch click when activated by the slider (perhaps turn down the music for this).
 
-<img src="images/End-stop-mounted.jpg" width="250">
+<img src="images/endstop-mounted.jpg" width="250">
 
-Later when testing, you can check the status of the end-stop: when powered up, activating it should light up the LED.
+Later when testing, you can check the status of the endstop: when powered up, activating it should light up the LED.
 
 After inserting the slider, you can now screw in the idler pulley.
 
 ## Belt drive
 
-Once the stepper motor, end-stop, slide and idler pulley are all in place, prepare the relative height positioning of these parts to be on the same level. The teeth section of the gear must be at the same height as the belt mounting on the slider.  I measured the height of the belt mounting on the slider, relative to the inside sliding surface, to be 12 mm. Now screw down the GT2 gear on the motor and the idler pulley at the same height.
+Once the stepper motor, endstop, slide and idler pulley are all in place, prepare the relative height positioning of these parts to be on the same level. The teeth section of the gear must be at the same height as the belt mounting on the slider.  I measured the height of the belt mounting on the slider, relative to the inside sliding surface, to be 12 mm. Now screw down the GT2 gear on the motor and the idler pulley at the same height.
 
 <img src="images/gt2-belt-height.jpg">
 
@@ -959,7 +962,7 @@ Now fit the GT2 belt.  [Make sure that the towers' belts are assembled correctly
 
 When fixing the gear to the motor axis, ensure that one of the grub screws touches on the flat surface on the spindle.
 
-When fixing the idler pulley, use a nut to limit the freedom of sliting movement on the pulley so that it does not hit the tower extrusion. Leave sufficient axial movement on the pulley to self-align with the belt.  Secure the idler pulley screw with the two flange nuts, one from above and one from below the  extrusion wall.
+When fixing the idler pulley, use a nut to limit the freedom of sliding movement on the pulley so that it does not hit the tower extrusion. Leave sufficient axial movement on the pulley to self-align with the belt.  Secure the idler pulley screw with the two flange nuts, one from above and one from below the  extrusion wall.
 
 <img src="images/towers02.jpg" width="600">
 
@@ -1004,7 +1007,7 @@ I did not see my way open to struggle with the stepper motor plus damper in MiR'
 - Test the belt tension and adjust tighter or slacker by sliding back the fixer block and adjusting the length.
 - Repeat until the correct tension is found.
 
-How do we determine the best belt tension?   A Google search raises suggestions that when played like a guitar, the belt must sound like a bass guitar note.  Nobody tells you which note is required.  Initially I set the belt tension too high. Later I reduced the tension and the printer still worked well. So, don't set the tension too high.  I found it useful to press your ear against one of the tweors when playing the belt. You can hear the note clearly ringing through the structure.
+How do we determine the best belt tension?   A Google search raises suggestions that when played like a guitar, the belt must sound like a bass guitar note.  Nobody tells you which note is required.  Initially I set the belt tension too high. Later I reduced the tension and the printer still worked well. So, don't set the tension too high.  I found it useful to press your ear against one of the towers when playing the belt. You can hear the note clearly ringing through the structure.
 
 After setting up the GT2 belt the motor (mounted on the damper) spindle was tilted by quite an angle under the belt tension. I don't know if this is a problem? Perhaps the belt tension was too high?  A hard-mounted motor  without the damper should not tilt this far.
 
@@ -1052,7 +1055,7 @@ Assemble the Bottom Plate and three towers:
 
 - Loosen the six M6 screws and nuts, leaving some space between the frame and the nut.  The channels on the side of the tower must slide in between the Bottom Plate frame and the nut.  The nut must end up in the channel.
 - Place the Bottom Plate top-side up and slide each tower into an edge.  Move the tower until the M6 nut aligns with the channel on the side of the tower and slide into the channel.  The nut should be fully 'captured' in  the channel, preventing it to rotate.  
-- Once the nut is captured in the channel force the tower as far down as it will go.  Tighten the screw sufficiently well that the tower will not fall out when handling.  Final tighening will only be done later.
+- Once the nut is captured in the channel force the tower as far down as it will go.  Tighten the screw sufficiently well that the tower will not fall out when handling.  Final tightening will only be done later.
 - Repeat with the remaining towers, fixing to the Bottom Plate.
 
 <img src="images/tower-mounting-nut.jpg" width=500>
@@ -1061,8 +1064,8 @@ Assemble the Bottom Plate and three towers:
 
 <img src="images/bed-wiring-01.jpg" width=500 >
 
-- Twist both sets of wires, all the way from the bed to the final connection. The tigher twisted, the better the EMI rejection will be - but be reasonable in the process.
-- Secure the two pairs of bed wires at the top end of the towers. The wires leave the top of the tower in the cutout made for the stepper motor spindle.
+- Twist both sets of wires, all the way from the bed to the final connection. The tighter twisted, the better the EMI rejection will be - but be reasonable in the process.
+- Secure the two pairs of bed wires at the top end of the towers. The wires leave the top of the tower in the cut-out made for the stepper motor spindle.
 
 <img src="images/integration02.jpg" >
 
@@ -1070,10 +1073,10 @@ Assemble the Bottom Plate and three towers:
 - Confirm that the stepper motor cables on all three towers are plugged in. Confirm NOW!
 - Prepare the screws and nuts in the Top Plate, as for the Bottom Plate.
 - Turn the Bottom & towers assembly upside down and carefully lower onto the Top Plate, aligning the nuts with the channels in the towers.  
-- Watch out that the end-stop boards are not damaged when inserting the towers into the Top Plate.  There is a cutout in the Top Plate that should clear the end-stops, just take care when inserting.
+- Watch out that the endstop boards are not damaged when inserting the towers into the Top Plate.  There is a cut-out in the Top Plate that should clear the endstops, just take care when inserting.
 - Be careful that the stepper motor cables are not damaged.
 
-<img src="images/end-stop-in-Top.jpg" width=500 >
+<img src="images/endstop-in-Top.jpg" width=500 >
 
 
 - The tower should fit nicely between the sides of the Top Plate.  Force the towers all the way to the bottom - at least as far as it will go.
@@ -1092,7 +1095,7 @@ The use of a piece of wood and hammer may not be clear to some. Never hit a meta
 - Ensure that all three towers seat perfectly in the Top and Bottom Plates. The geometrical accuracy of the printer frame critically depends on this step.  Any gap will result in a distortion in the designed geometry. This distortion will later lead to errors in the print geometry.  The geometrical integrity of a delta printer is key to a good print - take special care in this regard.
 - Now finally tighten all the M6 screws in the Top and Bottom Plates securely.  Hereafter the frame should be stiff and strong.
 
-If you forgot to plug in the tower stepper motor cables before assembly, you have to open the Top Plate at each tower slightly to plug in the cable.  This is easier that I thought at first, considering how I had to hammer the Top Plate into position.  Loosen all six screws in the Top Plate.  Turn the printer top-side-up and use the mallet (or wood and hamer) to  carefully lift the Top Plate.  Bt very careful that you do not damage the end-stop boards!! You only have to lift to find clearance to fit the cable's white connector. Afterwards carefully push the Top Plate into position again.  The second time it is a lot easier to find proper seating.  Tighten all the screws again.
+If you forgot to plug in the tower stepper motor cables before assembly, you have to open the Top Plate at each tower slightly to plug in the cable.  This is easier that I thought at first, considering how I had to hammer the Top Plate into position.  Loosen all six screws in the Top Plate.  Turn the printer top-side-up and use the mallet (or wood and hammer) to  carefully lift the Top Plate.  Bt very careful that you do not damage the endstop boards!! You only have to lift to find clearance to fit the cable's white connector. Afterwards carefully push the Top Plate into position again.  The second time it is a lot easier to find proper seating.  Tighten all the screws again.
 
 <img src="images/towers09.jpg" width="400">
 
@@ -1117,7 +1120,7 @@ For the bed heater I wanted more turns on the ferrite ring. I had some cheap Chi
 The thermistor wires are the thin red en black wires coming up one of the towers. 
 - Measure the resistance (should be 100 kOhm before plugging in) between the two wires to verify that the connections are still intact.
 - Try to keep the wires twisted all the way to the connector.
-- Pass the thermister wires under the Arduino and stepper extender boards to keep the wires away from the stepper driver wires.
+- Pass the thermistor wires under the Arduino and stepper extender boards to keep the wires away from the stepper driver wires.
 - Plug the wire into the T1 connection on the RAMPS board (the middle pair of the six pins). Polarity is not important.
 - Keep the wires clear from the stepper motor gear.
 
@@ -1134,13 +1137,13 @@ If the bed thermistor is broken or not connected, the printer will halt with the
 
 
 
-### End-stop cables
+### endstop cables
 
-Wiring up the end-stop cables is simple, just be careful where you plug into the RAMPS board, and also be careful of the connector orientation. When powered up, you can confirm the end-stop working bt pressing the switch and noting that the LED on the board lights up.
+Wiring up the endstop cables is simple, just be careful where you plug into the RAMPS board, and also be careful of the connector orientation. When powered up, you can confirm the endstop working bt pressing the switch and noting that the LED on the board lights up.
 
-**If ever you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**
+**If ever you swap motor wires (between X, Y, and Z towers), also swap the endstop switches to go with the motors.  If a stepper motor connects to the X driver, the endstop on the same tower must connect to the X endstop pins on the RAMPS board.**
 
-<img src="images/end-stop-connection.jpg" width="250">
+<img src="images/endstop-connection.jpg" width="250">
 
 
 ### Stepper motor cables
@@ -1150,7 +1153,7 @@ When plugging in the stepper motor cables match the colour in the cable with the
 If you did not correctly assemble the tower belt up/down movement then [you can switch motor rotation this](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond#ixzz4WNQFpLaK) by turning the motor connector on the RAMPS board, for that tower, by 180 degrees. It is however better to stick with the convention and change the belt direction mechanics.
 
 
-**If ever you swap motor wires (between X, Y, and Z towers), also swap the end-stop switches to go with the motors.  If a stepper motor connects to the X driver, the end-stop on the same tower must connect to the X end-stop pins on the RAMPS board.**
+**If ever you swap motor wires (between X, Y, and Z towers), also swap the endstop switches to go with the motors.  If a stepper motor connects to the X driver, the endstop on the same tower must connect to the X endstop pins on the RAMPS board.**
 
 
 <img src="images/stepper-cable-wiring.jpg" width="450"><img src="images/tower-conventions04.jpg" width="200">
@@ -1161,7 +1164,7 @@ Finally, note that this proposal address *printing at slow speeds and with low v
 
 <img src="images/Cabristor-smoother.png" width="150"><img src="images/chinese-TL-smoothers.jpg" width="500">
 
-I constructed and installed a makeshift version of cabristor's diode solution. It's performance is not properly tested yet.  The high current diodes are quite large and the three modules clutter the RAMPS board quite badly.  At some  point I might move them elsewhere.
+I constructed and installed a makeshift version of cabristor's diode solution. It's performance is not properly tested yet.  The high current diodes are quite large and the three modules clutter the RAMPS board quite badly.  At some  point I might move them elsewhere.  After some hours of use I removed these again, perhaps I did not print slow enough.
 
 <img src="images/cabristor-smoother-built.jpg" width="450">
 
@@ -1184,7 +1187,7 @@ Starting from the 'bottom', wire the Molex loom as follows:
 
 ### Top Plate wiring conclusion
 
-These pictures shows the wiring of the Top Plate completed. Note that I tried to keep the stepper motor cables tied together and away from the flat ribbon cables and the USB extender cable.  The end-stop cables are also kept together (near the top of the picture).  I believe it is important to keep all connectors open for inspection and verification before switching on.  The area around the output of the power supply is too crowded for my liking.
+These pictures shows the wiring of the Top Plate completed. Note that I tried to keep the stepper motor cables tied together and away from the flat ribbon cables and the USB extender cable.  The endstop cables are also kept together (near the top of the picture).  I believe it is important to keep all connectors open for inspection and verification before switching on.  The area around the output of the power supply is too crowded for my liking.
 
 <img src="images/top-plate-wiring-02.jpg" width="800">
 
@@ -1257,13 +1260,13 @@ The [the E3D-lite wiki page](http://wiki.e3d-online.com/wiki/E3D-Lite6_Assembly)
 - The thermistor is small and fragile. Be gentle with the legs. The bead is made of glass - don't crush! It is also very small, so don't breathe it in.
 - You are dealing with high temperatures - the HotEnd gets hot, and may be off your printer when you do the initial tightening. If you touch it, you will get burned!
 - You are dealing with high currents, make sure you double check all your wiring and your power supply rating. It is not recommended to work on anything whilst it is plugged in. Bad wiring with improper current ratings can cause fire.
-- Any 3D printer can be a fire hazard. You are using experimental technology to heat and melt plastic, in a machine that you may have built or modified yourself, that likely does not have safety certification or significant failsafes. Fire/Smoke alarms, supervision of your printer while printing, and expertise should not be considered optional.
+- Any 3D printer can be a fire hazard. You are using experimental technology to heat and melt plastic, in a machine that you may have built or modified yourself, that likely does not have safety certification or significant fail-safes. Fire/Smoke alarms, supervision of your printer while printing, and expertise should not be considered optional.
 
 
 ### General notes
 
 - Look at [the E3D-lite wiki page](http://wiki.e3d-online.com/wiki/E3D-Lite6_Assembly),  there are useful hints for assembling the head. Just keep in mind that the standard E-Mergin head is a little different from E3D-lite.
-- The M3x4 screws are too long to keep the balls in a stable position. When screwed in all the way into the ball, there still remains some freedom of movement.  To counter this, I had to add an M3 washer between the scew and the head platform. With the washer in place the ball can be firmly mounted to the platform.
+- The M3x4 screws are too long to keep the balls in a stable position. When screwed in all the way into the ball, there still remains some freedom of movement.  To counter this, I had to add an M3 washer between the screw and the head platform. With the washer in place the ball can be firmly mounted to the platform.
 - Use Teflon to seal the nozzle thread, using the hot-tighten technique (see the section below in this document or  [here](https://ultimaker.com/en/community/10885-teflon-tape-against-leaking-hot-end)).  Hot-tighten heat sink into the block and the nozzle into the block (see below). If you don't hot-tighten, [this can happen](trium3d.proboards.com/thread/66/idiot).
 - Take care not to buy/use fibre-reinforced teflon tape.  The fibre is probably fine for plumbing purposes, but I prefer the 'clean' teflon tape with no foreign material.  Teflon can be used at temperatures up to around 270-280 deg C, but we have no information on the properties of the foreign fibre reinforcement. 
 - When installing the Bowden tube see  [handling of the Bowden tube](reprap.org/wiki/Diamond_Hot end).
@@ -1272,7 +1275,7 @@ The [the E3D-lite wiki page](http://wiki.e3d-online.com/wiki/E3D-Lite6_Assembly)
 
 'Hot Tightening' is mentioned and described [here](http://wiki.e3d-online.com/wiki/E3D-Lite6_Assembly#Hot-Tightening), [here](https://tamarintech.com/article/hexagon_std_assembly), [here](http://community.robo3d.com/index.php?threads/hex-extruder-hot-end-leaking.3313/), and [here](http://manual.prusa3d.com/Guide/5.+Extruder/56). Using your host software or panel interface etc, set the hot end temperature to 245C. Allow the hot end to reach 245C and wait one minute to allow all components to equalise in temperature. Gently tighten the nozzle whilst holding the heater block still with a spanner and using a smaller 7mm spanner to tighten the nozzle. This will tighten the nozzle against the heat sink and ensure that your hot end does not leak. You want to aim for 3 Nm of torque on the hot nozzle - this is about as much pressure as you can apply with one finger on a small spanner. The nozzle does not need to be torqued down very tightly at all to form a good seal, when at lower temperatures the aluminium will contract and lock the Nozzle and heat sink together extremely securely.
 
-Follow the same pre-heat procedure when you want to remove the nozzle from the block. If the nozzle is removed while cold, the plastic in the thread sticks like Loctite and you may damage the nozzle or the aluminum block. Always heat up the hot end to around 180 C when removing the nozzle to soften plastic that may have entered the thread. See [here](https://ultimaker.com/en/community/10885-teflon-tape-against-leaking-hot-end) and [here](https://www.lulzbot.com/content/budaschnozzle-20-pla-fix-ptfe-nozzle-threads).
+Follow the same pre-heat procedure when you want to remove the nozzle from the block. If the nozzle is removed while cold, the plastic in the thread sticks like Loctite and you may damage the nozzle or the aluminum block. Always heat up the hot end to around 180 C when removing the nozzle to soften plastic that may have entered the thread. See [here](https://ultimaker.com/en/community/10885-teflon-tape-against-leaking-hot-end) and [here](https://www.lulzbot.com/content/budaschnozzle-20-pla-fix-PTFE-nozzle-threads).
 
 ### Fitting of the Bowden tubes (Standard and Diamond heads)
 
@@ -1297,15 +1300,15 @@ General notes:
 7.  Don Saavedra [added a switch](https://m.facebook.com/groups/1798144480423312?view=permalink&id=1863805900523836) to all his 3D printers fans.
 8.  The cooling fan ducts should not be too close to the hot metal, lest it be damaged by the heat.
 
-Once the fans are installed and the hot end temperature is still not stable around the set point it could be that the temperature control system requires [PID tuning](http://trium3d.proboards.com/thread/73/eratic-hot end-temperature#ixzz4VxE384wR).  Running [PID Autotuning](reprap.org/wiki/PID_Tuning) will yield new PID values which can be hardcoded in Configuration.h or it can be entered using the `M301` gcode. You can even calibrate the thermistor in your printer, see [here](http://www.thingiverse.com/thing:103668),  [here](http://hydraraptor.blogspot.co.za/2007/10/measuring-temperature-easy-way.html), [here](https://github.com/Ultimaker/Ultimaker2Marlin/blob/master/Marlin/createTemperatureLookupMarlin.py), and [here](https://nutz95.wordpress.com/2014/04/13/marlin-firmware-thermistor-3950-table/).
+Once the fans are installed and the hot end temperature is still not stable around the set point it could be that the temperature control system requires [PID tuning](http://trium3d.proboards.com/thread/73/eratic-hot end-temperature#ixzz4VxE384wR).  Running [PID Autotuning](reprap.org/wiki/PID_Tuning) will yield new PID values which can be hard coded in Configuration.h or it can be entered using the `M301` gcode. You can even calibrate the thermistor in your printer, see [here](http://www.thingiverse.com/thing:103668),  [here](http://hydraraptor.blogspot.co.za/2007/10/measuring-temperature-easy-way.html), [here](https://github.com/Ultimaker/Ultimaker2Marlin/blob/master/Marlin/createTemperatureLookupMarlin.py), and [here](https://nutz95.wordpress.com/2014/04/13/marlin-firmware-thermistor-3950-table/).
 
 ### Hot-end thermal screening and socks
 
-Quite a few users reported low/eratic hot end temperatures apparently caused by the cooling fans.  The idea is to keep the nozzle temperature stable, while cooling the plastic work area with forced airflow. The reason behind the thermal sock is presented [here](http://www.soliforum.com/topic/12161/insulated-hot end-is-a-good-idea/), [here] http://3dprinting.stackexchange.com/questions/1247/efficient-and-easy-way-to-thermally-insulate-the-heat-block-of-the-hot end), and [here](http://numbersixreprap.blogspot.co.za/2013/10/does-insulating-heater-block-make.html).  Rajaa Kahel recommends placing a piece of silicon between the the nozzle and heatsinks - this won't be as effective as a fully enclosing sock.  Note also the teflon tape he used when screwing the heat sinks into the hot end.
+Quite a few users reported low/erratic hot end temperatures apparently caused by the cooling fans.  The idea is to keep the nozzle temperature stable, while cooling the plastic work area with forced airflow. The reason behind the thermal sock is presented [here](http://www.soliforum.com/topic/12161/insulated-hot end-is-a-good-idea/), [here] http://3dprinting.stackexchange.com/questions/1247/efficient-and-easy-way-to-thermally-insulate-the-heat-block-of-the-hot end), and [here](http://numbersixreprap.blogspot.co.za/2013/10/does-insulating-heater-block-make.html).  Rajaa Kahel recommends placing a piece of silicon between the the nozzle and heat sinks - this won't be as effective as a fully enclosing sock.  Note also the teflon tape he used when screwing the heat sinks into the hot end.
 
 <img src="images/silicon-screen-on-hotend.jpg" width="200">
 
-Use teflon to make a sock for the hot end, see [here](https://www.reddit.com/r/3Dprinting/comments/1wc1a3/does_anyone_else_prefer_ptfe_tape_instead_of/) and [here](http://imgur.com/a/fxXbt). Alternatively [make your own sock](http://imgur.com/gallery/vHDmL) with something [like this](http://www.bostik.co.za/products/sealants/super-gasket-maker).
+Use teflon to make a sock for the hot end, see [here](https://www.reddit.com/r/3Dprinting/comments/1wc1a3/does_anyone_else_prefer_PTFE_tape_instead_of/) and [here](http://imgur.com/a/fxXbt). Alternatively [make your own sock](http://imgur.com/gallery/vHDmL) with something [like this](http://www.bostik.co.za/products/sealants/super-gasket-maker).
 
 
 ## Hot end temperature error signals
@@ -1316,7 +1319,7 @@ Err: `MAXTEMP`: This error usually means that the temperature sensor wires are s
 
 If the LCD and contact temperature differs with a large margin, it could be (1) broken thermistor or (2) wrong firmware flashing (two hot end thermistors are different).
 
-Measure thermistor unplugged with an ohmeter, you should get around 100Kohm at 20 deg C
+Measure thermistor unplugged with an ohmmeter, you should get around 100 kOhm at 20 deg C
 
 Sometimes manually preheating the nozzle and bed [works better](https://www.facebook.com/groups/emergin/permalink/1870753229829103/).
 
@@ -1338,7 +1341,7 @@ Working from left to right:
 
 <img src="images/regular-head-01.jpg">
 
-When building the platform I found myself frequently assembling and disassembling parts to try and figure out how to put it together. An initally logical assembly sequence often leads to problems later.   What does seem to make sense is to put sub-assemblies together and then in the final build put the sub-assemblies together.
+When building the platform I found myself frequently assembling and disassembling parts to try and figure out how to put it together. An initially logical assembly sequence often leads to problems later.   What does seem to make sense is to put sub-assemblies together and then in the final build put the sub-assemblies together.
 
 ### Hot-end sub-assembly
 
@@ -1362,14 +1365,14 @@ When building the platform I found myself frequently assembling and disassemblin
 <img src="images/regular-head-05.jpg" width=400> <img src="images/regular-head-06.jpg" width=272>
 
 - The heater must fit snugly into the aluminium block. If it fits too loose, remove the screw and clamp the block in a pair of pliers to make the hole smaller before inserting the heater element. However be very careful that you don't make the hole too small, because it is very difficult to widen the gap again.  Be very careful you tighten the screw that holds the heater: the [screw thread can strip easily](https://www.facebook.com/groups/emergin/permalink/1868809946690098/).
-- Apply a small amount of heat conducting paste to the inside of the  heater hole and insert the heater into the block.  I have mixed feelings about using this paste. Most of the paste products I reviewed are useable up to 250 deg C, which is near/below the upper operating limit for this printer.  If the heater fits snugly, the heat conductance should be good enough.
+- Apply a small amount of heat conducting paste to the inside of the  heater hole and insert the heater into the block.  I have mixed feelings about using this paste. Most of the paste products I reviewed are usable up to 250 deg C, which is near/below the upper operating limit for this printer.  If the heater fits snugly, the heat conductance should be good enough.
 - Measure the resistance of the heater before connecting to the rest of the electronics. For the Trium it must be around 3.4-3.6 Ohm.
 - Zip tie the thermistor cable to the heater cable to prevent damage to the fragile thermistor wires and to prevent it from being pulled out.
-- Check that there is no conduction between the termistor and the block, there should be an open circuit between either lead and the block.  Also check the resistance of the thermistor (depending ambient temperature it must be somewhere between 60-100 kOhm.
+- Check that there is no conduction between the thermistor and the block, there should be an open circuit between either lead and the block.  Also check the resistance of the thermistor (depending ambient temperature it must be somewhere between 60-100 kOhm.
 
 <img src="images/regular-head-07.jpg" width=280> <img src="images/regular-head-08.jpg" width=340>
 
-- Mount the permanent heat sink fan. Slip the plastic shroud over the side of the heat sink.  The fan is not syymetrical from the top and bottom, it has a cutout on the top. Watch out for the orientation: the plastic shroud should not extend much beyond the heat sink.  In the following picture, just ignore the mounting in the platform, only observe the hot-end sub-assembly.
+- Mount the permanent heat sink fan. Slip the plastic shroud over the side of the heat sink.  The fan is not symmetrical from the top and bottom, it has a cut out on the top. Watch out for the orientation: the plastic shroud should not extend much beyond the heat sink.  In the following picture, just ignore the mounting in the platform, only observe the hot-end sub-assembly.
 
 <img src="images/regular-head-09.jpg" width=400>
 
@@ -1392,7 +1395,7 @@ When building the platform I found myself frequently assembling and disassemblin
 
 <img src="images/regular-head-11.jpg" width=329> <img src="images/regular-head-12.jpg" width=400>
 
-- The mounting screws and corners a the bottom end seems to be below the printing level.  The bottom of the original fan is just barely above the print heigth,  but the new addition is below and should be removed. The screw could be removed and the duct glued on. Note that the picture may not be perfectly horizontal to start with, but the lower end should definately be evaluated.
+- The mounting screws and corners a the bottom end seems to be below the printing level.  The bottom of the original fan is just barely above the print height,  but the new addition is below and should be removed. The screw could be removed and the duct glued on. Note that the picture may not be perfectly horizontal to start with, but the lower end should definitely be evaluated.
 
 <img src="images/regular-head-16.jpg" width=400>
 
@@ -1420,7 +1423,7 @@ When building the platform I found myself frequently assembling and disassemblin
 
 <img src="images/regular-head-18.jpg" width=400><img src="images/towers11.jpg" width=150>
 
-- Label each of the rods and note where they are used in the printer. This way you can always replace the rods in the same location, with minimal disruption of the printing geometry (i.e., convex/concave nozzel trajectory).  It might be a good idea to label the rods with X-left, X-right, etc.
+- Label each of the rods and note where they are used in the printer. This way you can always replace the rods in the same location, with minimal disruption of the printing geometry (i.e., convex/concave nozzle trajectory).  It might be a good idea to label the rods with X-left, X-right, etc.
 -  The platform must be mounted such that when you view the printer from the front (1) the small fan on the head must be in front or (2) the proximity levelling sensor must be on the left. If not, the bed auto-levelling  will fail,  and you have to make an emergency stop by turning of the power manually
 -  
 <img src="images/regular-head-17.jpg" width=400>
@@ -1428,7 +1431,7 @@ When building the platform I found myself frequently assembling and disassemblin
 - Fit the springs first, let the platform hang by the springs only.
 - Fit the magnetic rods one by one, by stretching the spring.
 - Ensure that the nozzle is the lowest part of the assembly; the cooling ducts and bed levelling proximity sensor should clear the bed by some margin.  
-- Note that the bed levelling proximity sensor has an operating range up to 1.5-2.0 mm from the aluminium bed, so it should be quite low, but not at the same level as the nozzle.  The sensor heigth will be adjusted later.
+- Note that the bed levelling proximity sensor has an operating range up to 1.5-2.0 mm from the aluminium bed, so it should be quite low, but not at the same level as the nozzle.  The sensor height will be adjusted later.
 - The magnets are glued onto the rods. If they separate, [glue them together](https://www.facebook.com/groups/emergin/permalink/1867354813502278/) again, using another rod for length.
 - You should [lubricate](https://www.facebook.com/groups/emergin/permalink/1867097623527997/) the ball joints.
 
@@ -1436,7 +1439,7 @@ When building the platform I found myself frequently assembling and disassemblin
 
 
 ## Diamond Head
-The Diamond head poses a [challenge to newcomers](https://www.facebook.com/groups/emergin/permalink/1865763733661386/).  Some recommends to start with the regular head, but others with prior 3D print experience seem to use the diamond hhead with no problems.
+The Diamond head poses a [challenge to newcomers](https://www.facebook.com/groups/emergin/permalink/1865763733661386/).  Some recommends to start with the regular head, but others with prior 3D print experience seem to use the diamond head with no problems.
 
 I have not yet assembled my Diamond head, details to follow later.
 
@@ -1448,14 +1451,14 @@ This set up procedure was originally drawn up by [MiR](Read more: http://trium3d
 - Final checks
 - Z-Calibration
 - Delta Radius Measurement and calibration
-- Manual Bed Leveling
-- Auto bed leveling sensor Z offset
+- Manual Bed Levelling
+- Auto bed levelling sensor Z offset
 - Z correction
 - X and Y correction
 
 ## Finding the COM port for your printer
 
-Connect the printer to the PC.  The USB cable gives power to the Arduino, so there is no need power up the printer itself (i.e., it is sufficient that only the Aruino board must be working).
+Connect the printer to the PC.  The USB cable gives power to the Arduino, so there is no need power up the printer itself (i.e., it is sufficient that only the Arduino board must be working).
 
 When you want to access the printer via Repetier or flash the Arduino, you need to know the COM port number.  There are several options to determine the COM port number:  
 - [Create a batch file](http://blog.brush.co.nz/2008/05/com-ports/) with this contents, save the file to ports.bat and then simply run the batch file:
@@ -1488,7 +1491,7 @@ This diagram supplied by E-Mergin does not seem to match what I see in my LCD. A
 
 ### Communicating with the printer via the Repetier
 
-[digid](http://trium3d.proboards.com/thread/92/draft-version-building-guide#ixzz4XybuJ2SE) found that Repetier is  nice to use for leveling and adjustments.  He had success with the slicers in Reperier with PLA but not with ABS. However he had great success slicing with Simplify3D, both with PLA and ABS. Just don't use the bed leveling wizard it doesn't work: **it drives the motors home and smashes the endstop switches**. Once those end stop reference switches are smashed (moved) your bed level adjustments are ruined and you must start over.
+[digid](http://trium3d.proboards.com/thread/92/draft-version-building-guide#ixzz4XybuJ2SE) found that Repetier is  nice to use for levelling and adjustments.  He had success with the slicers in Repetier with PLA but not with ABS. However he had great success slicing with Simplify3D, both with PLA and ABS. Just don't use the bed levelling wizard it doesn't work: **it drives the motors home and smashes the endstop switches**. Once those end stop reference switches are smashed (moved) your bed level adjustments are ruined and you must start over.
 
 At present I don't have Simplify3D, so I am describing my own experience with Repetier - but only the Manual Control tab. Working with the slicers is beyond the scope of the present document.
 
@@ -1576,7 +1579,7 @@ The scripts' code is accessible from the `Printer Settings` menu.  When the prin
 
 ## Final Checking
 
-[MiR made a very nice checklist](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond#ixzz4WNQtOPaf) to ensure that the printer is ready for testing and use.  
+[MiR made a very nice check list](http://trium3d.proboards.com/thread/67/notes-building-trium-standard-diamond#ixzz4WNQtOPaf) to ensure that the printer is ready for testing and use.  
 
 - Remove the spring and rods from the printer, we first want to do a dry run with no movement.
 
@@ -1599,11 +1602,11 @@ The scripts' code is accessible from the `Printer Settings` menu.  When the prin
   - If all three sliders moved up, this test is passed and you can move on to the next test.  If they did not all move up, change the stepper motor connector orientation on the RAMPS board (rotate 180 degrees around) for the sliders that went down.  Ideally, you should fix the belt orientation, so that all belts run by the same convention.  Repeat this step until *all sliders go up* on the `Auto Home` command.  
   - If the stepper motors are not moving [see here](https://www.facebook.com/groups/emergin/permalink/1862392863998473/). Don't try and change the motor direction in the firmware, it can all be done in hardware.  The moment you touch the firmware, it becomes non-standard and hard to maintain.
 
-- Ensure that the end-stop switches work. The LED should light up if the end-stop is activated by hand.  If the LED does not light, check the end-stop wiring.
+- Ensure that the endstop switches work. The LED should light up if the endstop is activated by hand.  If the LED does not light, check the endstop wiring.
 
-- Repeat the slider movement test (`Prepare` and `Auto home`), but this time wait until the sliders hit the end stop. If the  slider does not stop at the end-stop then immediately turn of printer and check the end-stop cabling. If all works well then all three sliders will move up, and once all three reached the end-stop, they will move down a bit and then auto homing is done.
+- Repeat the slider movement test (`Prepare` and `Auto home`), but this time wait until the sliders hit the end stop. If the  slider does not stop at the endstop then immediately turn of printer and check the endstop cabling. If all works well then all three sliders will move up, and once all three reached the endstop, they will move down a bit and then auto homing is done.
 
-- Check that the print head heat sink fan is running at full speed.  The print head heat sink fan is the small fan with the plastic shround forcing air over the heat sink above the nozzle.  
+- Check that the print head heat sink fan is running at full speed.  The print head heat sink fan is the small fan with the plastic shroud forcing air over the heat sink above the nozzle.  
 
 - The two/three PWM cooling fans should be off. If the PWM cooling fans are on, check that the MOSFETS are not touching.
 
@@ -1613,7 +1616,7 @@ The scripts' code is accessible from the `Printer Settings` menu.  When the prin
 
 - Once everything is heated up, continue by confirming that the extruder work and extrude in the right direction.  - Use the LCD to go to `Prepare` then `Move Axis` then `Move 0.1mm` then `Extruder`. Turn the knob and check that the numbers displayed are positive and increasing. Continue turning and look at the first extruder, the gear should turn anticlockwise (to the left), so any material coming from above will be moved down in the direction of the nozzle.
 
-- Check the PWM cooling fans. Using the LCD go to `Control` then `Temperature` then `Fan Speed`. Set it to 50 and then press the knop in.  The fans should start turning. Make sure that both fans are blowing in direction of the nozzle. Give them a try at full speed (255).  Now turn of fans again by putting speed to 0.  Once the fan speed is set, you must press in the knob to activate the setting.
+- Check the PWM cooling fans. Using the LCD go to `Control` then `Temperature` then `Fan Speed`. Set it to 50 and then press the knob in.  The fans should start turning. Make sure that both fans are blowing in direction of the nozzle. Give them a try at full speed (255).  Now turn of fans again by putting speed to 0.  Once the fan speed is set, you must press in the knob to activate the setting.
 
 - You are now ready for Hot Tightening the Nozzle. Follow the instructions elsewhere in this document on hot tightening.
 
@@ -1635,9 +1638,9 @@ I have not yet installed the Bluetooth module, these are notes picked up from th
 
 <img src="images/bluetooth02.jpg" width="300">
 
-[In Reptier](https://www.facebook.com/groups/emergin/permalink/1864425840461842/) select the bluetooth, then 115200 baud data rate.  The Bluetooth password is 1234.
+[In Repetier](https://www.facebook.com/groups/emergin/permalink/1864425840461842/) select the bluetooth, then 115200 baud data rate.  The Bluetooth password is 1234.
 
-When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino's serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
+When flashing new software to the Arduino, [remove the Bluetooth module](http://trium3d.proboards.com/thread/40/wiring-notes#ixzz4WC2flXiu).  Both the Bluetooth connection and the USB connection used for flashing uses the Arduino serial port functionality and it seems that the Bluetooth takes precedence in this conflict.  The end effect is that the flashing fails.  Only reconnect the Bluetooth module after flashing and calibrating.
 
 https://www.youtube.com/watch?v=-ddUM8Fy3es
 https://www.youtube.com/watch?v=YZNMoMMXmX8
@@ -1650,7 +1653,7 @@ https://www.youtube.com/watch?v=u724cJnbwgM
 [Steffen Bleich](https://www.facebook.com/groups/emergin/permalink/1882627605308332/) posted some links on using wifi with 3D printers using the ESP8266 (my other exciting interest). [This post](http://doku.radds.org/dokumentation/other-electronics/wifi/) focuses on the RADDS board, but the ESP8266 information is quite relevant to the RAMPS as well, just the connecting pins are different.  There is some really, really nice ESP8266 software [here](https://github.com/luc-github/ESP3D). Also see the ESP3D [gitter page](https://gitter.im/luc-github/ESP3D) for discussions. BTW, the ESP3D developer states on the gitter page: "even pre alpha state".
 
 
-[In Reptier](https://gitter.im/luc-github/ESP3D) `Printer Settings` select the TCP/IP connection and set up the network parameters for your ESP server.
+[In Repetier](https://gitter.im/luc-github/ESP3D) `Printer Settings` select the TCP/IP connection and set up the network parameters for your ESP server.
 
 <img src="images/repetier-15.jpg" width="400">
 
@@ -1670,7 +1673,7 @@ OctoPi uses a dedicated Raspberry Pi to control the printer, so your computer ca
 
 If you are considering OctoPrint, also look at [adafruit's offering](https://learn.adafruit.com/3-dot-5-pitft-octoprint-rig/overview) with a nice touch screen.
 
-See here for a detailed explaination:
+See here for a detailed explanation:
 https://www.youtube.com/watch?v=MwsxO3ksxm4
 https://www.youtube.com/watch?v=vKmLAnb4KrA
 https://www.youtube.com/watch?v=jUX_sc5B9hw
@@ -1683,7 +1686,7 @@ https://plus.google.com/+AlexWiebe/posts/42ZR7c6hx69
 
 # Calibration
 
-The calibration writeup hs been moved to another document. Please see [here](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md)
+The calibration write up has been moved to another document. Please see [here](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md)
 
 
 # EEPROM
@@ -1702,7 +1705,7 @@ Note that there is a line in Configuration.h which controls whether or not EEPRO
 
 ==== EEPROM GCodes ====
 
-    M500 Store current settings in EEPROM for the next startup or M501.
+    M500 Store current settings in EEPROM for the next start-up or M501.
     M501 Read all parameters from EEPROM. (Or, undo changes.)
     M502 Reset current settings to defaults, as set in Configurations.h. (Follow with M500 to reset the EEPROM too.)
     M503 Print the current settings – ''Not the settings stored in EEPROM.''
