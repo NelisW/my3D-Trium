@@ -22,7 +22,7 @@ This write-up is somewhat overwhelming in detail and volume. Some proposals here
 
 **Note:** Test and review at every step along the build process. You want to catch issues early and not at the end, forcing you to disassemble the printer.  If something is not clear,  search for information: Google is your friend!
 
-**Note:** Get to know the sounds your printer makes. Listen carefully and try to understand what you are hearing.  These noises are the printer's way of speaking to you: learn the language.
+**Note:** Get to know the sounds your printer makes. Listen carefully and try to understand what you are hearing.  These noises are the printer's way of speaking to you: learn the langauge.
 
 http://reprapandme.blogspot.co.za/2013/12/the-basics.html
 
@@ -64,7 +64,7 @@ The following tools will come in handy:
 - Optional but really useful: Digital or manual vernier caliper. Also used later when calibrating the printer.
 - Optional: a k-type thermocouple thermometer that can operate up to 300 deg C. Required to build trust in/calibrate the thermistor.
 - Optional: Dremel, but this is just really to play with. I used it once in the TRIUM construction.
-- Optional: a set of feeler guages to use instead of the sheet of paper when setting up the nozzle-bed distance.
+- Optional: a set of feeler gauges to use instead of the sheet of paper when setting up the nozzle-bed distance.
 
 
 You may also find it necessary to have some parts printed using a printing service, simply because your own printer is not working yet.
@@ -242,7 +242,7 @@ Given the heat a 3D printer can generate, even when idle, Jeremie Francois would
 The standard Marlin open source firmware source is available [here](github.com/MarlinFirmware/Marlin) or one of the Release Candidate versions [here](http://marlinfw.org/meta/download/).  The E-Mergin web site provides a **modified** version of RC7, but note that the GitHub version has moved beyond RC7 (RC8 has *many* differences with RC7).  Be very careful to replace the TRIUM RC7 firmware with RC8 firmware. Ensure that you understand the differences between RC7 and RC8 as it pertains to the TRIUM.  E-Mergin provided the following [instruction](http://trium3d.proboards.com/thread/68/upgrade-marlin-1-rc8-planned) to upgrade from RC7 to RC8: download RC8, and replace the configuration.h and configuration_adv.h files using the the previous version files.
 
 At least the following files are modified in the Trium hot end version of RC7 (relative to the Marlin standard RC7):
--  `_Bootscreen.h`: a new file not present in the standard Marlin distro (possibly showing the Trium or E-Mergin logo?)
+-  `_Bootscreen.h`: a new file not present in the standard Marlin distribution (possibly showing the Trium or E-Mergin logo?)
 -  `Configuration.h`: a heavily modified file, for TRIUM printer info.
 -  `Configuration_adv.h`: slightly modified for TRIUM printer info.
 -  `Marlin.ino`: no significant changes, only TRIUMs weak attempt to time stamp.
@@ -359,11 +359,7 @@ It would not normally be necessary to calibrate your thermistors, but if you nee
 
 ## Rod and ball replacement
 
-Steffen Bleich had a mishap where some rods broke.  He ordered this rods [here](https://www.ultibots.com/magball-arms-288mm-delrin/) in the hope that it will work also fine or maybe even better.  The rods obtainable [here](https://www.ultibots.com/magball-ends-set-of-12/) already include the required 12 balls and nuts. The balls have a M3-thread and should fit fine into the Trium hardware. The maker of the rods is [this company](https://groups.google.com/forum/#!msg/deltabot/mPw1SJ2f9Vw/55vmV3sPDQAJ)
-
-MiR found [this company](http://www.kugel-rollen.de/product_info.php/info/p51_8-000-mm---M3-Sacklochgewinde---V4A-polierte-Ausfuehrung.html) that might  be able to provide the  balls that should work for the Trium printer:
-
-
+Steffen Bleich had a mishap where some rods broke.  He ordered this rods [here](https://www.ultibots.com/magball-arms-288mm-delrin/) in the hope that it will work also fine or maybe even better.  The rods obtainable [here](https://www.ultibots.com/magball-ends-set-of-12/) already include the required 12 balls and nuts. The balls have a M3-thread and should fit fine into the Trium hardware. The maker of the rods is [this company](https://groups.google.com/forum/#!msg/deltabot/mPw1SJ2f9Vw/55vmV3sPDQAJ).
 
 ## Bed levelling sensor
 
@@ -937,6 +933,7 @@ When I disassembled the printer to epoxy the slider screws I decided to not use 
 - The switch lever must be working properly with not too much freedom of movement (obviously it must move to switch).  Exactly how much freedom and play is allowed is not clear, because the switches on my printer are very loose.
 - The slider arm must provide good mechanical contact with the switch level.  On my printer the slider arm and switch are laterally displaced, with the lever only touching only on one half of the slider.
 - Carefully route the endstop cable such that there is enough free play (cable not pulling the switch sideways).  I found that the X tower cable runs near the main case fan - vibration on the fan might transmit via a tight cable to the endstop switch. The cable is mounted on the long side of the PCB, so any sideways pull will lever the PCB to rotate with maximum effect.
+- It took me a month to determine that a 100-150 micron random offset on the X tower was because of a low-performing endstop switch. When I replaced the switch, the random offset disappeared.
 
 Only mount the endstop after the stepper motor is installed to prevent accidental damage to the endstop.  Follow the procedure outlined on p25 and p42 to insert the plastic clips into the tower and then mount the endstop PCBs on the clips.  
 
@@ -1502,13 +1499,13 @@ At present I don't have Simplify3D, so I am describing my own experience with Re
 
 - Click on `Connect`. Once connected to the printer, Repetier prints some printer configuration data to the log screen.  The important lines on my printer are shown below.  Get to know the meaning of these lines, it may prove useful later. For example, towards the end of the listing the SD card contents is listed. In this case I had the E-Mergin test file for the cat on the SD card.
 
-		22:00:32.445 : Printer reset detected - initalizing
+		22:00:32.445 : Printer reset detected - initialising
 		22:00:32.487 : start
 		22:00:32.487 : echo:Marlin 1.1.0-RC7
 		22:00:32.487 : echo: Last Updated: 2016-07-31 12:00 | Author: (EMERGIN)
 		22:00:32.487 : Compiled: Feb  4 2017
 		22:00:32.487 : echo: Free Memory: 2696  PlannerBufferBytes: 1424
-		22:00:32.487 : echo:Hardcoded Default Settings Loaded
+		22:00:32.487 : echo:Hard coded Default Settings Loaded
 		22:00:32.487 : echo:Steps per unit:
 		22:00:32.487 : echo:  M92 X160.00 Y160.00 Z160.00 E192.00
 		22:00:32.487 : echo:Maximum feedrates (mm/s):
@@ -1525,7 +1522,7 @@ At present I don't have Simplify3D, so I am describing my own experience with Re
 		22:00:32.509 : echo:  M666 X0.00 Y0.00 Z0.00
 		22:00:32.517 : echo:Delta settings: L=diagonal_rod, R=radius, S=segments_per_second, ABC=diagonal_rod_trim_tower_[123]
 		22:00:32.522 : echo:  M665 L278.00 R145.50 S100.00 A0.00 B0.00 C0.00
-		22:00:32.525 : echo:Material heatup parameters:
+		22:00:32.525 : echo:Material heat up parameters:
 		22:00:32.528 : echo:  M145 S0 H200 B70 F0
 		22:00:32.531 : echo:  M145 S1 H240 B100 F0
 		22:00:32.531 : echo:PID settings:

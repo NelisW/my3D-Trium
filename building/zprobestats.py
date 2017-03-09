@@ -182,7 +182,7 @@ def processOneFile(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0.
     # if level to within margin calc the convex/concave
     if bedMax-bedMin < locmarg:
         convex = bedMean - dfr.ix['C']['S']
-        direc = 'mountian' if convex < 0 else 'valley'
+        direc = 'mountain' if convex < 0 else 'valley'
         print('Bed level to within {} mm: print locus convexity {:.3f} mm ({})'.format(
             locmarg,convex,direc))
     print('\n')
