@@ -174,17 +174,25 @@ def processOneFile(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0.
     print('')
 
     # get mean, min and max of the tower averages
-    bedMean = np.mean((dfr['S']).T[['X','Y','Z']])
-    bedMin = np.min((dfr['S']).T[['X','Y','Z']])
-    bedMax = np.max((dfr['S']).T[['X','Y','Z']])
-    print('Mean bed height is {:.3f} mm'.format(bedMean))
-    print('Bed min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(bedMin,bedMax,bedMax-bedMin))
+    twrMean = np.mean((dfr['S']).T[['X','Y','Z']])
+    twrMin = np.min((dfr['S']).T[['X','Y','Z',]])
+    twrMax = np.max((dfr['S']).T[['X','Y','Z']])
+    print('Tower/edge mean height (Sx+Sy+Sz)/3 is {:.3f} mm'.format(twrMean))
+    print('Tower/edge (Sx,Sy,Sz)  min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(twrMin,twrMax,twrMax-twrMin))
+   
+    bedMean = np.mean((dfr['S']).T[['X','Y','Z','C']])
+    bedMin = np.min((dfr['S']).T[['X','Y','Z','C']])
+    bedMax = np.max((dfr['S']).T[['X','Y','Z','C']])
+    
+    print('\nBed mean height (Sx+Sy+Sz+Sz)/4. is {:.3f} mm'.format(bedMean))
+    print('Bed (Sx,Sy,Sz,Sc)  min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(bedMin,bedMax,bedMax-bedMin))
     # if level to within margin calc the convex/concave
-    if bedMax-bedMin < locmarg:
-        convex = bedMean - dfr.ix['C']['S']
+    if twrMax-twrMin < locmarg:
+        convex = twrMean - dfr.ix['C']['S']
         direc = 'mountain' if convex < 0 else 'valley'
-        print('Bed level to within {} mm: print locus convexity {:.3f} mm ({})'.format(
-            locmarg,convex,direc))
+        print('\nBed edges level to within {} mm'.format(locmarg))
+        print('Print locus convexity (mean edge - centre) is {:.3f} mm'.format(convex))
+        print('Bed appears to be a {}'.format(direc))
     print('\n')
 
 
