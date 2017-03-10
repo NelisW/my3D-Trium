@@ -1688,10 +1688,6 @@ The calibration write up has been moved to another document. Please see [here](h
 
 # EEPROM
 
-Once EEPROM is written it takes precedence as a data source.  If EEPROM is enabled, when Marlin boots up, it loads information from EEPROM, rather than the downloaded firmware. So even if you download new firmware, the older EEPROM data always wins.  To update the EEPROM with new downloaded firmware values do
-
-	M502  ; firmware settings to current working settings
-	M500  ; current working settings to firmware
 
 https://github.com/MarlinFirmware/Marlin/wiki/EEPROM says as follows:
 
@@ -1702,14 +1698,17 @@ Note that there is a line in Configuration.h which controls whether or not EEPRO
 
 ==== EEPROM GCodes ====
 
-    M500 Store current settings in EEPROM for the next start-up or M501.
-    M501 Read all parameters from EEPROM. (Or, undo changes.)
-    M502 Reset current settings to defaults, as set in Configurations.h. (Follow with M500 to reset the EEPROM too.)
-    M503 Print the current settings – ''Not the settings stored in EEPROM.''
-
-So, once settings have been written to EEPROM it will override the downloaded firmware. To update the EEPROM with new downloaded firmware values do
-
-	M502
-	M500 
+- [M500](http://reprap.org/wiki/G-code#M500:_Store_parameters_in_EEPROM)  Store current settings in EEPROM for the next start-up or M501.
 
 
+- [M501](http://reprap.org/wiki/G-code#M501:_Read_parameters_from_EEPROM)  Read all parameters from EEPROM into current values. (undo changes.) Set the active parameters to those stored in the EEPROM. This is useful to revert parameters after experimenting with them. 
+
+- [M502](http://reprap.org/wiki/G-code#M502:_Revert_to_the_default_.22factory_settings..22) Reset current settings to defaults, as set in Configurations.h. (Follow with M500 to reset the EEPROM too.) This command resets all tunable parameters to their default values, as set in the firmware. This doesn't reset any parameters stored in the EEPROM, so it must be followed with M500 if you want to do that. 
+
+- [M503](http://reprap.org/wiki/G-code#M503:_Print_settings) Print the current settings – not the settings stored in EEPROM. This command asks the firmware to reply with the current print settings stored in EEPROM. The reply output includes the G-Code commands to produce each setting. For example, the Steps Per Unit values are displayed as an M92 command. 
+
+
+Once EEPROM is written it takes precedence as a data source overriding the downloaded firmware settings.  If EEPROM is enabled, when Marlin boots up, it loads information from EEPROM, rather than the downloaded firmware. So even if you download new firmware, the older EEPROM data always wins.  To update the EEPROM with new downloaded firmware values do
+
+	M502  ; firmware settings to current working settings
+	M500  ; current working settings to firmware

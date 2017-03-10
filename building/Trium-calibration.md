@@ -1,3 +1,13 @@
+# Conventions and assumptions
+
+The notes below pertain to the following:
+
+- The Trium delta printer (but should also apply to other delta printers).
+
+- Marlin firmware RC7
+
+- Repetier Host as a printer control software.
+
 # Initial work
 
 ## Calibrating the bed levelling screws
@@ -77,7 +87,7 @@ For another detailed description of the calibration process  [see here](http://r
 
 # Z Probe
 
-## Firmware 
+## Z probe firmware 
 
 The firmware is set up to use three max endstops (the three switches) and one min endstop (the z-probe)
 
@@ -146,56 +156,49 @@ It appears that `run_z_probe()` resets the bed levelling parameters (at least te
 
 First check that the probe works. Send it an [M119 gcode](reprap.org/wiki/G-code#M119:_Get_Endstop_Status): Returns the current state of the configured X, Y, Z endstops. Takes into account any 'inverted endstop' settings, so one can confirm that the machine is interpreting the endstops correctly.  So send M119 and see that z probe shows a “L” for low = not triggered. Now trigger it by hand while sending M119 again. Now probe value should show a “H” for high = triggered. If it is the other way around you need to change `Z_MIN_PROBE_ENDSTOP_INVERTING`. If nothing changes you need to fix the hardware problem (wiring, power supply, etc.).
 
-The rest of the z-probe calibration section must still be completed.
+The procedure below assumes that the probe is mounted higher than the nozzle, i.e., the nozzle will hit the bed before the probe does.
 
-The user can enter an offset between the nozzle height and probe height by using the M851 command:
+Ensure that the nozzle is clean with no plastic sticking out the bottom. We want to measure the height of the nozzle metal tip.
 
--  [M851](http://reprap.org/wiki/G-code#M851:_Set_Z-Probe_Offset) reads and displays the current z probe offset. After setting the limits with M851, store the value permanently with M500 to EEPROM
+The inductive probe trigger distances to different types of metal are different, so be sure to do all measurements relative to the bed itself.
 
-	M851 Z-0.6
-	M500
+The procedure is as follows:
+- Move the probe to (0,0,5). The probe is offset relative to the nozzle, so give gcode command (where the x and y values are meant to move the probe (x,y) to (0,0,X)):
 
-- [M212](http://reprap.org/wiki/G-code#M212:_Set_Bed_Level_Sensor_Offset) 
+		G28
+		G0  X33.5 Y5 Z5 F3000  ; move probe to (0,0,5)
 
+- Observe that the nozzle is offset from the centre of the bed, and that the probe is directly above the centre of the bed.
 
- https://forum.lulzbot.com/viewtopic.php?t=3151
+- Send a [G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) command to the printer to do an auto probe and note the z value returned in the log screen, it should be something like the following. Ignore the time x and y values, only make a note of the z value. This is the hotend z position at which the probe triggers (in this case 0.69 mm above the bed).  Note that this is not the trigger distance to the metal surface.
 
-https://build3dparts.com/wp/?page_id=551
+		20:59:21.321 : Bed X: 0.00 Y: 0.00 Z: 0.69
 
-https://printrbot.zendesk.com/hc/en-us/articles/203333360-Troubleshooting-Your-Auto-Levelling-Probe
+- After the G30 command the probe  should be in the same (x,y) position but 15 mm above the bed.  If you wish you can now repeat the same process manually by moving the hotend down using the jogger in Repetier. Initially move with large increments, but then with smaller increments as  you approach the z value given by G30.  The value should be much the same as was obtained by G30. So this step is optional, but there is a certain satisfaction when doing the manual probing.
 
-https://printrbot.com/wp-content/uploads/2015/06/4.-Using-Cura-to-Set-Up-the-Auto-Levelling-Probe.pdf
+- Move the *nozzle* to (0,0,5). Execute a home command first to make sure that we work from a calibrated position.
 
-http://forums.reprap.org/read.php?178,282375
+		G28
+		G0  X0 Y0 Z5 F3000 ; move nozzle to (0,0,5)
 
-https://github.com/MarlinFirmware/Marlin/issues/3647
+- While moving a piece of unprinted paper or a shim of known thickness (say 0.1 mm) between the nozzle and the bed, drop the nozzle down using Repetier's jogger, slowly towards the bed. Start with large increments but as you approach the bed, use smaller increments, down to 0.01 mm.  Make a note of the z value where the paper experiences some friction.   Suppose the z value where the friction point occurred is at 0.15 (with the paper/shim in place).
 
-https://forum.repetier.com/discussion/1290/auto-level-and-z-homing
+- Now do the calculation. Denote the probe trigger height as zprobe, the nozzle friction height as znozzlemeasure, the shim/paper/feeler gauge thickness as zshim,  and any hairspray tape or other non-metal layer thickness as zcoat.  The nozzle-to-probe-trigger offset is given as shown in the following figure.  Note that the actual bed height (zbed), coating thickness (zcoat), and trigger distance (ztrigger) do not affect the calculation; the relative nature of this procedure automatically accounts for these values. The only absolute measurement required is that of the shim thickness (zshim).    
+In our example the nozzle-to-probe offset is 0.69-0.15+0.1=0.64 mm.
 
-http://forum.seemecnc.com/viewtopic.php?t=4328
+<img src="images/nozzle-probe-offset.png" width=600>
 
-https://www.repetier.com/documentation/repetier-firmware/z-probing/ (this is for Repetier, not Marlin).  
+-  Set the offset value by using the [M851](http://reprap.org/wiki/G-code#M851:_Set_Z-Probe_Offset): Sets the Z-probe Z offset. This offset is used to determine the actual Z position of the nozzle when using a probe to home Z with G28. This value may also be used by G29 to apply correction to the Z position.  This value represents the distance from nozzle to the bed surface at the point where the probe is triggered. This value will be negative for typical switch probes and inductive probes. After setting the limits with M851.
 
-http://reprap.org/wiki/G-code#G30:_Single_Z-Probe  
+		M851 Z-0.64 ; set probe 0.64 mm higher than the nozzle 
+	
+- Display the offset by using M851 without parameters:
 
-http://forums.reprap.org/read.php?178,601436  
+		M851
 
-fix / remove this calibration and redeem:
+- Store all current settings permanently with [M500](http://reprap.org/wiki/G-code#M500:_Store_parameters_in_EEPROM) to EEPROM.
 
-http://boim.com/DeltaUtil/CalDoc/Calibration.html
-
-http://wiki.thing-printer.com/index.php?title=Redeem   Using G33 for auto-calibration
-
-When you have a working G29 probing setup in place, you can improve several parameters of your delta printer with the G33 command. The parameters to improve is end stop offsets, delta radius, tower angular position correction and diagonal rod length.
-
-G33 will use the probe offset in the [Probe] section to adjust the end stops offsets, so be sure to set this to 0 initially to avoid offset errors.
-
-The G33 in Redeem is an implementation of the calculations found in this web site: http://escher3d.com/pages/wizards/wizarddelta.php 
-
-http://wiki.thing-printer.com/index.php?title=Redeem#M665:_Set_delta_arm_calibration_values
-
-L sets the length of the arm. If the objects printed are too small, try increasing(?) the length of the armR sets the radius of the towers. If the measured points are too convex, try increasing the radius 
-
+		M500        ; store value in EEPROM
 
 
 
