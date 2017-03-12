@@ -162,6 +162,8 @@ Ensure that the nozzle is clean with no plastic sticking out the bottom. We want
 
 The inductive probe trigger distances to different types of metal are different, so be sure to do all measurements relative to the bed itself.
 
+You may want to preheat the bed and nozzle to the print temperature before doing levelling.  
+
 The procedure is as follows:
 - Move the probe to (0,0,5). The probe is offset relative to the nozzle, so give gcode command (where the x and y values are meant to move the probe (x,y) to (0,0,X)):
 
@@ -254,8 +256,9 @@ Note that the print area is not a 200 mm diameter circle, but a [Reuleaux triang
 
 #  Automated probing for manual bed levelling
 
+The procedure outlined here makes it possible to do an automated bed measurement and then do a manual bed levelling in a relatively short time. The measurement and data analysis give a clear indication of how much each of the screws must be turned.  I found that two measurement iterations, taking a couple of minutes, can provide levelling to better than 0.05 mm. Thanks to [MiR](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838 for sharing the concept and his gcode script.
 
-[MiR  advised](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=2&scrollTo=838) to automate the process, using the probe. He provided a script to probe the bed near each of the corners and in the centre.  The probe is moved to 10 mm above the bed at the required locations. The bed is then probed five times. I modified the script slightly to change the (x,y) coordinates to be radially in line to the tower.  The X and Z tower positions are quite close, but the Y tower position is somewhat far from the edge because of the fan protrusion.   The [G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) gcode probes the bed at the current XY position. When the probe is triggered, set the Z coordinate to the probe trigger height and then lifts up again. The script on my PC does ten `G30` probes, not five as shown below - you decide how many you want to do. Load the script to one of the buttons on the Repetier Manual Control tab.
+The probe is moved to 10 mm above the bed at the required locations. The bed is then probed five times. I modified the script slightly to change the (x,y) coordinates to be radially in line to the tower.  The X and Z tower positions are quite close, but the Y tower position is somewhat far from the edge because of the fan protrusion.   The [G30](http://reprap.org/wiki/G-code#G30:_Single_Z-Probe) gcode probes the bed at the current XY position. When the probe is triggered, set the Z coordinate to the probe trigger height and then lifts up again. The script on my PC does ten `G30` probes, not five as shown below - you decide how many you want to do. Load the script to one of the buttons on the Repetier Manual Control tab.
 
 	M119 ; print a clearly visible separator in the log file
 	G21  ; set units to mm
@@ -292,109 +295,12 @@ Note that the print area is not a 200 mm diameter circle, but a [Reuleaux triang
 
 I wanted to log the temperature during the measurement: M105 should give the bed and nozzle temperature. However this does not show results in the Repetier log screen, unless you click on the `ACK` button.  The reason for this is that the M105 response is not handled in the normal manner.  M105 is actually sent every few seconds but the return value is not displayed other than as an acknowledgement of the M105 request. So, to get the temperature values, click on `ACK` in Repetier to activate, then run the script and finally again click on `ACK` in Repetier to de-activate the temperature display.
 
-When this script is run in Repetier host the (x,y,z) positions are reported in the log screen.  I copy the relevant section from the log screen to a text file and process with a Python script. The script gives the mean value and standard deviation around the mean for each of the probe points plus some other information. This is the current version of the script:
-
-	# cSpell:disable	
-	
-	################################################################################
-	# label the towers
-	def label_tower (row):
-	   if row['x'] < -80. :
-	      return 'X'
-	   if row['y'] > 80. :
-	      return 'Z'
-	   if row['x'] > 60. :
-	      return 'Y'
-	   return 'C'
-	
-	################################################################################
-	# process one sample set
-	def processOneFile(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0.05):
-		print('{}\n{}\n\n'.format(79*'-',filename))
-		validlines = []
-		tdone = False
-		with open(filename,'r') as fin:
-			lines = fin.readlines()
-			for line in lines:
-				line = line.strip()
-				lstl = line.split(' ')
-				# only use lines with Bed X: in them for dataframe
-				if 'Bed X:' in line:
-					# remove unwanted clutter, keep only x,y,z
-					validlines.append([float(lstl[i]) for i in [4,6,8]])
-				# if temperature lines, get values
-				if not tdone and 'ok' in line and 'T:' in line and 'B:' in line:
-					print('Time {} '.format(lstl[0]))
-					print('Bed temperature is {} deg C'.format(lstl[5].split(':')[1]))
-					print('Nozzle temperature is {} deg C'.format(lstl[3].split(':')[1]))
-					tdone = True
-
-		# make pandas dataframe
-		df = pd.DataFrame(validlines,columns=['x','y','z'])
-		# correct for probe offset and friction shim to get to metal
-		df['z'] = df['z'] - (zProbeTrigger - shimThickness)
-		# get height at screw
-		df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
-		#name the towers
-		df['Tower'] = df.apply(label_tower,axis=1)
-		# get required turn magnitude
-		df['Trns(deg)'] = 360. * df['S'] / 0.5
-		df['Trns/0.25'] = (df['S'] / 0.5) / 0.25
+When this script is run in Repetier host the (x,y,z) positions are reported in the log screen.  I copy the relevant section from the log screen to a text file and process with a Python script. The script gives the mean value and standard deviation around the mean for each of the probe points plus some other information.  The script is too long to display here in full for the code please see my GitHub repository [here](https://github.com/NelisW/my3D-Trium/blob/master/building/zprobestats.py)
 
 
-		# from now on work with aggregates
-		dfg = df.groupby(['Tower'])
-		dfr = dfg.aggregate(np.mean)
-		dfr['Std dev'] = dfg.aggregate(np.std)['S']
-		dfr['Spread'] = dfg.aggregate(np.max)['S'] - dfg.aggregate(np.min)['S']
-		# centre does not require slant correction
-		dfr['S'].ix['C'] = dfr['z'].ix['C']
 
-		# if a reference tower is given, calc turn offset for other towers
-		if reftower:
-			reftower = reftower.upper()
-			print("All turns to set other towers' S equal to {} tower S".format(reftower))
-			# for t in ['X','Y','Z']:
-			dfr['Trns(deg)R'] = dfr['Trns(deg)'] - dfr.ix[reftower]['Trns(deg)']
-			dfr['Trns/0.25R'] = dfr['Trns/0.25'] - dfr.ix[reftower]['Trns/0.25']
-			dfr['Trns(deg)'] = dfr['Trns(deg)R'] 
-			dfr['Trns/0.25'] = dfr['Trns/0.25R']
-			dfr.drop(['Trns(deg)R','Trns/0.25R'],axis=1,inplace=True)
-		else:
-			print("All turns to set towers' S equal to zero")
+This is the current version of the script:
 
-		# remove value for C turns
-		dfr.ix['C']['Trns(deg)'] = np.nan
-		dfr.ix['C']['Trns/0.25'] =  np.nan
-
-		print(dfr)
-		print('')
-
-		# get mean, min and max of the tower averages
-		twrMean = np.mean((dfr['S']).T[['X','Y','Z']])
-		twrMin = np.min((dfr['S']).T[['X','Y','Z',]])
-		twrMax = np.max((dfr['S']).T[['X','Y','Z']])
-		print('Tower/edge mean height (Sx+Sy+Sz)/3 is {:.3f} mm'.format(twrMean))
-		print('Tower/edge (Sx,Sy,Sz)  min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(twrMin,twrMax,twrMax-twrMin))
-	
-		bedMean = np.mean((dfr['S']).T[['X','Y','Z','C']])
-		bedMin = np.min((dfr['S']).T[['X','Y','Z','C']])
-		bedMax = np.max((dfr['S']).T[['X','Y','Z','C']])
-		
-		print('\nBed mean height (Sx+Sy+Sz+Sz)/4. is {:.3f} mm'.format(bedMean))
-		print('Bed (Sx,Sy,Sz,Sc)  min={:.3f}, max={:.3f}, spread={:.3f} mm'.format(bedMin,bedMax,bedMax-bedMin))
-		# if level to within margin calc the convex/concave
-		if twrMax-twrMin < locmarg:
-			convex = twrMean - dfr.ix['C']['S']
-			direc = 'mountain' if convex < 0 else 'valley'
-			print('\nBed edges level to within {} mm'.format(locmarg))
-			print('Print locus convexity (mean edge - centre) is {:.3f} mm'.format(convex))
-			print('Bed appears to be a {}'.format(direc))
-		print('\n')
-
-	
-	processOneFile(infile, zProbeTrigger=0.7,shimThickness=0.1)
-	# cSpell:enable	
 
 where   
 
@@ -453,9 +359,9 @@ Note: when using this routine do not adjust the `S` values to exactly zero, beca
 
 How stable is this calibration? The towers' thermal expansion is about -0.015 mm / deg C.  Movement between towers (such as with thermal expansion) can be corrected for by auto bed levelling.   However, if manual bed levelling is used, any movement is problematic and must be corrected.
 
-The procedure outlined here makes it possible to do an automated bed measurement and then do a manual bed levelling in a relatively short time. The measurement and data analysis give a clear indication of how much each of the screws must be turned.  I found that two measurement iterations, taking a couple of minutes, can provide levelling to better than 0.05 mm. Thanks to MiR for sharing the concept and his gcode script.
 
 
+I found that from 20 deg C to 75 deg C the bed lifted by about 0.05 mm, but more importantly: the bed tilt changed (the towers did not lift evenly).  The tilted bed normal vector rotated by 30 degrees  between hot and cold.
 
 # Carriage trajectory convex/concave: `DELTA_RADIUS` measurement and calibration
 
@@ -486,9 +392,11 @@ where the Trium values are:
 The following procedure is a mixture of the Trium instruction and the procedure described [here](http://minow.blogspot.co.za/index.html#4918805519571907051).  Initially I use the Trium instruction to determine `DELTA_RADIUS` but then I write it to the firmware, instead of saving to EEPROM.
 
 -  The value in the firmware constant `DELTA_RADIUS` controls the 'flatness' of the movement of the carriage at a given Z height.  If `DELTA_RADIUS` is too large, the extruder nozzle will track below the desired Z height inside the calibrated points X, Y, and Z.  If `DELTA_RADIUS` is too small, the extruder will track above the desired Z height inside the calibrated points X, Y, and Z.
--  Run M501 and look for the current value of `DELTA_RADIUS`
+-  Run M501 and look for the current value of `DELTA_RADIUS` in the EEPROM
+
 		17:19:24.459 : echo:Delta settings: L=diagonal_rod, R=radius, S=segments_per_second, ABC=diagonal_rod_trim_tower_[123]
 		17:19:24.482 : echo:  M665 L278.00 R145.50 S100.00 A0.00 B0.00 C0.00
+
   In this case it is 145.5 
 
 - Adjust  `DELTA_RADIUS` as follows:
