@@ -12,7 +12,7 @@ import pyradi.ryplot as ryplot
 
 pd.set_option('precision', 3)
 
-docoptstring = """Usage: zprobestats.py [--bedtower=<bedtower>] [--bedmesh=<bedmesh>]  [--reftower=<reftower>]
+docoptstring = """Usage: zprobestats.py [--bedtower=<bedtower>] [--bedmesh=<bedmesh>]  [--reftower=<reftower>] [--xoff=<xoff>] [--yoff=<yoff>] [--zoff=<zoff>]
        zprobestats.py  (-h | --help)
 
 The zprobestats.py reads the Repetier host log file output and processes
@@ -27,6 +27,9 @@ Options:
     --bedtower=<bedtower> [optional] is the name of the input file with bed tower heights.
     --bedmesh=<bedmesh> [optional] is the name of the bed mesh input file.
     --reftower=<reftower>  [optional] selects the reference tower, others to match this one.
+    --xoff=<xoff>  [optional] defines the offset required on x screw
+    --yoff=<xoff>  [optional] defines the offset required on y screw
+    --zoff=<xoff>  [optional] defines the offset required on z screw
 
 """
 
@@ -115,7 +118,7 @@ def label_tower (row):
 
 ################################################################################
 # process one bed tower sample set
-def processBedTower(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0.02):
+def processBedTower(filename,zProbeTrigger, xoff=0.,yoff=0.,zoff=0.,shimThickness=0.,reftower=None,locmarg=0.02):
     """Reads and analyse a file with four measured bed heights (near towers and in centre).
 
     The probe trigger z value (not the actual height) is determined by moving the hot end 
@@ -152,25 +155,33 @@ def processBedTower(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0
     with open(filename,'r') as fin:
         lines = fin.readlines()
         for line in lines:
-            line = line.strip()
-            if '>' in line[0] or '<' in line[0]:
-                line = line[2:]
-            lstl = line.split(' ')
-            # only use lines with Bed X: in them for dataframe
-            if 'Bed X:' in line:
-                # remove unwanted clutter, keep only x,y,z
-                validlines.append([float(lstl[i]) for i in [4,6,8]])
-            # if temperature lines, get values
-            if not tdone and 'ok' in line and 'T:' in line and 'B:' in line:
-                print('Time {} '.format(lstl[0]))
-                print('Bed temperature is {} deg C'.format(lstl[5].split(':')[1]))
-                print('Nozzle temperature is {} deg C'.format(lstl[3].split(':')[1]))
-                tdone = True
+            if len(line) > 2:
+                line = line.strip()
+                if '>' in line[0] or '<' in line[0]:
+                    line = line[2:]
+                lstl = line.split(' ')
+                # only use lines with Bed X: in them for dataframe
+                if 'Bed X:' in line:
+                    # remove unwanted clutter, keep only x,y,z
+                    validlines.append([float(lstl[i]) for i in [4,6,8]])
+                # if temperature lines, get values
+                if not tdone and 'ok' in line and 'T:' in line and 'B:' in line:
+                    print('Time {} '.format(lstl[0]))
+                    print('Bed temperature is {} deg C'.format(lstl[5].split(':')[1]))
+                    print('Nozzle temperature is {} deg C'.format(lstl[3].split(':')[1]))
+                    tdone = True
 
+    if xoff<>0 or yoff<>0 or zoff<>0:
+        print('Tower offsets xoff={}  yoff={} zoff={}'.format(xoff, yoff, zoff))
+        print('Tower heigths will be set to these offsets')
     # make pandas dataframe
     df = pd.DataFrame(validlines,columns=['x','y','z'])
     # correct for probe offset and friction shim to get to metal
     df['z'] = df['z'] - (zProbeTrigger - shimThickness)
+    df['x'] = df['x'] - xoff
+    df['y'] = df['y'] - yoff
+    df['z'] = df['z'] - zoff
+
     # get height at screw
     df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
     #name the towers
@@ -188,18 +199,18 @@ def processBedTower(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0
      # centre does not require slant correction
     dfr['S'].ix['C'] = dfr['z'].ix['C']
 
-    # if a reference tower is given, calc turn offset for other towers
-    if reftower:
-        reftower = reftower.upper()
-        print("All screw turns to set other towers' S equal to {} tower S".format(reftower))
-        # for t in ['X','Y','Z']:
-        dfr['Trns(deg)R'] = dfr['Trns(deg)'] - dfr.ix[reftower]['Trns(deg)']
-        dfr['Trns/0.25R'] = dfr['Trns/0.25'] - dfr.ix[reftower]['Trns/0.25']
-        dfr['Trns(deg)'] = dfr['Trns(deg)R'] 
-        dfr['Trns/0.25'] = dfr['Trns/0.25R']
-        dfr.drop(['Trns(deg)R','Trns/0.25R'],axis=1,inplace=True)
-    else:
-        print("All screw turns to set towers' S equal to zero")
+    # # if a reference tower is given, calc turn offset for other towers
+    # if reftower:
+    #     reftower = reftower.upper()
+    #     print("All screw turns to set other towers' S equal to {} tower S".format(reftower))
+    #     # for t in ['X','Y','Z']:
+    #     dfr['Trns(deg)R'] = dfr['Trns(deg)'] - dfr.ix[reftower]['Trns(deg)']
+    #     dfr['Trns/0.25R'] = dfr['Trns/0.25'] - dfr.ix[reftower]['Trns/0.25']
+    #     dfr['Trns(deg)'] = dfr['Trns(deg)R'] 
+    #     dfr['Trns/0.25'] = dfr['Trns/0.25R']
+    #     dfr.drop(['Trns(deg)R','Trns/0.25R'],axis=1,inplace=True)
+    # else:
+    #     print("All screw turns to set towers' S equal to zero")
 
     # remove value for C turns
     dfr.ix['C']['Trns(deg)'] = np.nan
@@ -225,7 +236,6 @@ def processBedTower(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0
     print('max          {:.3f}        {:.3f} '.format(twrMax,bedMax))
     print('spread       {:.3f}        {:.3f} '.format(twrMax-twrMin,bedSpread))
 
-    print(dfr)
     # calculate the plane through the three screws
     bedplane = Plane(
         Point3D(dfr.ix['X']['x'], dfr.ix['X']['y'], dfr.ix['X']['z']),
@@ -319,10 +329,14 @@ args = docopt.docopt(docoptstring)
 bedtower = args['--bedtower']
 bedmesh = args['--bedmesh']
 reftower = args['--reftower']
+xoff = float(args['--xoff']) if args['--xoff'] else 0.0
+yoff = float(args['--yoff']) if args['--yoff'] else 0.0
+zoff = float(args['--zoff']) if args['--zoff'] else 0.0
+
 
 #process the list of files found in spec
 if bedtower:
-    processBedTower(bedtower, reftower=reftower, zProbeTrigger=0.7,shimThickness=0.1)
+    processBedTower(bedtower, reftower=reftower, xoff=xoff,yoff=yoff,zoff=zoff,zProbeTrigger=0.7,shimThickness=0.1)
 
 if bedmesh:
     processBedMesh(bedmesh)
