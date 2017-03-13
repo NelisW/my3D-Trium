@@ -12,6 +12,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y-85.556 Z10 F3000
 G30
 G30
@@ -30,6 +31,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-51.333 Y-51.333 Z10 F3000
 G30
 G30
@@ -48,6 +50,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y-51.333 Z10 F3000
 G30
 G30
@@ -66,6 +69,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X85.556 Y-51.333 Z10 F3000
 G30
 G30
@@ -84,6 +88,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-17.111 Y-39.000 Z10 F3000
 G30
 G30
@@ -102,6 +107,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X51.333 Y-39.000 Z10 F3000
 G30
 G30
@@ -120,6 +126,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-51.333 Y-17.111 Z10 F3000
 G30
 G30
@@ -138,6 +145,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y-17.111 Z10 F3000
 G30
 G30
@@ -156,6 +164,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X85.556 Y-17.111 Z10 F3000
 G30
 G30
@@ -174,6 +183,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-51.333 Y5.000 Z10 F3000
 G30
 G30
@@ -192,6 +202,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y5.000 Z10 F3000
 G30
 G30
@@ -210,6 +221,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X85.556 Y5.000 Z10 F3000
 G30
 G30
@@ -228,6 +240,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-51.333 Y17.111 Z10 F3000
 G30
 G30
@@ -246,6 +259,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y17.111 Z10 F3000
 G30
 G30
@@ -264,6 +278,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X85.556 Y17.111 Z10 F3000
 G30
 G30
@@ -282,6 +297,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-51.333 Y51.333 Z10 F3000
 G30
 G30
@@ -300,6 +316,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X17.111 Y51.333 Z10 F3000
 G30
 G30
@@ -318,6 +335,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X85.556 Y51.333 Z10 F3000
 G30
 G30
@@ -336,6 +354,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X-17.111 Y85.556 Z10 F3000
 G30
 G30
@@ -354,6 +373,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X51.333 Y85.556 Z10 F3000
 G30
 G30
@@ -372,6 +392,7 @@ G30
 G30
 G30
 G30
+G28  ; home: reset coord sys by reading MAX endstops
 G0 X33.500 Y100.000 Z10 F3000
 G30
 G30

@@ -153,6 +153,8 @@ def processBedTower(filename,zProbeTrigger,shimThickness,reftower=None,locmarg=0
         lines = fin.readlines()
         for line in lines:
             line = line.strip()
+            if '>' in line[0] or '<' in line[0]:
+                line = line[2:]
             lstl = line.split(' ')
             # only use lines with Bed X: in them for dataframe
             if 'Bed X:' in line:

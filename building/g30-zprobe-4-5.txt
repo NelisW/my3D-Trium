@@ -17,7 +17,7 @@ G30
 G30
 G30
 G28 ; home: reset coord sys by reading MAX endstops
-G0 X33.5 Y100. Z10. F3000
+G0 X33.5 Y92. Z10. F3000
 G30
 G30
 G30
