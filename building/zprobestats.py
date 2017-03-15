@@ -107,13 +107,24 @@ def getInfileNames(infile):
 ################################################################################
 # label the towers
 def label_tower (row):
-   if row['x'] <-72. :
-      return 'X'
-   if row['y'] > 80. :
+    # near X tower
+    if row['x'] <-72.:
+        if row['y'] < 0:
+            return 'X'
+        else:
+            return 'Xm'
+    # near Y tower
+    if row['x'] > 60. :
+        if row['y'] < 0:
+            return 'Y'
+        else:
+            return 'Ym'
+    # near Z tower
+    if row['y'] > 80. :
       return 'Z'
-   if row['x'] > 60. :
-      return 'Y'
-   return 'C'
+    if row['y'] < -80. :
+      return 'Zm'
+    return 'C'
 
 
 ################################################################################
@@ -216,7 +227,10 @@ def processBedTower(filename,zProbeTrigger, xoff=0.,yoff=0.,zoff=0.,shimThicknes
     dfr.ix['C']['Trns(deg)'] = np.nan
     dfr.ix['C']['Trns/0.25'] =  np.nan
 
-    print(dfr)
+    if 'Xm' in dfr.index:
+        print(dfr.drop(['Xm','Ym','Zm'],axis=0))
+    else:
+        print(dfr)
     print('')
 
     # get mean, min and max of the tower averages and tpower and centre
