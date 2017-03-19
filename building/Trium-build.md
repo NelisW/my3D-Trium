@@ -923,6 +923,8 @@ It is evident that the sliders are within reasonable range of each other, none h
 
 When I disassembled the printer to epoxy the slider screws I decided to not use tape again: the slider friction was smaller.
 
+
+
 ## endstop PCB p25, p42
 
 **The preciseness of the  printer calibration and long-term calibration stability depend on these three endstop PCBs as much as it depends on the nice sturdy frame.**  Keep in mind that we want 0.01 mm stability and repeatability on these flimsy switches.  It does not help that the frame is stable if there is some free play on the endstops. So at the risk of repeating, make sure that your endstop PCBs are mechanically sound. [digid recommends](http://trium3d.proboards.com/thread/94/bed-positional-stability-good?page=1&scrollTo=800) that you  can interchange endstop switches as a means to determine faulty devices (just be careful not to damage the plastic pins or the PCBs).  Given the nice frame, we should perhaps consider alternative endstop mechanisms that better match the quality of the frame? 
@@ -948,6 +950,26 @@ Insert the slider into the tower with the long straight edge to the top / motor 
 Later when testing, you can check the status of the endstop: when powered up, activating it should light up the LED.
 
 After inserting the slider, you can now screw in the idler pulley.
+
+## Slider hat
+
+On my printer the alignment between the slider arm and the switch lever is very poor: on my printer the lever barely catches the slider. It seems that this poor alignment might have an effect on the switch repeatability.
+
+I printed a simple part, called the slider hat that provides a better contact area. The part is available here:
+https://github.com/NelisW/my3D-Trium/tree/master/parts
+
+Print it 'on its side' to obtain maximum benefit of the material's strength along the layer lines (avoid the weakness across layers). I printed it with a 0.5 nozzle with 100% fill because it is such a small part.
+
+The picture below shows the part not yet properly cleaned and seated. When you mount the part ensure that it seats properly with no movement on the slider.  You have to change the z-height calibration after installing this part, because the position of the end stops change quite considerably.
+
+Initial experiments showed much better repeatability than I had before. On four measurement locations (centre and near each of the towers) the worst repeatability spread (max-min) was 0.02 mm over 100 measurements total.
+
+
+<img src="images/slider-hat.jpg">
+
+
+
+
 
 ## Belt drive
 
