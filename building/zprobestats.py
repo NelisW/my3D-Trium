@@ -127,6 +127,31 @@ def label_tower (row):
 
 
 ################################################################################
+# label the towers
+def target_tower (row, xtarget,ytarget,ztarget):
+    # near X tower
+    if row['Tower'] == 'X':
+        return xtarget
+    if row['Tower'] == 'Y':
+        return ytarget
+    if row['Tower'] == 'Z':
+        return ztarget
+    return np.nan
+
+################################################################################
+# label the towers
+def delta_tower (row, xtarget,ytarget,ztarget):
+    # near X tower
+    if row['Tower'] == 'X':
+        return row['z'] - xtarget
+    if row['Tower'] == 'Y':
+        return row['z'] -  ytarget
+    if row['Tower'] == 'Z':
+        return row['z'] - ztarget
+    return np.nan
+
+
+################################################################################
 # process one bed tower sample set
 def processBedTower(filename,zProbeOffset, xtarget,ytarget,ztarget,locmarg=0.02):
     """Reads and analyse a file with four measured bed heights (near towers and in centre).
@@ -177,24 +202,27 @@ def processBedTower(filename,zProbeOffset, xtarget,ytarget,ztarget,locmarg=0.02)
                     print('Nozzle temperature is {} deg C'.format(lstl[3].split(':')[1]))
                     tdone = True
 
-    if xtarget<>0 or ytarget<>0 or ztarget<>0:
-        print('Tower offsets xtarget={}  ytarget={} ztarget={}'.format(xtarget, ytarget, ztarget))
-        print('Tower heigths will be set to these offsets')
+
     # make pandas dataframe
     df = pd.DataFrame(validlines,columns=['x','y','z'])
-    # correct for probe offset to get to metal
-    df['z'] = df['z'] - zProbeOffset
-    df['x'] = df['x'] + xtarget
-    df['y'] = df['y'] + ytarget
-    df['z'] = df['z'] + ztarget 
 
-    # get height at screw
-    df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
     #name the towers
     df['Tower'] = df.apply(label_tower,axis=1)
+    df['Target'] =  df.apply(target_tower, args=(xtarget,ytarget,ztarget),axis=1)
+
+    # correct for probe offset to get to metal
+    df['z'] = df['z'] - zProbeOffset
+    # get height at screw
+    df['S'] = df['z'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
+
+    # now calc offsets to move to target
+    df['dz'] = df['z'] - ztarget 
+    df['dz'] =  df.apply(delta_tower, args=(xtarget,ytarget,ztarget),axis=1)
+
+    df['dS'] = df['dz'] * 158.6 / (52.85 + np.sqrt(df['x']**2 + df['y']**2))
     # get required turn magnitude
-    df['Trns(deg)'] = 360. * df['S'] / 0.5
-    df['Trns/0.25'] = (df['S'] / 0.5) / 0.25
+    df['Trns(deg)'] = 360. * df['dS'] / 0.5
+    df['Trns/0.25'] = (df['dS'] / 0.5) / 0.25
 
 
     # from now on work with aggregates
@@ -205,9 +233,12 @@ def processBedTower(filename,zProbeOffset, xtarget,ytarget,ztarget,locmarg=0.02)
      # centre does not require slant correction
     dfr['S'].ix['C'] = dfr['z'].ix['C']
 
-    # remove value for C turns
+    # remove value for C outputs
     dfr.ix['C']['Trns(deg)'] = np.nan
     dfr.ix['C']['Trns/0.25'] =  np.nan
+    dfr.ix['C']['S'] =  np.nan
+    dfr.ix['C']['dS'] =  np.nan
+    dfr.ix['C']['dz'] =  np.nan
 
     if 'Xm' in dfr.index:
         print(dfr.drop(['Xm','Ym','Zm'],axis=0))
@@ -275,9 +306,9 @@ args = docopt.docopt(docoptstring)
 
 bedtower = args['--bedtower']
 bedmesh = args['--bedmesh']
-xtarget = float(args['--xtarget']) if args['--xtarget'] else 0.
+xtarget = float(args['--xtarget']) if args['--xtarget'] else -0.048
 ytarget = float(args['--ytarget']) if args['--ytarget'] else 0.
-ztarget = float(args['--ztarget']) if args['--ztarget'] else 0.
+ztarget = float(args['--ztarget']) if args['--ztarget'] else -0.032
 
 
 #process the list of files found in spec
