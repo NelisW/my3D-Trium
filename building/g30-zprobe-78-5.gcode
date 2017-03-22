@@ -1,0 +1,518 @@
+
+;  probe the Trium bed in 78 positions, 5 times at each point
+M119 ; print a separator in the log file
+M105 ; get temperatures
+G21  ; set units to mm
+G90  ; absolute positioning
+G28  ; home: reset coord sys by reading MAX endstops
+
+G0 X-20.875 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y-83.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-39.000 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-20.875 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-2.750 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X15.375 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X33.500 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X51.625 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X69.750 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X87.875 Y-61.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-57.125 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-39.000 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X87.875 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X106.000 Y-39.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-57.125 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-39.000 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X87.875 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X106.000 Y-17.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-57.125 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-39.000 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X87.875 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X106.000 Y5.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-57.125 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-39.000 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X87.875 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X106.000 Y27.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-57.125 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-39.000 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X87.875 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X106.000 Y49.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-39.000 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-20.875 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-2.750 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X15.375 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X33.500 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X51.625 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X69.750 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X87.875 Y71.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X-20.875 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X-2.750 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X15.375 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X33.500 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G0 X51.625 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+G28  ; home: reset coord sys by reading MAX endstops
+G0 X69.750 Y93.000 Z10 F3000
+G30
+G30
+G30
+G30
+G30
+
+G28 ; home: reset coord sys by reading MAX endstops
+
