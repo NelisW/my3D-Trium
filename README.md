@@ -29,7 +29,7 @@ This repo contains information that is supplementary to the E-Mergin reference d
 
 # Contents
 
-- [Building the Trium printer]([https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-build.md)
+- [Building the Trium printer](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-build.md)
 - [Calibrating the Trium printer](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md)
 - [My views on the Trium printer](https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-gripes.md)
 
