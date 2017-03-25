@@ -1,8 +1,10 @@
 # Note
 
-This repository is not long actively maintained.
+This repository is no longer actively maintained.
 
-The contents of this repository is not an endorsement of the Trium printer. I keep it alive on request of some Trium owners.
+The contents of this repository is not an endorsement of the Trium printer. I keep it alive on request of some Trium owners.  
+
+I stopped working on the Trium and I am considering buying another printer.
 
 My own experiences with the Trium is rather negative. 
 - If you want to buy a good delta frame to serve as a basis for your own delta printer, it is probably a reasonable design (although I am convinced you can get a less expensive delta frame).
@@ -25,7 +27,12 @@ This repo contains information that is supplementary to the E-Mergin reference d
 -  found on the internet,
 
 
-Invitation: if you have ideas or information to contribute, please submit a pull request or contact me at neliswillers gmail
+# Contents
+
+- (Building the Trium printer)[https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-build.md]
+- (Calibrating the Trium printer)[https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-calibration.md]
+- (My views on the Trium printer)[https://github.com/NelisW/my3D-Trium/blob/master/building/Trium-gripes.md]
+
 
 # License
 
