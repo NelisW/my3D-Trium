@@ -1,3 +1,15 @@
+# Note
+
+This repository is not long actively maintained.
+
+The contents of this repository is not an endorsement of the Trium printer. I keep it alive on request of some Trium owners.
+
+My own experiences with the Trium is rather negative. 
+- If you want to buy a good delta frame to serve as a basis for your own delta printer, it is probably a reasonable design (although I am convinced you can get a less expensive delta frame).
+- If you want to learn how to refurbish and rebuild delta printers, this is also a fair kit to buy.
+- If you want a printer to print parts and not spend countless hours to get the printer going, rather go buy a well tested design with a large user base. The [Josef Prusa Original i3 MK2](http://shop.prusa3d.com/en/) (not some cheap rip-off) does not cost significantly more than the Trium is has a good reputation (but do your own research).
+
+
 # Purpose
 
 This repo serves to capture the experience of a number of Trium 3D printer builders.
